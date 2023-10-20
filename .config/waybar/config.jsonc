@@ -1,0 +1,57 @@
+{
+  "height": 28,
+  "spacing": 0,
+  "margin-top": 10,
+  "margin-bottom": 0,
+  "margin-left": 10,
+  "margin-right": 10,
+  "modules-left": ["hyprland/workspaces"],
+  "modules-right": [
+    "tray",
+    "pulseaudio",
+    "network",
+    "custom/notification",
+    "clock"
+  ],
+  "hyprland/workspaces": {
+    "all-outputs": true,
+    "active-only": false,
+    "disable-scroll": true,
+    "format": "{icon}",
+    "format-icons": {
+      "urgent": "",
+      "active": "",
+      "default": ""
+    },
+    "tooltip": false
+  },
+  "tray": {
+    "spacing": 10,
+    "tooltip": false
+  },
+  "clock": {
+    "format-alt": "{:%m/%d}",
+    "tooltip": false
+  },
+  "network": {
+    "format": "{icon} {essid}",
+    "format-wifi": "",
+    "format-ethernet": "",
+    "format-linked": "",
+    "format-disconnected": "",
+    "on-click": "nm-connection-editor",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-scroll-up": "",
+    "on-scroll-down": "",
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "tooltip": false
+  }
+}
