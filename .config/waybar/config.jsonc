@@ -1,24 +1,32 @@
 {
-  "height": 28,
+  "height": 30,
   "spacing": 0,
   "layer": "top",
   "margin-top": 10,
   "margin-bottom": 0,
   "margin-left": 10,
   "margin-right": 10,
-  "modules-left": ["hyprland/workspaces"],
-  "modules-right": ["tray", "pulseaudio", "network", "battery", "clock"],
+  "modules-left": ["clock"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": [
+    "tray",
+    "backlight",
+    "pulseaudio",
+    "pulseaudio#microphone",
+    "network",
+    "battery"
+  ],
   "hyprland/workspaces": {
     "all-outputs": true,
     "active-only": false,
     "disable-scroll": true,
     "format": "{icon}",
     "format-icons": {
-      "urgent": "",
-      "active": "󰻃",
-      "default": "󰝦"
+      "urgent": "",
+      "active": "",
+      "default": ""
     },
-    "persistent_workspaces": {
+    "persistent-workspaces": {
       "1": [],
       "2": [],
       "3": [],
@@ -32,14 +40,14 @@
     "tooltip": false
   },
   "clock": {
-    "format-alt": "{:%m/%d}",
+    "format": "{: %H:%M  󰃭 %a, %b %e}",
     "tooltip": false
   },
   "network": {
-    "format": "{icon} {signalStrength}%",
-    "format-ethernet": "󰈀",
-    "format-linked": "󰈀",
-    "format-disconnected": "",
+    "format": "{icon} {essid}",
+    "format-ethernet": "󰈀 Wired",
+    "format-linked": "󰈀 Wired",
+    "format-disconnected": "",
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤨"],
     "on-click": "nm-connection-editor",
     "tooltip": false
@@ -48,12 +56,17 @@
     "format": "{icon} {volume}%",
     "format-muted": "󰖁",
     "format-icons": {
+      "headphone": "",
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-scroll-up": "",
-    "on-scroll-down": "",
-    "scroll-step": 5,
-    "on-click": "pavucontrol",
+    "on-click": "pavucontrol -t 3",
+    "tooltip": false
+  },
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": "󰍬 {volume}%",
+    "format-source-muted": "󰍭",
+    "on-click": "pavucontrol -t 4",
     "tooltip": false
   },
   "battery": {
@@ -67,5 +80,10 @@
     "format-plugged": "󰂅 {capacity}%",
     "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
     "tooltip": false
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰖨"]
   }
 }
