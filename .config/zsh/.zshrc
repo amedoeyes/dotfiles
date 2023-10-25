@@ -6,11 +6,11 @@ SAVEHIST=100000
 setopt HIST_IGNORE_DUPS
 
 autoload -Uz compinit
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
 
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
-zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/zcompcache
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME"/zsh/zcompcache
 
 bindkey -v
 bindkey "^?" backward-delete-char
@@ -44,7 +44,7 @@ PROMPT="$ "
 
 alias update="sudo pacman -Syyu --noconfirm && yay -Su -a --noconfirm"
 alias pacman="sudo pacman"
-alias wget="wget --hsts-file='$XDG_DATA_HOME/wget-hsts'"
+alias wget="wget --hsts-file='\$XDG_DATA_HOME/wget-hsts'"
 alias cat="bat"
 alias ls="exa --icons --color=never"
 alias nv="nvim"
