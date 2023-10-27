@@ -6,11 +6,11 @@
 }
 
 .modules-right {
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .modules-left {
-  margin-left: 8px;
+  margin-left: 10px;
 }
 
 window#waybar {
@@ -22,7 +22,7 @@ window#waybar {
 
 #workspaces button {
   padding: 0 4px;
-  margin-right: 4px;
+  margin-right: 6px;
   color: #505050;
   border: 0;
   transition: 300ms;
@@ -47,12 +47,10 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
-#pulseaudio.microphone,
-#tray,
-#backlight {
+#tray {
   padding: 0 4px;
-  margin-left: 8px;
   color: #a0a0a0;
+  background-color: transparent;
 }
 
 #clock {
@@ -70,6 +68,6 @@ window#waybar {
 
 @keyframes blink {
   to {
-    color: #000000;
+    opacity: 0.25;
   }
 }

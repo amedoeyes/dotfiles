@@ -1,21 +1,30 @@
 {
   "height": 30,
-  "spacing": 0,
+  "spacing": 10,
+
   "layer": "top",
   "margin-top": 10,
   "margin-bottom": 0,
   "margin-left": 10,
   "margin-right": 10,
-  "modules-left": ["clock"],
+
+  "modules-left": ["clock", "clock#calendar"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": [
-    "tray",
-    "backlight",
-    "pulseaudio",
-    "pulseaudio#microphone",
-    "network",
-    "battery"
-  ],
+  "modules-right": ["tray", "pulseaudio", "network", "battery"],
+
+  "battery": {
+    "states": {
+      "good": 75,
+      "warning": 25,
+      "critical": 5
+    },
+    "full-at": 79,
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰢟 {capacity}%",
+    "format-plugged": "󰂅 {capacity}%",
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "tooltip": false
+  },
   "hyprland/workspaces": {
     "all-outputs": true,
     "active-only": false,
@@ -35,55 +44,36 @@
     },
     "tooltip": false
   },
-  "tray": {
-    "spacing": 10,
-    "tooltip": false
-  },
-  "clock": {
-    "format": "{: %H:%M  󰃭 %a, %b %e}",
-    "tooltip": false
-  },
   "network": {
     "format": "{icon} {essid}",
     "format-ethernet": "󰈀 Wired",
-    "format-linked": "󰈀 Wired",
-    "format-disconnected": "",
+    "format-disconnected": " Disconnected",
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤨"],
     "on-click": "nm-connection-editor",
     "tooltip": false
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-muted": "󰖁",
+    "format-muted": "󰖁 {volume}%",
     "format-icons": {
       "headphone": "",
       "default": ["󰕿", "󰖀", "󰕾"]
     },
     "on-click": "pavucontrol -t 3",
+    "on-scroll-up": "~/.local/bin/audio increase-output",
+    "on-scroll-down": "~/.local/bin/audio decrease-output",
     "tooltip": false
   },
-  "pulseaudio#microphone": {
-    "format": "{format_source}",
-    "format-source": "󰍬 {volume}%",
-    "format-source-muted": "󰍭",
-    "on-click": "pavucontrol -t 4",
-    "tooltip": false
+  "tray": {
+    "spacing": 10
   },
-  "battery": {
-    "states": {
-      "good": 95,
-      "warning": 30,
-      "critical": 20
-    },
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰢟 {capacity}%",
-    "format-plugged": "󰂅 {capacity}%",
-    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-    "tooltip": false
+  "clock": {
+    "format": "{: %H:%M}",
+    "tooltip": false,
+    "timezone": "Africa/Cairo"
   },
-  "backlight": {
-    "device": "intel_backlight",
-    "format": "{icon} {percent}%",
-    "format-icons": ["󰖨"]
+  "clock#calendar": {
+    "format": "{: %a, %b %e}",
+    "tooltip": false
   }
 }
