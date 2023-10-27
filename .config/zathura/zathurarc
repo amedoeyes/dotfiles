@@ -1,0 +1,43 @@
+set selection-clipboard clipboard
+
+set font "JetBrains Mono 10"
+
+set notification-error-bg "#000000"
+set notification-error-fg "#a0a0a0"
+set notification-warning-bg "#000000"
+set notification-warning-fg "#a0a0a0"
+set notification-bg "#000000"
+set notification-fg "#a0a0a0"
+
+set completion-group-bg "#a0a0a0"
+set completion-group-fg "#000000"
+set completion-bg "#000000"
+set completion-fg "#a0a0a0"
+set completion-highlight-bg "#a0a0a0"
+set completion-highlight-fg "#000000"
+
+set index-bg "#000000"
+set index-fg "#a0a0a0"
+set index-active-bg "#a0a0a0"
+set index-active-fg "#000000"
+
+set inputbar-bg "#000000"
+set inputbar-fg "#a0a0a0"
+
+set statusbar-bg "#000000"
+set statusbar-fg "#a0a0a0"
+
+set highlight-color "#505050"
+set highlight-active-color "#a0a0a0"
+
+set default-bg "#000000"
+set default-fg "#a0a0a0"
+
+set render-loading true
+set render-loading-bg "#000000" 
+set render-loading-fg "#a0a0a0"
+
+set recolor true
+set recolor-lightcolor "#000000"
+set recolor-darkcolor "#a0a0a0"
+set recolor-keephue true
