@@ -1,0 +1,13 @@
+#!/bin/bash
+
+path=~/Pictures/screenshots
+filename=screenshot_$(date +%Y%m%d_%H%M%S).png
+
+screenshot() {
+	grimblast copysave "$1" "$path/$filename"
+}
+
+case "$1" in
+"screen") screenshot screen ;;
+"area") screenshot area ;;
+esac

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+menu="rofi"
+
+toggle_menu() {
+	if [[ $(pgrep -x "$menu") ]]; then
+		pkill -x "$menu"
+	else
+		$menu "$@"
+	fi
+}
+
+show_launcher() {
+	toggle_menu -show drun
+}
+
+show_clipboard() {
+	cliphist list | toggle_menu -dmenu | cliphist decode | wl-copy
+}
+
+case "$1" in
+"launcher")
+	show_launcher
+	;;
+"clipboard")
+	show_clipboard
+	;;
+esac

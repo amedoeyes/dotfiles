@@ -1,0 +1,38 @@
+#!/bin/bash
+
+get_brightness() {
+	brightnessctl -m | tr ',' ' ' | awk '{print $4}' | sed 's/%//'
+}
+
+get_icon() {
+	output_volume="$(get_brightness)"
+
+	if [ "$output_volume" -ge 75 ]; then
+		echo "display-brightness-high-symbolic"
+	elif [ "$output_volume" -ge 50 ]; then
+		echo "display-brightness-medium-symbolic"
+	elif [ "$output_volume" -ge 25 ]; then
+		echo "display-brightness-low-symbolic"
+	elif [ "$output_volume" -ge 0 ]; then
+		echo "display-brightness-off-symbolic"
+	fi
+}
+
+increase_brightness() {
+	brightnessctl s +5%
+	notify
+}
+
+decrease_brightness() {
+	brightnessctl s 5%-
+	notify
+}
+
+notify() {
+	notify-send -a "Brightness" "$(get_brightness)%" -i "$(get_icon)" -u low -t 2000 -h int:value:"$(get_brightness)" -r 999
+}
+
+case "$1" in
+"increase") increase_brightness ;;
+"decrease") decrease_brightness ;;
+esac
