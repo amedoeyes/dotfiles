@@ -7,10 +7,12 @@ clock
 timestr=%H:%M
 datestr=%Y-%m-%d
 
+image=~/.local/share/wallpapers/eyes.png
+
 font=JetBrainsMono Nerd Font
 
 indicator-idle-visible
-indicator-radius=100
+indicator-radius=150
 indicator-thickness=2
 
 color=000000
@@ -43,8 +45,3 @@ line-ver-color=00000000
 line-wrong-color=00000000
 
 separator-color=00000000
-
-screenshot
-effect-blur=15x15
-effect-vignette=0.5:0.5
-effect-greyscale
