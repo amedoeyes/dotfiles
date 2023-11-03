@@ -1,11 +1,14 @@
 configuration {
-	modes: "drun";
+	modes: "drun,run,filebrowser";
+	display-drun: " Apps";
+	display-run: " Run";
+	display-filebrowser: " Files";
 	font: "JetBrains Mono Nerd Font 10";
 	location: 0;
 	yoffset: 0;
 	xoffset: 0;
 	fixed-num-lines: true;
-	show-icons: true;
+	show-icons: false;
 	terminal: "rofi-sensible-terminal";
 	ssh-client: "ssh";
 	ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
@@ -32,7 +35,7 @@ configuration {
 	auto-select: false;
 	parse-hosts: false;
 	parse-known-hosts: true;
-	combi-modes: "window,run";
+	combi-modes: "drun,run,filebrowser";
 	matching: "normal";
 	tokenize: true;
 	m: "-5";
@@ -76,21 +79,21 @@ configuration {
 /*	kb-remove-word-back: "Control+Alt+h,Control+BackSpace";*/
 /*	kb-remove-word-forward: "Control+Alt+d";*/
 /*	kb-remove-char-forward: "Delete,Control+d";*/
-/*	kb-remove-char-back: "BackSpace,Shift+BackSpace,Control+h";*/
-/*	kb-remove-to-eol: "Control+k";*/
+	kb-remove-char-back: "BackSpace,Shift+BackSpace";
+	kb-remove-to-eol: "Control+s";
 /*	kb-remove-to-sol: "Control+u";*/
-/*	kb-accept-entry: "Control+j,Control+m,Return,KP_Enter";*/
+	kb-accept-entry: "Control+m,Return,KP_Enter";
 /*	kb-accept-custom: "Control+Return";*/
 /*	kb-accept-custom-alt: "Control+Shift+Return";*/
 /*	kb-accept-alt: "Shift+Return";*/
 /*	kb-delete-entry: "Shift+Delete";*/
-/*	kb-mode-next: "Shift+Right,Control+Tab";*/
-/*	kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab";*/
-/*	kb-mode-complete: "Control+l";*/
+	kb-mode-next: "Control+l,Control+Tab";
+	kb-mode-previous: "Control+h,Control+ISO_Left_Tab";
+	kb-mode-complete: "Shift+l";
 /*	kb-row-left: "Control+Page_Up";*/
 /*	kb-row-right: "Control+Page_Down";*/
-/*	kb-row-up: "Up,Control+p";*/
-/*	kb-row-down: "Down,Control+n";*/
+	kb-row-up: "Up,Control+p,Control+k";
+	kb-row-down: "Down,Control+n,Control+j";
 /*	kb-row-tab: "";*/
 /*	kb-element-next: "Tab";*/
 /*	kb-element-prev: "ISO_Left_Tab";*/

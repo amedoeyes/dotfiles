@@ -15,7 +15,7 @@
 	hex13: #d0d0d0;
 	hex14: #e0e0e0;
 	hex15: #f0f0f0;
-	
+
 	background: var(hex00);
 	foreground: var(hex10);
 
@@ -27,37 +27,53 @@
 
 window {
 	background-color: var(background);
-	border-radius: 5px;
-	border: 1;
+	width: 30em;
 	padding: 5px;
+	border: 1;
+	border-radius: 5px;
 }
 
-message {
-	border: 1px 0px 0px 0px;
+mainbox {
+	children: [ "inputbar", "message", "listview" ];
 }
 
 inputbar {
+	padding: 5px;
 	border: 0px 0px 1px 0px;
-	margin: 0px 0px 5px 0px;
-	padding: 10px;
-	font-size: 20px;
-	children: [ "entry" ];
+	children: [ "entry", "mode-switcher" ];
 }
 
 entry {
-  cursor: text;
+	padding: 10px;
+	cursor: text;
+}
+
+button {
+	width: 80px;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button selected {
+	background-color: var(hex01);
+}
+
+message {
+	padding: 10px;
+	border: 0px 0px 1px 0px;
 }
 
 listview {
-	spacing: 5px;
 	lines: 10;
+	padding: 5px;
+	spacing: 5px;
 }
 
 element {
+	padding: 10px;
 	border-radius: 5px;
 	cursor: pointer;
-	padding: 10px;
-	spacing: 5px;
 }
 
 element selected {
@@ -65,21 +81,7 @@ element selected {
 }
 
 element-text {
+	text-color: inherit;
 	cursor: inherit;
 	highlight: inherit;
-	text-color: inherit;
-}
-
-element-icon {
-	cursor: inherit;
-	size: 1em;
-	text-color: inherit;
-}
-
-button {
-	cursor: pointer;
-}
-
-button selected {
-	background-color: var(hex01);
 }
