@@ -38,3 +38,5 @@ export FZF_DEFAULT_COMMAND="fd -t d --exclude node_modules --exclude old ."
 export FZF_DEFAULT_OPTS="--ansi --color=bw"
 export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_ALT_C_OPTS="--height 100%"
+export FZF_CTRL_T_COMMAND="fd --exclude node_modules --exclude old ."
+export FZF_CTRL_T_OPTS="--height 100%"

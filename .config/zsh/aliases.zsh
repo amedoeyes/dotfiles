@@ -1,6 +1,7 @@
 alias cat="bat"
-alias cfg='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias cfg="git --git-dir=\$HOME/.dotfiles/ --work-tree=\$HOME"
 alias ls="exa --icons --color=never"
 alias nv="nvim"
 alias pm="paru"
-alias szsh="source $ZDOTDIR/.zshrc"
+alias szsh="source \$ZDOTDIR/.zshrc"
+alias wget="wget --hsts-file=\$XDG_DATA_HOME/wget-hsts"
