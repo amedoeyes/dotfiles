@@ -1,4 +1,4 @@
-alacritty
+alacritty-git
 base
 base-devel
 bat
@@ -9,7 +9,7 @@ breeze
 breeze-gtk
 brightnessctl
 btop
-bunjs-bin
+bun-bin
 cliphist
 cmake
 dolphin
@@ -17,14 +17,18 @@ dunst
 ethtool
 eza
 fd
+ffmpegthumbs
+fzf
 gdb
 gimp
 go
 grimblast-git
+highlight
 hunspell-en_us
-hyprland
+hyprland-git
 hyprpaper
 hyprpicker
+kdegraphics-thumbnailers
 lazygit
 librewolf-bin
 man-db
@@ -55,6 +59,9 @@ qt5-wayland
 qt5ct
 qt6-wayland
 qt6ct
+r
+r-lpsolve
+ranger-git
 ripgrep
 rofi-git
 rust
@@ -89,6 +96,7 @@ wl-clipboard
 xcursor-simp1e-dark
 xdg-desktop-portal-hyprland-git
 xdg-ninja
+xorg-xhost
 zathura
 zathura-pdf-mupdf
 zenity
