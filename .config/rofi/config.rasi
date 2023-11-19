@@ -1,8 +1,7 @@
 configuration {
-	modes: "drun,run,filebrowser";
+	modes: "drun,run";
 	display-drun: " Apps";
 	display-run: " Run";
-	display-filebrowser: " Files";
 	font: "JetBrains Mono Nerd Font 10";
 	location: 0;
 	yoffset: 0;
