@@ -1,0 +1,96 @@
+[colors.bright]
+black = "#303030"
+blue = "#404040"
+cyan = "#808080"
+green = "#909090"
+magenta = "#707070"
+red = "#606060"
+white = "#c0c0c0"
+yellow = "#b0b0b0"
+
+[colors.cursor]
+cursor = "#a0a0a0"
+text = "#000000"
+
+[colors.footer_bar]
+background = "#000000"
+foreground = "#a0a0a0"
+
+[colors.line_indicator]
+background = "#000000"
+foreground = "#a0a0a0"
+
+[colors.normal]
+black = "#000000"
+blue = "#404040"
+cyan = "#808080"
+green = "#909090"
+magenta = "#707070"
+red = "#606060"
+white = "#c0c0c0"
+yellow = "#b0b0b0"
+
+[colors.primary]
+background = "#000000"
+bright_foreground = "#f0f0f0"
+dim_foreground = "#808080"
+foreground = "#a0a0a0"
+
+[colors.search.focused_match]
+background = "#f0f0f0"
+foreground = "#000000"
+
+[colors.search.matches]
+background = "#a0a0a0"
+foreground = "#000000"
+
+[colors.selection]
+background = "#202020"
+text = "CellForeground"
+
+[colors.vi_mode_cursor]
+cursor = "#a0a0a0"
+text = "#000000"
+
+[cursor]
+blink_timeout = 0
+vi_mode_style = "Block"
+
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 10
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
+
+[window]
+dynamic_padding = true
+
+[window.padding]
+x = 4
+y = 4
