@@ -33,3 +33,8 @@ export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
 
 export ZVM_VI_HIGHLIGHT_FOREGROUND=#a0a0a0
 export ZVM_VI_HIGHLIGHT_BACKGROUND=#202020
+
+export FZF_DEFAULT_COMMAND="fd -t d --exclude node_modules --exclude old ."
+export FZF_DEFAULT_OPTS="--ansi --color=bw"
+export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_ALT_C_OPTS="--height 100%"
