@@ -1,0 +1,93 @@
+#!/bin/bash
+
+cache_art() {
+	local artUrl
+	local cache_dir
+	local art_name
+	local art_path
+
+	artUrl=$(playerctl metadata mpris:artUrl)
+	cache_dir="$HOME/.cache/mpris"
+	art_name=$(echo "$artUrl" | rev | cut -d "/" -f 1 | rev)
+	art_path="$cache_dir/$art_name"
+
+	if [ ! -d "$cache_dir" ]; then
+		mkdir -p "$cache_dir"
+	fi
+
+	if [ ! -e "$art_path" ]; then
+		curl -s "$artUrl" -o "$art_path"
+	fi
+
+	echo "$art_path"
+}
+
+get_metadata() {
+	local title
+	local artist
+	local art_path
+
+	sleep 0.1
+
+	title=$(playerctl metadata title)
+	artist=$(playerctl metadata artist)
+	art_path=$(cache_art)
+
+	echo "$title","$artist","$art_path"
+}
+
+notify_current() {
+	IFS="," read -ra metadata <<<"$(get_metadata)"
+	dunstify -a "Player" "${metadata[0]}" "${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -r 998
+}
+
+notify_volume() {
+	IFS="," read -ra metadata <<<"$(get_metadata)"
+	volume=$(playerctl volume | awk '{print int($1 * 100)}')
+	dunstify -a "Player" "${metadata[0]}" "${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -h int:value:"$volume" -r 998
+}
+
+toggle_play() {
+	playerctl play-pause
+}
+
+next_track() {
+	playerctl next
+	notify_current
+}
+
+prev_track() {
+	playerctl previous
+	notify_current
+}
+
+increase_volume() {
+	playerctl volume 0.05+
+	notify_volume
+}
+
+decrease_volume() {
+	playerctl volume 0.05-
+	notify_volume
+}
+
+next_player() {
+	playerctld shift
+	notify_current
+}
+
+prev_player() {
+	playerctld unshift
+	notify_current
+}
+
+case "$1" in
+toggle_play) toggle_play ;;
+next_track) next_track ;;
+prev_track) prev_track ;;
+increase_volume) increase_volume ;;
+decrease_volume) decrease_volume ;;
+notify_current) notify_current ;;
+next_player) next_player ;;
+prev_player) prev_player ;;
+esac
