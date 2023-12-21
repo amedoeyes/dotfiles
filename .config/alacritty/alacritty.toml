@@ -64,8 +64,7 @@ shape = "Block"
 size = 10
 
 [font.normal]
-family = "JetBrainsMono NF"
-style = "Regular"
+family = "JetBrainsMono Nerd Font"
 
 [mouse]
 hide_when_typing = true

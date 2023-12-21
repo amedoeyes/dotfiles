@@ -1,6 +1,6 @@
 set selection-clipboard clipboard
 
-set font "JetBrains Mono 10"
+set font "JetBrainsMono Nerd Font 10"
 
 set notification-error-bg "#000000"
 set notification-error-fg "#a0a0a0"
@@ -34,7 +34,7 @@ set default-bg "#000000"
 set default-fg "#a0a0a0"
 
 set render-loading true
-set render-loading-bg "#000000" 
+set render-loading-bg "#000000"
 set render-loading-fg "#a0a0a0"
 
 set recolor true
