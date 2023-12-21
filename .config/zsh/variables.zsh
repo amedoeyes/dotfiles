@@ -1,4 +1,4 @@
-export PATH=$PATH:$XDG_BIN_HOME:$COMPOSER_HOME
+export PATH=$PATH:$XDG_BIN_HOME
 export EDITOR=nvim
 export VISUAL=nvim
 export BROWSER=librewolf
@@ -16,7 +16,6 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_BIN_HOME=$HOME/.local/bin
 
-export COMPOSER_HOME=$XDG_CONFIG_HOME/composer/vendor/bin
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 
@@ -28,11 +27,7 @@ export WINEPREFIX=$XDG_DATA_HOME/wine
 
 export HISTFILE=$XDG_CACHE_HOME/zsh/history
 export LESSHISTFILE=$XDG_CACHE_HOME/less/history
-export MYSQL_HISTFILE=$XDG_CACHE_HOME/mysql_history
 export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
-
-export ZVM_VI_HIGHLIGHT_FOREGROUND=#a0a0a0
-export ZVM_VI_HIGHLIGHT_BACKGROUND=#202020
 
 export FZF_DEFAULT_COMMAND="fd -t d --exclude node_modules --exclude old ."
 export FZF_DEFAULT_OPTS="--ansi --color=bw"
@@ -40,3 +35,6 @@ export FZF_ALT_C_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_ALT_C_OPTS="--height 100%"
 export FZF_CTRL_T_COMMAND="fd --exclude node_modules --exclude old ."
 export FZF_CTRL_T_OPTS="--height 100%"
+
+export ZVM_VI_HIGHLIGHT_FOREGROUND=#a0a0a0
+export ZVM_VI_HIGHLIGHT_BACKGROUND=#202020
