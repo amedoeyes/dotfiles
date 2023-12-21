@@ -4,6 +4,8 @@ base-devel
 bat
 bc
 bitwarden
+bluez
+dnsmasq
 bluez-utils
 breeze
 breeze-gtk
