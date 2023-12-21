@@ -8,7 +8,7 @@
   "margin-right": 10,
   "modules-left": ["clock", "clock#calendar"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["tray", "pulseaudio", "network", "battery"],
+  "modules-right": ["pulseaudio", "network", "battery"],
   "battery": {
     "states": {
       "good": 75,
@@ -60,9 +60,6 @@
     "on-scroll-up": "~/.local/bin/audio increase-output",
     "on-scroll-down": "~/.local/bin/audio decrease-output",
     "tooltip": false
-  },
-  "tray": {
-    "spacing": 10
   },
   "clock": {
     "format": " {:%H:%M}",
