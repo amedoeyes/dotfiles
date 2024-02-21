@@ -1,3 +1,5 @@
+sleep 0.1 # for stupid '%' alacritty bug...
+
 source "$ZDOTDIR"/variables.zsh
 source "$ZDOTDIR"/aliases.zsh
 source "$ZDOTDIR"/options.zsh
