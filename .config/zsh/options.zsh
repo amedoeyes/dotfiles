@@ -9,6 +9,7 @@ setopt SHARE_HISTORY
 
 autoload -Uz compinit
 compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+eval "$(zoxide init zsh --cmd cd)"
 
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
