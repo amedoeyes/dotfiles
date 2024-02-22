@@ -16,19 +16,18 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_BIN_HOME=$HOME/.local/bin
 
-export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
-export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
-export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
-
 export ANDROID_HOME=$XDG_DATA_HOME/android
 export CARGO_HOME=$XDG_DATA_HOME/cargo
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 export GOPATH="$XDG_DATA_HOME"/go
-export WINEPREFIX=$XDG_DATA_HOME/wine
-
+export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
 export HISTFILE=$XDG_CACHE_HOME/zsh/history
 export LESSHISTFILE=$XDG_CACHE_HOME/less/history
 export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
+export WINEPREFIX=$XDG_DATA_HOME/wine
+export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
 
 export FZF_DEFAULT_COMMAND="fd -t d --exclude node_modules --exclude old ."
 export FZF_DEFAULT_OPTS="--ansi --color=bw"
