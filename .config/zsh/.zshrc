@@ -6,5 +6,6 @@ source "$ZDOTDIR"/options.zsh
 source "$ZDOTDIR"/keybinds.zsh
 
 source "$ZDOTDIR"/plugins/zsh-vi-mode/zsh-vi-mode.zsh
+source "/usr/share/fzf/key-bindings.zsh"
 source "$ZDOTDIR"/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source "$ZDOTDIR"/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

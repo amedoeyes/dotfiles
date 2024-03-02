@@ -36,5 +36,6 @@ export FZF_ALT_C_OPTS="--height 100%"
 export FZF_CTRL_T_COMMAND="fd --exclude node_modules --exclude old ."
 export FZF_CTRL_T_OPTS="--height 100%"
 
+export ZVM_INIT_MODE=sourcing
 export ZVM_VI_HIGHLIGHT_FOREGROUND=#a0a0a0
 export ZVM_VI_HIGHLIGHT_BACKGROUND=#202020
