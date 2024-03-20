@@ -27,7 +27,7 @@ export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
 export WINEPREFIX=$XDG_DATA_HOME/wine
-export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
+export XCURSOR_PATH=$XDG_DATA_HOME/icons
 
 export FZF_DEFAULT_COMMAND="fd -t d --exclude node_modules --exclude old ."
 export FZF_DEFAULT_OPTS="--ansi --color=bw"
