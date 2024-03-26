@@ -22,37 +22,7 @@ show_clipboard() {
 	fi
 }
 
-show_spell() {
-	style="
-		inputbar {
-			border: 0;
-        }
-
-		listview {
-			enabled: false;
-		}
-	"
-	input=$(toggle_menu -dmenu -theme-str "$style")
-	suggestions=$("$XDG_BIN_HOME"/spell "$input")
-	selected=""
-
-	if [[ -n $suggestions ]]; then
-		selected=$(echo "$suggestions" | toggle_menu -dmenu)
-	fi
-
-	if [[ -n $selected ]]; then
-		echo "$selected" | wl-copy
-	fi
-}
-
 case "$1" in
-"launcher")
-	show_launcher
-	;;
-"clipboard")
-	show_clipboard
-	;;
-"spell")
-	show_spell
-	;;
+"launcher") show_launcher ;;
+"clipboard") show_clipboard ;;
 esac
