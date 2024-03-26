@@ -1,9 +1,0 @@
-configuration {
-	modes: "drun,run";
-	font: "JetBrainsMono Nerd Font 10";
-	recursivebrowser {
-		filter-regex: "(^\\.|node_modules|vendor|build|old)";
-	}
-}
-
-@theme "theme"

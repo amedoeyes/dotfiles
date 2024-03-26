@@ -1,9 +1,9 @@
 #!/bin/bash
 
-menu="rofi"
+menu="fuzzel"
 
 toggle_menu() {
-	if [[ $(pgrep -x "$menu") ]]; then
+	if (pgrep -x "$menu"); then
 		pkill -x "$menu"
 	else
 		$menu "$@"
@@ -11,13 +11,11 @@ toggle_menu() {
 }
 
 show_launcher() {
-	toggle_menu -show drun
+	toggle_menu
 }
 
 show_clipboard() {
-	selected=$(cliphist list | toggle_menu -dmenu)
-
-	if [[ -n $selected ]]; then
+	if selected=$(cliphist list | toggle_menu --dmenu --width 120); then
 		echo "$selected" | cliphist decode | wl-copy
 	fi
 }
