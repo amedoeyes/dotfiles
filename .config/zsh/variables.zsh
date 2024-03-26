@@ -4,6 +4,7 @@ export VISUAL=nvim
 export BROWSER=librewolf
 export TERMINAL=footclient
 export PAGER=less
+export READER=zathura
 
 export PS1="$ "
 export SUDO_PROMPT="Password: "
