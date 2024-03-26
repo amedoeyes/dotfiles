@@ -2,7 +2,7 @@ export PATH=$PATH:$XDG_BIN_HOME
 export EDITOR=nvim
 export VISUAL=nvim
 export BROWSER=librewolf
-export TERMINAL=alacritty
+export TERMINAL=footclient
 export PAGER=less
 
 export PS1="$ "
