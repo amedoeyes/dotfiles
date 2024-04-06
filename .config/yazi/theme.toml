@@ -3,8 +3,8 @@
 [manager]
 cwd = { fg = "#A0A0A0" }
 
-hovered = { reversed = true }
-preview_hovered = { underline = true }
+hovered = { fg = "#A0A0A0", bg = "#101010" }
+preview_hovered = { fg = "#A0A0A0", bg = "#101010" }
 
 find_keyword = { fg = "#A0A0A0", bold = true, italic = true, underline = true }
 find_position = { fg = "#A0A0A0", bg = "reset", bold = true, italic = true }
@@ -14,7 +14,7 @@ marker_cut = { fg = "#404040", bg = "#404040" }
 marker_marked = { fg = "#202020", bg = "#202020" }
 marker_selected = { fg = "#202020", bg = "#202020" }
 
-tab_active = { reversed = true }
+tab_active = { bold = true }
 tab_inactive = {}
 tab_width = 1
 
@@ -55,11 +55,11 @@ inactive = {}
 border = { fg = "#404040" }
 title = { fg = "#A0A0A0" }
 value = { fg = "#A0A0A0" }
-selected = { reversed = true }
+selected = { fg = "#A0A0A0", bg = "#101010" }
 
 [completion]
 border = { fg = "#404040" }
-active = { reversed = true }
+active = { fg = "#A0A0A0", bg = "#101010" }
 inactive = {}
 
 icon_file = ""
@@ -69,7 +69,7 @@ icon_command = ""
 [tasks]
 border = { fg = "#404040" }
 title = { fg = "#A0A0A0" }
-hovered = { reversed = true }
+hovered = { fg = "#A0A0A0", bg = "#101010" }
 
 [which]
 cols = 3
@@ -84,7 +84,7 @@ separator_style = { fg = "#A0A0A0" }
 on = { fg = "#A0A0A0", bg = "#000000" }
 run = { fg = "#A0A0A0", bg = "#000000" }
 desc = { fg = "#A0A0A0", bg = "#000000" }
-hovered = { reversed = true }
+hovered = { fg = "#A0A0A0", bg = "#101010" }
 footer = { fg = "#A0A0A0", bg = "#000000", bold = true }
 
 [notify]
