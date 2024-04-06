@@ -50,7 +50,6 @@
     "format-ethernet": "󰈀 Wired",
     "format-disconnected": " Disconnected",
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤨"],
-    "on-click": "nm-connection-editor",
     "tooltip": false
   },
   "pulseaudio": {
@@ -60,7 +59,6 @@
       "headphone": "",
       "default": ["󰕿", "󰖀", "󰕾"]
     },
-    "on-click": "pavucontrol -t 3",
     "on-scroll-up": "~/.local/bin/audio increase-output",
     "on-scroll-down": "~/.local/bin/audio decrease-output",
     "tooltip": false
