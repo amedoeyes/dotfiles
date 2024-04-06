@@ -2,47 +2,50 @@ set selection-clipboard clipboard
 
 set font "JetBrainsMono Nerd Font 10"
 
-set notification-error-bg "#000000"
-set notification-error-fg "#a0a0a0"
-set notification-warning-bg "#000000"
-set notification-warning-fg "#a0a0a0"
-set notification-bg "#000000"
-set notification-fg "#a0a0a0"
-
-set completion-group-bg "#a0a0a0"
-set completion-group-fg "#000000"
-set completion-bg "#000000"
-set completion-fg "#a0a0a0"
-set completion-highlight-bg "#a0a0a0"
-set completion-highlight-fg "#000000"
-
-set index-bg "#000000"
-set index-fg "#a0a0a0"
-set index-active-bg "#a0a0a0"
-set index-active-fg "#000000"
-
-set inputbar-bg "#000000"
-set inputbar-fg "#a0a0a0"
-
-set statusbar-bg "#000000"
-set statusbar-fg "#a0a0a0"
-
-set highlight-color "#505050"
-set highlight-active-color "#a0a0a0"
-
-set default-bg "#000000"
-set default-fg "#a0a0a0"
-
-set render-loading true
-set render-loading-bg "#000000"
-set render-loading-fg "#a0a0a0"
-
-set recolor true
-set recolor-lightcolor "#000000"
-set recolor-darkcolor "#a0a0a0"
-set recolor-keephue true
+set synctex true
+set synctex-editor-command "nvim --headless -c 'VimtexInverseSearch %{line} %{input}'"
 
 map h feedkeys "<C-Left>"
 map j feedkeys "<C-Down>"
 map k feedkeys "<C-Up>"
 map l feedkeys "<C-Right>"
+
+set recolor true
+set recolor-lightcolor "#000000"
+set recolor-darkcolor "#A0A0A0"
+set recolor-keephue true
+
+set default-fg "#A0A0A0"
+set default-bg "#000000"
+
+set notification-fg "#A0A0A0"
+set notification-bg "#000000"
+set notification-error-fg "#A0A0A0"
+set notification-error-bg "#000000"
+set notification-warning-fg "#A0A0A0"
+set notification-warning-bg "#000000"
+
+set completion-fg "#A0A0A0"
+set completion-bg "#000000"
+set completion-group-fg "#A0A0A0"
+set completion-group-bg "#000000"
+set completion-highlight-fg "#A0A0A0"
+set completion-highlight-bg "#101010"
+
+set index-fg "#A0A0A0"
+set index-bg "#000000"
+set index-active-fg "#A0A0A0"
+set index-active-bg "#101010"
+
+set inputbar-fg "#A0A0A0"
+set inputbar-bg "#000000"
+
+set statusbar-fg "#A0A0A0"
+set statusbar-bg "#000000"
+
+set highlight-color "rgba(255,255,255,0.1)"
+set highlight-active-color "rgba(255,255,255,0.2)"
+
+set render-loading true
+set render-loading-bg "#000000"
+set render-loading-fg "#A0A0A0"
