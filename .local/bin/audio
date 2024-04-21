@@ -91,7 +91,7 @@ toggle_input() {
 }
 
 notify() {
-	notify-send -a "$1" "$2" -i "$3" -u low -t 2000 -h int:value:"$2" -r 999
+	dunstify "$1 $2" -i "$3" -u low -t 2000 -h int:value:"$2" -r 999
 }
 
 output_notify() {

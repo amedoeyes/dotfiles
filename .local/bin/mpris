@@ -1,7 +1,5 @@
 #!/bin/bash
 
-name="Player"
-
 cache_art() {
 	local artUrl
 	local cache_dir
@@ -30,31 +28,33 @@ cache_art() {
 }
 
 get_metadata() {
-	local title
 	local artist
+	local album
+	local title
 	local art_path
 
 	sleep 0.1
 
-	title=$(playerctl metadata title)
 	artist=$(playerctl metadata artist)
+	album=$(playerctl metadata album)
+	title=$(playerctl metadata title)
 	art_path=" "
 	if grep -q "mpris:artUrl" <<<"$(playerctl metadata)"; then
 		art_path=$(cache_art "$(playerctl metadata mpris:artUrl)")
 	fi
 
-	echo "$title","$artist","$art_path"
+	echo "$artist","$album","$title","$art_path"
 }
 
 notify_current() {
 	IFS="," read -ra metadata <<<"$(get_metadata)"
-	dunstify -a $name "${metadata[0]}" "${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -r 998
+	dunstify "${metadata[2]}" "${metadata[0]} - ${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -r 998
 }
 
 notify_volume() {
 	IFS="," read -ra metadata <<<"$(get_metadata)"
 	volume=$(playerctl volume | awk '{print int($1 * 100)}')
-	dunstify -a $name "${metadata[0]}" "${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -h int:value:"$volume" -r 998
+	dunstify "${metadata[2]}" "${metadata[0]} - ${metadata[1]}\n<b>Volume ${volume}%</b>" -i "${metadata[2]}" -u low -t 2000 -h int:value:"$volume" -r 998
 }
 
 toggle_play() {
