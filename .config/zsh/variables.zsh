@@ -29,6 +29,7 @@ export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
 export WINEPREFIX=$XDG_DATA_HOME/wine
 export XCURSOR_PATH=$XDG_DATA_HOME/icons
+export ZPLUG_HOME="$XDG_DATA_HOME/zplug"
 
 export FZF_DEFAULT_OPTS="--ansi --color=bw"
 export FZF_ALT_C_COMMAND="fd -t d --exclude node_modules --exclude old ."
