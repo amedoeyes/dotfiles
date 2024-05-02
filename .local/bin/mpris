@@ -1,19 +1,16 @@
 #!/bin/bash
 
 cache_art() {
-	local artUrl
-	local cache_dir
-	local art_name
-	local art_path
-
-	artUrl=$1
+	local artUrl=$1
 	if [ -z "$artUrl" ]; then
-		echo ""
-		return
+		printf ""
 	fi
 
+	local cache_dir
 	cache_dir="$HOME/.cache/mpris"
-	art_name=$(echo "$artUrl" | rev | cut -d "/" -f 1 | rev)
+	local art_name
+	art_name=$(basename "$artUrl")
+	local art_path
 	art_path="$cache_dir/$art_name"
 
 	if [ ! -d "$cache_dir" ]; then
@@ -21,81 +18,129 @@ cache_art() {
 	fi
 
 	if [ ! -e "$art_path" ]; then
-		curl -s "$artUrl" -o "$art_path"
+		wget -q "$artUrl" -O "$art_path"
 	fi
 
-	echo "$art_path"
+	printf "%s" "$art_path"
 }
 
 get_metadata() {
 	local artist
+	artist=$(playerctl metadata xesam:artist)
 	local album
+	album=$(playerctl metadata xesam:album)
 	local title
+	title=$(playerctl metadata xesam:title)
 	local art_path
-
-	sleep 0.1
-
-	artist=$(playerctl metadata artist)
-	album=$(playerctl metadata album)
-	title=$(playerctl metadata title)
 	art_path=" "
 	if grep -q "mpris:artUrl" <<<"$(playerctl metadata)"; then
 		art_path=$(cache_art "$(playerctl metadata mpris:artUrl)")
 	fi
-
-	echo "$artist","$album","$title","$art_path"
+	printf "%s:%s:%s:%s" "$artist" "$album" "$title" "$art_path"
 }
 
-notify_current() {
-	IFS="," read -ra metadata <<<"$(get_metadata)"
-	dunstify "${metadata[2]}" "${metadata[0]} - ${metadata[1]}" -i "${metadata[2]}" -u low -t 2000 -r 998
+get_volume() {
+	playerctl volume | awk '{print int($1 * 100)}'
 }
 
-notify_volume() {
-	IFS="," read -ra metadata <<<"$(get_metadata)"
-	volume=$(playerctl volume | awk '{print int($1 * 100)}')
-	dunstify "${metadata[2]}" "${metadata[0]} - ${metadata[1]}\n<b>Volume ${volume}%</b>" -i "${metadata[2]}" -u low -t 2000 -h int:value:"$volume" -r 998
+volume_change() {
+	local sign
+	sign="$1"
+	local n
+	n=${2:-5}
+	local curr
+	curr=$(get_volume)
+	playerctl volume "$(echo "scale=2;($curr $sign $n)/100" | bc)"
 }
 
-toggle_play() {
-	playerctl play-pause
+volume_increment() {
+	volume_change "+" "$1"
 }
 
-next_track() {
+volume_decrement() {
+	volume_change "-" "$1"
+}
+
+volume_notify() {
+	local metadata
+	IFS=":" read -ra metadata <<<"$(get_metadata)"
+	local volume
+	volume=$(get_volume)
+	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}\n<b>Volume ${volume}%</b>" -i "${metadata[3]}" -u low -t 2000 -h int:value:"${volume}" -r 998
+}
+
+volume_help() {
+	printf "Usage: mpris volume [increment|decrement|notify] [value]\n"
+	exit 1
+}
+
+track_next() {
 	playerctl next
 }
 
-prev_track() {
+track_prev() {
 	playerctl previous
 }
 
-increase_volume() {
-	playerctl volume 0.05+
-	notify_volume
+track_notify() {
+	local metadata
+	IFS=":" read -ra metadata <<<"$(get_metadata)"
+	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}" -i "${metadata[3]}" -u low -t 2000 -r 998
 }
 
-decrease_volume() {
-	playerctl volume 0.05-
-	notify_volume
+track_help() {
+	printf "Usage: mpris track [next|prev|notify]\n"
+	exit 1
 }
 
-next_player() {
+player_toggle() {
+	playerctl play-pause
+}
+
+player_next() {
 	playerctld shift
-	notify_current
 }
 
-prev_player() {
+player_prev() {
 	playerctld unshift
-	notify_current
 }
 
-case "$1" in
-toggle_play) toggle_play ;;
-next_track) next_track ;;
-prev_track) prev_track ;;
-increase_volume) increase_volume ;;
-decrease_volume) decrease_volume ;;
-notify_current) notify_current ;;
-next_player) next_player ;;
-prev_player) prev_player ;;
+player_help() {
+	printf "Usage: mpris player [toggle|next|prev]\n"
+	exit 1
+}
+
+help() {
+	printf "Usage: mpris [command] [args]\n"
+	printf "Commands:\n"
+	printf "volume [increment|decrement|notify] [value]\n"
+	printf "player [toggle|next|prev]\n"
+	printf "track [next|prev|notify]\n"
+	exit 1
+}
+
+if (($# == 0)); then
+	help
+fi
+
+IFS=' ' read -ra args <<<"$@"
+case "${args[0]}" in
+"volume") case "${args[1]}" in
+	"increment") volume_increment "${args[2]}" ;;
+	"decrement") volume_decrement "${args[2]}" ;;
+	"notify") volume_notify ;;
+	*) volume_help ;;
+	esac ;;
+"player") case "${args[1]}" in
+	"toggle") player_toggle ;;
+	"next") player_next ;;
+	"prev") player_prev ;;
+	*) player_help ;;
+	esac ;;
+"track") case "${args[1]}" in
+	"next") track_next ;;
+	"prev") track_prev ;;
+	"notify") track_notify ;;
+	*) track_help ;;
+	esac ;;
 esac
