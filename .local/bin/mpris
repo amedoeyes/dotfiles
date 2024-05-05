@@ -143,4 +143,5 @@ case "${args[0]}" in
 	"notify") track_notify ;;
 	*) track_help ;;
 	esac ;;
+*) help ;;
 esac
