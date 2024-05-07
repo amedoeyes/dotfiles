@@ -2,30 +2,31 @@
 
 source "$XDG_BIN_HOME"/pactl_helpers.sh
 
-get_icon_prefix() {
-	local device
-	device=$1
+DEVICE=""
+TOGGLE=false
+INCREMENT=false
+INCREMENT_VALUE=""
+DECREMENT=false
+DECREMENT_VALUE=""
+NOTIFY=false
 
-	if [[ $device == "sink" ]]; then
+get_icon_prefix() {
+	if [[ $DEVICE == "sink" ]]; then
 		printf "audio-volume"
-	elif [[ $device == "source" ]]; then
+	elif [[ $DEVICE == "source" ]]; then
 		printf "microphone-sensitivity"
 	else
-		printf "Invalid device: %s\n" "$device" >&2
+		printf "Invalid device: %s\n" "$DEVICE" >&2
 		exit 1
 	fi
 }
 
 get_icon() {
-	local device
-	device="$1"
-	local icon_prefix
-	icon_prefix=$(get_icon_prefix "$device")
-	local volume
-	volume="$2"
+	local -r icon_prefix=$(get_icon_prefix)
+	local volume="$1"
 
-	if "$(get_mute "$device")"; then
-		printf "%s-none-symbolic" "$icon_prefix"
+	if "$(get_mute "$DEVICE")"; then
+		printf "%s-muted-symbolic" "$icon_prefix"
 		return
 	fi
 
@@ -38,116 +39,136 @@ get_icon() {
 	fi
 }
 
+increment() {
+	set_volume $DEVICE "$INCREMENT_VALUE" +
+}
+
+decrement() {
+	set_volume $DEVICE "$DECREMENT_VALUE" -
+}
+
+toggle() {
+	set_mute $DEVICE toggle
+}
+
 notify() {
-	local volume
-	volume=$(get_volume "$1")
-	local icon
-	icon=$(get_icon "$1" "$volume")
+	local -r volume=$(get_volume "$DEVICE")
+	local -r icon=$(get_icon "$volume")
 
 	dunstify "Volume $volume%" -i "$icon" -u low -t 2000 -h int:value:"$volume" -r 999
 }
 
-input_increment() {
-	set_volume source "${1:-5}" +
-}
-
-input_decrement() {
-	set_volume source "${1:-5}" -
-}
-
-input_toggle() {
-	set_mute source toggle
-}
-
-input_notify() {
-	notify source
-}
-
-input_help() {
-	printf "Usage: %s -i, --input [OPTION]...\n" "$0"
-	printf "Control audio input device\n\n"
-	printf "Options:\n"
-	printf "  -t, --toggle               Toggle mute\n"
-	printf "  -i, --increment [VALUE]    Increment volume by VALUE\n"
-	printf "  -d, --decrement [VALUE]    Decrement volume by VALUE\n"
-	printf "  -n, --notify               Display volume notification\n\n"
-	exit 1
-}
-
-output_toggle() {
-	set_mute sink toggle
-}
-
-output_increment() {
-	set_volume sink "${1:-5}" +
-}
-
-output_decrement() {
-	set_volume sink "${1:-5}" -
-}
-
-output_notify() {
-	notify sink
-}
-
-output_help() {
-	printf "Usage: %s -o, --output [OPTION]...\n" "$0"
-	printf "Control audio output device\n\n"
-	printf "  -t, --toggle               Toggle mute\n"
-	printf "  -i, --increment [VALUE]    Increment volume by VALUE\n"
-	printf "  -d, --decrement [VALUE]    Decrement volume by VALUE\n"
-	printf "  -n, --notify               Display volume notification\n\n"
-	exit 1
-}
-
-help() {
-	printf "Usage: %s [OPTION]...\n" "$0"
+display_help() {
+	printf "Usage: %s [DEVICE] [OPTION]...\n" "$0"
 	printf "Control audio input and output devices.\n\n"
 	printf "Options:\n"
 	printf "  -i, --input [OPTION]...    Control audio input device\n"
 	printf "  -o, --output [OPTION]...   Control audio output device\n"
 	printf "  -h, --help                 Display this help and exit\n\n"
-	printf "Input options:\n"
+	printf "Device options:\n"
 	printf "  -t, --toggle               Toggle mute\n"
 	printf "  -i, --increment [VALUE]    Increment volume by VALUE\n"
 	printf "  -d, --decrement [VALUE]    Decrement volume by VALUE\n"
 	printf "  -n, --notify               Display volume notification\n\n"
-	printf "Output options:\n"
+}
+
+device_help() {
+	local flag=""
+	local device=""
+	if [[ $DEVICE == "sink" ]]; then
+		flag="-o, --output"
+		device="output"
+	elif [[ $DEVICE == "source" ]]; then
+		flag="-i, --input"
+		device="input"
+	fi
+
+	printf "Usage: %s %s [OPTION]...\n" "$0" "$flag"
+	printf "Control %s audio device\n\n" "$device"
+	printf "Options:\n"
 	printf "  -t, --toggle               Toggle mute\n"
 	printf "  -i, --increment [VALUE]    Increment volume by VALUE\n"
 	printf "  -d, --decrement [VALUE]    Decrement volume by VALUE\n"
 	printf "  -n, --notify               Display volume notification\n\n"
-	exit 1
 }
 
-handle_input() {
+handle_device() {
+	local -r options=$(getopt -o ti:d:nh --long toggle,increment:,decrement:,notify,help -- "$@")
+	eval set -- "$options"
+	while true; do
+		case "$1" in
+		-t | --toggle)
+			TOGGLE=true
+			shift
+			;;
+		-i | --increment)
+			INCREMENT=true
+			INCREMENT_VALUE="$2"
+			shift 2
+			;;
+		-d | --decrement)
+			DECREMENT=true
+			DECREMENT_VALUE="$2"
+			shift 2
+			;;
+		-n | --notify)
+			NOTIFY=true
+			shift
+			;;
+		-h | --help)
+			device_help
+			exit 0
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo "Invalid option: $1" >&2
+			exit 1
+			;;
+		esac
+	done
+}
+
+options=$(getopt -o ioh --long input,output,help -- "$1")
+while true; do
 	case "$1" in
-	-t | --toggle) input_toggle ;;
-	-i | --increment) input_increment "${2:-5}" ;;
-	-d | --decrement) input_decrement "${2:-5}" ;;
-	-n | --notify) input_notify ;;
-	*) input_help ;;
+	-i | --input)
+		DEVICE="source"
+		shift
+		handle_device "$@"
+		break
+		;;
+	-o | --output)
+		DEVICE="sink"
+		shift
+		handle_device "$@"
+		break
+		;;
+	-h | --help)
+		display_help
+		exit 0
+		;;
+	*)
+		echo "Invalid option: $1" >&2
+		exit 1
+		;;
 	esac
-}
+done
 
-handle_output() {
-	case "$1" in
-	-t | --toggle) output_toggle ;;
-	-i | --increment) output_increment "${2:-5}" ;;
-	-d | --decrement) output_decrement "${2:-5}" ;;
-	-n | --notify) output_notify ;;
-	*) output_help ;;
-	esac
-}
-
-if (($# == 0)); then
-	help
+if $TOGGLE; then
+	toggle
 fi
 
-IFS=" " read -r -a args <<<"$@"
-case "${args[0]}" in
--i | --input) handle_input "${args[@]:1}" ;;
--o | --output) handle_output "${args[@]:1}" ;;
--h | --help) help ;;
-*) help ;;
-esac
+if $INCREMENT; then
+	increment
+fi
+
+if $DECREMENT; then
+	decrement
+fi
+
+if $NOTIFY; then
+	notify
+fi
