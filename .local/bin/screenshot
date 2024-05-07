@@ -1,13 +1,132 @@
 #!/bin/bash
 
-path=~/Pictures/screenshots
-filename=screenshot_$(date +%Y%m%d_%H%M%S).png
+SCREENSHOT_PATH="$HOME"/Pictures/screenshots
+FILENAME=screenshot_$(date +%Y%m%d_%H%M%S).png
+COPY_TO_CLIPBOARD=false
+METHOD=""
 
-screenshot() {
-	grimblast copysave "$1" "$path/$filename"
+get_monitors_geometry() {
+	hyprctl monitors -j | jq -r '.[] | "\(.x),\(.y) \(.width)x\(.height)"'
 }
 
-case "$1" in
-"screen") screenshot screen ;;
-"area") screenshot area ;;
+get_windows_geometry() {
+	local -r workspaces=$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')
+	local -r windows=$(hyprctl clients -j | jq -r --argjson workspaces "$workspaces" 'map(select([.workspace.id] | inside($workspaces)))')
+	echo "$windows" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"'
+}
+
+get_all_geometry() {
+	local -r monitors=$(get_monitors_geometry)
+	local -r windows=$(get_windows_geometry)
+	printf "%s\n%s" "$monitors" "$windows"
+}
+
+select_geometry() {
+	local geometries="$1"
+	local -r selected=$(echo "$geometries" | slurp -b "#000000A0" -c "#A0A0A0FF" -s "#00000000" -B "#000000A0" -w 1)
+
+	if [[ -z $selected ]]; then
+		exit 1
+	fi
+
+	printf "%s" "$selected"
+}
+
+take_screenshot() {
+	local file="$SCREENSHOT_PATH/$FILENAME"
+	local -r geometry="$1"
+
+	if [[ -z $geometry ]]; then
+		grim "$file"
+	else
+		grim -g "$geometry" "$file"
+	fi
+
+	if $COPY_TO_CLIPBOARD; then
+		wl-copy -t image/png <"$file"
+	fi
+}
+
+sceeenshot_window() {
+	take_screenshot "$(select_geometry "$(get_windows_geometry)")"
+}
+
+screenshot_monitor() {
+	take_screenshot "$(select_geometry "$(get_monitors_geometry)")"
+}
+
+screenshot_any() {
+	take_screenshot "$(select_geometry "$(get_all_geometry)")"
+}
+
+screenshot_everything() {
+	take_screenshot
+}
+
+display_help() {
+	printf "Usage: %s [OPTION]...\n" "$0"
+	printf "Take a screenshot.\n\n"
+	printf "Options:\n"
+	printf "  -w, --window               Select a window to screenshot\n"
+	printf "  -m, --monitor              Select a monitor to screenshot\n"
+	printf "  -a, --any                  Select any region to screenshot\n"
+	printf "  -e, --everything           Screenshot everything\n"
+	printf "  -p, --path PATH            Set the path to save the screenshot\n"
+	printf "  -f, --filename FILENAME    Set the filename of the screenshot\n"
+	printf "  -c, --copy                 Copy to clipboard\n"
+	printf "  -h, --help                 Display this help and exit\n"
+}
+
+options=$(getopt -o wmaep:f:ch --long window,monitor,any,everything,path:,filename:,copy,help -- "$@")
+eval set -- "$options"
+while true; do
+	case "$1" in
+	-w | --window)
+		METHOD="window"
+		shift
+		;;
+	-m | --monitor)
+		METHOD="monitor"
+		shift
+		;;
+	-a | --any)
+		METHOD="any"
+		shift
+		;;
+	-e | --everything)
+		METHOD="everything"
+		shift
+		;;
+	-p | --path)
+		SCREENSHOT_PATH="$2"
+		shift 2
+		;;
+	-f | --filename)
+		FILENAME="$2"
+		shift 2
+		;;
+	-c | --copy)
+		COPY_TO_CLIPBOARD=true
+		shift
+		;;
+	-h | --help)
+		display_help
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		echo "Invalid option: $1"
+		exit 1
+		;;
+	esac
+done
+
+case $METHOD in
+window) sceeenshot_window ;;
+monitor) screenshot_monitor ;;
+any) screenshot_any ;;
+everything) screenshot_everything ;;
 esac
