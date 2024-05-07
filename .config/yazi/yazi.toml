@@ -24,7 +24,7 @@ ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
 edit = [{ run = '${EDITOR:=vi} "$@"', desc = "$EDITOR", block = true }]
-open = [{ run = 'xdg-open "$@"', desc = "Open" }]
+open = [{ run = 'nohup xdg-open "$@" > /dev/null 2>&1 &', desc = "Open" }]
 reveal = []
 extract = [{ run = 'unar "$1"', desc = "Extract here" }]
 play = [{ run = 'mpv --force-window "$@"', orphan = true }]
