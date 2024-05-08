@@ -1,8 +1,8 @@
 #!/bin/bash
 
-get_brightness() {
-	brightnessctl -m | tr ',' ' ' | awk '{print $4}' | sed 's/%//'
-}
+INCREMENT_VALUE=0
+DECREMENT_VALUE=0
+NOTIFY=false
 
 get_icon() {
 	output_volume="$(get_brightness)"
@@ -18,21 +18,92 @@ get_icon() {
 	fi
 }
 
-increase_brightness() {
-	brightnessctl s +5%
-	notify
+get_brightness() {
+	brightnessctl -m | tr ',' ' ' | awk '{print $4}' | sed 's/%//'
 }
 
-decrease_brightness() {
-	brightnessctl s 5%-
-	notify
+set_brightness() {
+	local n="$1"
+	local sign="$2"
+	local -r curr=$(get_brightness)
+	local -r new_brightness=$(echo "$curr $sign $n" | bc)
+	brightnessctl -q s "$new_brightness"%
+}
+
+increment() {
+	set_brightness "$INCREMENT_VALUE" +
+}
+
+decrement() {
+	set_brightness "$DECREMENT_VALUE" -
 }
 
 notify() {
-	notify-send -a "Brightness" "$(get_brightness)%" -i "$(get_icon)" -u low -t 2000 -h int:value:"$(get_brightness)" -r 999
+	local -r icon=$(get_icon)
+	local -r brightness=$(get_brightness)
+	notify-send -a "Brightness" "$brightness%" -i "$icon" -u low -t 2000 -h int:value:"$brightness" -r 999
 }
 
-case "$1" in
-"increase") increase_brightness ;;
-"decrease") decrease_brightness ;;
-esac
+display_help() {
+	printf "Usage: brightness [OPTIONS]\n"
+	printf "Control screen brightness.\n\n"
+	printf "Options:\n"
+	printf "  -i, --increment VALUE    Increase the brightness by VALUE percent\n"
+	printf "  -d, --decrement VALUE    Decrease the brightness by VALUE percent\n"
+	printf "      --notify             Display brightness notification\n"
+	printf "  -h, --help               Display this help and exit\n\n"
+}
+
+if [ "$#" -eq 0 ]; then
+	display_help
+	exit 1
+fi
+
+options=$(getopt -o i:d:h --long increment:,decrement:,notify,help -n "brightness" -- "$@")
+eval set -- "$options"
+while true; do
+	case "$1" in
+	-i | --increment)
+		if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+			printf "Error: Invalid volume increment value.\n" >&2
+			exit 1
+		fi
+		INCREMENT_VALUE="$2"
+		shift 2
+		;;
+	-d | --decrement)
+		if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+			printf "Error: Invalid volume increment value.\n" >&2
+			exit 1
+		fi
+		DECREMENT_VALUE="$2"
+		shift 2
+		;;
+	--notify)
+		NOTIFY=true
+		shift
+		;;
+	-h | --help)
+		display_help
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		echo "Invalid option: $1"
+		exit 1
+		;;
+	esac
+done
+
+if ((INCREMENT_VALUE > 0)); then
+	increment
+elif ((DECREMENT_VALUE > 0)); then
+	decrement
+fi
+
+if $NOTIFY; then
+	notify
+fi

@@ -1,17 +1,27 @@
 #!/bin/bash
 
+VOLUME_INCREMENT_VALUE=0
+VOLUME_DECREMENT_VALUE=0
+
+TRACK_NEXT=false
+TRACK_PREV=false
+
+PLAYER_TOGGLE=false
+PLAYER_NEXT=false
+PLAYER_PREV=false
+
+NOTIFY_VOLUME=false
+NOTIFY_TRACK=false
+
 cache_art() {
 	local artUrl=$1
 	if [ -z "$artUrl" ]; then
 		printf ""
 	fi
 
-	local cache_dir
-	cache_dir="$HOME/.cache/mpris"
-	local art_name
-	art_name=$(basename "$artUrl")
-	local art_path
-	art_path="$cache_dir/$art_name"
+	local cache_dir="$HOME/.cache/mpris"
+	local -r art_name=$(basename "$artUrl")
+	local -r art_path="$cache_dir/$art_name"
 
 	if [ ! -d "$cache_dir" ]; then
 		mkdir -p "$cache_dir"
@@ -25,14 +35,10 @@ cache_art() {
 }
 
 get_metadata() {
-	local artist
-	artist=$(playerctl metadata xesam:artist)
-	local album
-	album=$(playerctl metadata xesam:album)
-	local title
-	title=$(playerctl metadata xesam:title)
-	local art_path
-	art_path=" "
+	local -r artist=$(playerctl metadata xesam:artist)
+	local -r album=$(playerctl metadata xesam:album)
+	local -r title=$(playerctl metadata xesam:title)
+	local art_path=" "
 	if grep -q "mpris:artUrl" <<<"$(playerctl metadata)"; then
 		art_path=$(cache_art "$(playerctl metadata mpris:artUrl)")
 	fi
@@ -43,35 +49,26 @@ get_volume() {
 	playerctl volume | awk '{print int($1 * 100)}'
 }
 
-volume_change() {
-	local sign
-	sign="$1"
-	local n
-	n=${2:-5}
-	local curr
-	curr=$(get_volume)
+set_volume() {
+	local n="$1"
+	local sign="$2"
+	local -r curr=$(get_volume)
 	playerctl volume "$(echo "scale=2;($curr $sign $n)/100" | bc)"
 }
 
 volume_increment() {
-	volume_change "+" "$1"
+	set_volume "$VOLUME_INCREMENT_VALUE" +
 }
 
 volume_decrement() {
-	volume_change "-" "$1"
+	set_volume "$VOLUME_DECREMENT_VALUE" -
 }
 
 volume_notify() {
 	local metadata
 	IFS=":" read -ra metadata <<<"$(get_metadata)"
-	local volume
-	volume=$(get_volume)
+	local -r volume=$(get_volume)
 	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}\n<b>Volume ${volume}%</b>" -i "${metadata[3]}" -u low -t 2000 -h int:value:"${volume}" -r 998
-}
-
-volume_help() {
-	printf "Usage: mpris volume [increment|decrement|notify] [value]\n"
-	exit 1
 }
 
 track_next() {
@@ -88,11 +85,6 @@ track_notify() {
 	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}" -i "${metadata[3]}" -u low -t 2000 -r 998
 }
 
-track_help() {
-	printf "Usage: mpris track [next|prev|notify]\n"
-	exit 1
-}
-
 player_toggle() {
 	playerctl play-pause
 }
@@ -105,43 +97,104 @@ player_prev() {
 	playerctld unshift
 }
 
-player_help() {
-	printf "Usage: mpris player [toggle|next|prev]\n"
-	exit 1
+display_help() {
+	printf "Usage: mpris [OPTIONS]\n"
+	printf "Control MPRIS compatible media players.\n\n"
+	printf "Options:\n"
+	printf "  -i, --volume-increment VALUE    Increment volume by VALUE.\n"
+	printf "  -d, --volume-decrement VALUE    Decrement volume by VALUE.\n"
+	printf "  -n, --track-next                Play the next track.\n"
+	printf "  -p, --track-prev                Play the previous track.\n"
+	printf "  -N, --player-next               Play the next playlist item.\n"
+	printf "  -P, --player-prev               Play the previous playlist item.\n"
+	printf "  -T, --player-toggle             Toggle play/pause.\n"
+	printf "      --notify-volume             Display a notification with the current volume.\n"
+	printf "      --notify-track              Display a notification with the current track.\n"
+	printf "  -h, --help                      Display this help and exit.\n\n"
 }
 
-help() {
-	printf "Usage: mpris [command] [args]\n"
-	printf "Commands:\n"
-	printf "volume [increment|decrement|notify] [value]\n"
-	printf "player [toggle|next|prev]\n"
-	printf "track [next|prev|notify]\n"
+if [ "$#" -eq 0 ]; then
+	display_help
 	exit 1
-}
-
-if (($# == 0)); then
-	help
 fi
 
-IFS=' ' read -ra args <<<"$@"
-case "${args[0]}" in
-"volume") case "${args[1]}" in
-	"increment") volume_increment "${args[2]}" ;;
-	"decrement") volume_decrement "${args[2]}" ;;
-	"notify") volume_notify ;;
-	*) volume_help ;;
-	esac ;;
-"player") case "${args[1]}" in
-	"toggle") player_toggle ;;
-	"next") player_next ;;
-	"prev") player_prev ;;
-	*) player_help ;;
-	esac ;;
-"track") case "${args[1]}" in
-	"next") track_next ;;
-	"prev") track_prev ;;
-	"notify") track_notify ;;
-	*) track_help ;;
-	esac ;;
-*) help ;;
-esac
+options=$(getopt -o i:d:npPNTh --long volume-increment:,volume-decrement:,track-next,track-prev,player-toggle,player-next,player-prev,notify-volume,notify-track,help -n "mpirs" -- "$@")
+eval set -- "$options"
+while true; do
+	case "$1" in
+	-i | --volume-increment)
+		if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+			printf "Error: Invalid volume increment value.\n" >&2
+			exit 1
+		fi
+		VOLUME_INCREMENT_VALUE="$2"
+		shift 2
+		;;
+	-d | --volume-decrement)
+		if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+			printf "Error: Invalid volume decrement value.\n" >&2
+			exit 1
+		fi
+		VOLUME_DECREMENT_VALUE="$2"
+		shift 2
+		;;
+	-n | --track-next)
+		TRACK_NEXT=true
+		shift
+		;;
+	-p | --track-prev)
+		TRACK_PREV=true
+		shift
+		;;
+	-T | --player-toggle)
+		PLAYER_TOGGLE=true
+		shift
+		;;
+	-N | --player-next)
+		PLAYER_NEXT=true
+		shift
+		;;
+	-P | --player-prev)
+		PLAYER_PREV=true
+		shift
+		;;
+	--notify-volume)
+		NOTIFY_VOLUME=true
+		shift
+		;;
+	--notify-track)
+		NOTIFY_TRACK=true
+		shift
+		;;
+	-h | --help)
+		display_help
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	esac
+done
+
+if ((VOLUME_INCREMENT_VALUE > 0)); then
+	volume_increment
+elif ((VOLUME_DECREMENT_VALUE > 0)); then
+	volume_decrement
+elif $TRACK_NEXT; then
+	track_next
+elif $TRACK_PREV; then
+	track_prev
+elif $PLAYER_TOGGLE; then
+	player_toggle
+elif $PLAYER_NEXT; then
+	player_next
+elif $PLAYER_PREV; then
+	player_prev
+fi
+
+if $NOTIFY_VOLUME; then
+	volume_notify
+elif $NOTIFY_TRACK; then
+	track_notify
+fi

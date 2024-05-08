@@ -64,7 +64,7 @@ screenshot_everything() {
 }
 
 display_help() {
-	printf "Usage: %s [OPTION]...\n" "$0"
+	printf "Usage: screenshot [OPTIONS]\n"
 	printf "Take a screenshot.\n\n"
 	printf "Options:\n"
 	printf "  -w, --window               Select a window to screenshot\n"
@@ -74,10 +74,15 @@ display_help() {
 	printf "  -p, --path PATH            Set the path to save the screenshot\n"
 	printf "  -f, --filename FILENAME    Set the filename of the screenshot\n"
 	printf "  -c, --copy                 Copy to clipboard\n"
-	printf "  -h, --help                 Display this help and exit\n"
+	printf "  -h, --help                 Display this help and exit\n\n"
 }
 
-options=$(getopt -o wmaep:f:ch --long window,monitor,any,everything,path:,filename:,copy,help -- "$@")
+if [ "$#" -eq 0 ]; then
+	display_help
+	exit 1
+fi
+
+options=$(getopt -o wmaep:f:ch --long window,monitor,any,everything,path:,filename:,copy,help -n "screenshot" -- "$@")
 eval set -- "$options"
 while true; do
 	case "$1" in
