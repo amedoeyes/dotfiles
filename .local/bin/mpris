@@ -35,9 +35,18 @@ cache_art() {
 }
 
 get_metadata() {
-	local -r artist=$(playerctl metadata xesam:artist)
-	local -r album=$(playerctl metadata xesam:album)
-	local -r title=$(playerctl metadata xesam:title)
+	local artist=""
+	if grep -q "xesam:artist" <<<"$(playerctl metadata)"; then
+		artist=$(playerctl metadata xesam:artist)
+	fi
+	local album=""
+	if grep -q "xesam:album" <<<"$(playerctl metadata)"; then
+		album=$(playerctl metadata xesam:album)
+	fi
+	local title=""
+	if grep -q "xesam:title" <<<"$(playerctl metadata)"; then
+		title=$(playerctl metadata xesam:title)
+	fi
 	local art_path=" "
 	if grep -q "mpris:artUrl" <<<"$(playerctl metadata)"; then
 		art_path=$(cache_art "$(playerctl metadata mpris:artUrl)")
@@ -67,8 +76,11 @@ volume_decrement() {
 volume_notify() {
 	local metadata
 	IFS=":" read -ra metadata <<<"$(get_metadata)"
+	local title="${metadata[2]}"
+	local artist_album="${metadata[0]:+"${metadata[0]} "}${metadata[1]:+"- ${metadata[1]}"}"
+	local icon="${metadata[3]}"
 	local -r volume=$(get_volume)
-	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}\n<b>Volume ${volume}%</b>" -i "${metadata[3]}" -u low -t 2000 -h int:value:"${volume}" -r 998
+	dunstify "$title" "${artist_album:+$artist_album\n}<b>Volume ${volume}%</b>" -i "$icon" -u low -t 2000 -h int:value:"${volume}" -r 998
 }
 
 track_next() {
@@ -82,7 +94,10 @@ track_prev() {
 track_notify() {
 	local metadata
 	IFS=":" read -ra metadata <<<"$(get_metadata)"
-	dunstify "${metadata[2]}" "${metadata[0]} ${metadata[1]:+- ${metadata[1]}}" -i "${metadata[3]}" -u low -t 2000 -r 998
+	local title="${metadata[2]}"
+	local artist_album="${metadata[0]:+"${metadata[0]} "}${metadata[1]:+"- ${metadata[1]}"}"
+	local icon="${metadata[3]}"
+	dunstify "$title" "${artist_album:+$artist_album\n}" -i "$icon" -u low -t 2000 -r 998
 }
 
 player_toggle() {
