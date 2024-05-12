@@ -3,7 +3,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export BROWSER=librewolf
 export TERMINAL=footclient
-export PAGER=less
+export MANPAGER="nvim +Man!"
 export READER=zathura
 
 export PS1="$ "
