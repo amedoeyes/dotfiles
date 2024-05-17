@@ -1,0 +1,146 @@
+#!/bin/bash
+
+INPUT="source"
+OUTPUT="sink"
+
+get_default_device() {
+	local device="$1"
+
+	local default
+	case "$device" in
+	"sink") default="@DEFAULT_SINK@" ;;
+	"source") default="@DEFAULT_SOURCE@" ;;
+	*)
+		printf "Invalid device: %s\n" "$device" >&2
+		return 1
+		;;
+	esac
+
+	printf "%s" "$default"
+}
+
+get_volume() {
+	local device=$1
+
+	local default
+	if ! default=$(get_default_device "$device"); then
+		return 1
+	fi
+
+	local -r left=$(pactl get-"$device"-volume "$default" | head -1 | awk '{print $5}' | tr -d '%')
+	local -r right=$(pactl get-"$device"-volume "$default" | head -1 | awk '{print $12}' | tr -d '%')
+
+	printf "%d" $(((left + right) / 2))
+}
+
+set_volume() {
+	local device="$1"
+
+	local default
+	if ! default=$(get_default_device "$device"); then
+		return 1
+	fi
+
+	local volume="$2"
+	if ! [[ $volume =~ ^[0-9]+$ ]]; then
+		printf "Invalid volume: %s\n" "$volume" >&2
+		return 1
+	fi
+
+	local sign="$3"
+	if ! [[ $sign =~ ^('+'|'-'|'')$ ]]; then
+		printf "Invalid sign: %s\n" "$sign" >&2
+		return 1
+	fi
+
+	pactl set-"$device"-volume "$default" "$sign$volume%"
+}
+
+get_mute() {
+	local device="$1"
+
+	local default
+	if ! default=$(get_default_device "$device"); then
+		return 1
+	fi
+
+	local -r is_mute=$(pactl get-"$device"-mute "$default" | awk '{print $2}')
+
+	if [[ $is_mute == "yes" ]]; then
+		printf "true\n"
+	else
+		printf "false\n"
+	fi
+}
+
+set_mute() {
+	local device="$1"
+	local value="$2"
+
+	local default
+	if ! default=$(get_default_device "$device"); then
+		return 1
+	fi
+
+	case "$value" in
+	"true") pactl set-"$device"-mute "$default" 1 ;;
+	"false") pactl set-"$device"-mute "$default" 0 ;;
+	"toggle") pactl set-"$device"-mute "$default" toggle ;;
+	*)
+		printf "Invalid mute value: %s\n" "$value" >&2
+		return 1
+		;;
+	esac
+}
+
+increment() {
+	local device="$1"
+	local inc="$2"
+	set_volume "$device" "$inc" +
+}
+
+decrement() {
+	local device="$1"
+	local dec="$2"
+	set_volume "$device" "$dec" -
+}
+
+toggle() {
+	local device="$1"
+	set_mute "$device" toggle
+}
+
+display_help() {
+	printf "Usage: audioctl DEVICE [OPTION]\n"
+	printf "Control audio input and output devices.\n\n"
+	printf "Options:\n"
+	printf "  -s, --set-input-volume VALUE           Set the input volume to VALUE percent\n"
+	printf "  -i, --increment-input-volume VALUE     Increase the input volume by VALUE percent\n"
+	printf "  -d, --decrement-input-volume VALUE     Decrease the input volume by VALUE percent\n"
+	printf "  -g, --get-input-volume                 Get the current input volume\n"
+	printf "  -t, --toggle-input-mute                Toggle the input mute state\n"
+	printf "  -S, --set-output-volume VALUE          Set the output volume to VALUE percent\n"
+	printf "  -I, --increment-output-volume VALUE    Increase the output volume by VALUE percent\n"
+	printf "  -D, --decrement-output-volume VALUE    Decrease the output volume by VALUE percent\n"
+	printf "  -G, --get-output-volume                Get the current output volume\n"
+	printf "  -T, --toggle-output-mute               Toggle the output mute state\n"
+	printf "  -h, --help                             Display this help and exit\n\n"
+
+}
+
+case "$1" in
+-s | --set-input-volume) set_volume "$INPUT" "$2" ;;
+-i | --increment-input-volume) increment "$INPUT" "$2" ;;
+-d | --decrement-input-volume) decrement "$INPUT" "$2" ;;
+-g | --get-input-volume) get_volume "$INPUT" ;;
+-t | --toggle-input-mute) toggle "$INPUT" ;;
+-m | --is-input-muted) get_mute "$INPUT" ;;
+-S | --set-output-volume) set_volume "$OUTPUT" "$2" ;;
+-I | --increment-output-volume) increment "$OUTPUT" "$2" ;;
+-D | --decrement-output-volume) decrement "$OUTPUT" "$2" ;;
+-G | --get-output-volume) get_volume "$OUTPUT" ;;
+-T | --toggle-output-mute) toggle "$OUTPUT" ;;
+-M | --is-output-muted) get_mute "$OUTPUT" ;;
+-h | --help) display_help ;;
+*) display_help ;;
+esac
