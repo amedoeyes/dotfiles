@@ -1,0 +1,4 @@
+[cursor]
+style = { blinking = "Always", shape = "Block" }
+vi_mode_style = "Block"
+blink_timeout = 0
