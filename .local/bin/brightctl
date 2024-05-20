@@ -2,11 +2,6 @@
 
 set_brightness() {
 	local new="$1"
-	if ! [[ "$new" =~ ^[0-9]+$ ]]; then
-		printf "Error: Invalid brightness value.\n" >&2
-		exit 1
-	fi
-
 	brightnessctl -q s "$new"%
 }
 
