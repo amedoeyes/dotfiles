@@ -1,72 +1,37 @@
 #!/bin/bash
 
-INPUT="source"
-OUTPUT="sink"
-
-get_default_device() {
-	local device="$1"
-
-	local default
-	case "$device" in
-	"sink") default="@DEFAULT_SINK@" ;;
-	"source") default="@DEFAULT_SOURCE@" ;;
-	*)
-		printf "Invalid device: %s\n" "$device" >&2
-		return 1
-		;;
-	esac
-
-	printf "%s" "$default"
-}
+INPUT="@DEFAULT_SOURCE@"
+OUTPUT="@DEFAULT_SINK@"
 
 get_volume() {
 	local device=$1
-
-	local default
-	if ! default=$(get_default_device "$device"); then
-		return 1
-	fi
-
-	local -r left=$(pactl get-"$device"-volume "$default" | head -1 | awk '{print $5}' | tr -d '%')
-	local -r right=$(pactl get-"$device"-volume "$default" | head -1 | awk '{print $12}' | tr -d '%')
-
-	printf "%d" $(((left + right) / 2))
+	printf "%d\n" "$(wpctl get-volume "$device" | awk '{print $2*100}')"
 }
 
 set_volume() {
 	local device="$1"
-
-	local default
-	if ! default=$(get_default_device "$device"); then
-		return 1
-	fi
-
 	local volume="$2"
-	if ! [[ $volume =~ ^[0-9]+$ ]]; then
-		printf "Invalid volume: %s\n" "$volume" >&2
-		return 1
-	fi
+	wpctl set-volume "$device" "$volume"%
+}
 
-	local sign="$3"
-	if ! [[ $sign =~ ^('+'|'-'|'')$ ]]; then
-		printf "Invalid sign: %s\n" "$sign" >&2
-		return 1
-	fi
+increment_volume() {
+	local device="$1"
+	local -r current_volume=$(get_volume "$device")
+	local -r new_volume=$((current_volume + $2))
+	set_volume "$device" "$new_volume"
+}
 
-	pactl set-"$device"-volume "$default" "$sign$volume%"
+decrement_volume() {
+	local device="$1"
+	local -r current_volume=$(get_volume "$device")
+	local -r new_volume=$((current_volume - $2))
+	set_volume "$device" "$new_volume"
 }
 
 get_mute() {
 	local device="$1"
-
-	local default
-	if ! default=$(get_default_device "$device"); then
-		return 1
-	fi
-
-	local -r is_mute=$(pactl get-"$device"-mute "$default" | awk '{print $2}')
-
-	if [[ $is_mute == "yes" ]]; then
+	local -r is_mute=$(wpctl get-volume "$device" | awk '{print $3}')
+	if [[ $is_mute == "[MUTED]" ]]; then
 		printf "true\n"
 	else
 		printf "false\n"
@@ -76,38 +41,11 @@ get_mute() {
 set_mute() {
 	local device="$1"
 	local value="$2"
-
-	local default
-	if ! default=$(get_default_device "$device"); then
-		return 1
-	fi
-
 	case "$value" in
-	"true") pactl set-"$device"-mute "$default" 1 ;;
-	"false") pactl set-"$device"-mute "$default" 0 ;;
-	"toggle") pactl set-"$device"-mute "$default" toggle ;;
-	*)
-		printf "Invalid mute value: %s\n" "$value" >&2
-		return 1
-		;;
+	"true") wpctl set-mute "$device" 1 ;;
+	"false") wpctl set-mute "$device" 0 ;;
+	"toggle") wpctl set-mute "$device" toggle ;;
 	esac
-}
-
-increment() {
-	local device="$1"
-	local inc="$2"
-	set_volume "$device" "$inc" +
-}
-
-decrement() {
-	local device="$1"
-	local dec="$2"
-	set_volume "$device" "$dec" -
-}
-
-toggle() {
-	local device="$1"
-	set_mute "$device" toggle
 }
 
 display_help() {
@@ -130,16 +68,16 @@ display_help() {
 
 case "$1" in
 -s | --set-input-volume) set_volume "$INPUT" "$2" ;;
--i | --increment-input-volume) increment "$INPUT" "$2" ;;
--d | --decrement-input-volume) decrement "$INPUT" "$2" ;;
+-i | --increment-input-volume) increment_volume "$INPUT" "$2" ;;
+-d | --decrement-input-volume) decrement_volume "$INPUT" "$2" ;;
 -g | --get-input-volume) get_volume "$INPUT" ;;
--t | --toggle-input-mute) toggle "$INPUT" ;;
+-t | --toggle-input-mute) set_mute "$INPUT" toggle ;;
 -m | --is-input-muted) get_mute "$INPUT" ;;
 -S | --set-output-volume) set_volume "$OUTPUT" "$2" ;;
--I | --increment-output-volume) increment "$OUTPUT" "$2" ;;
--D | --decrement-output-volume) decrement "$OUTPUT" "$2" ;;
+-I | --increment-output-volume) increment_volume "$OUTPUT" "$2" ;;
+-D | --decrement-output-volume) decrement_volume "$OUTPUT" "$2" ;;
 -G | --get-output-volume) get_volume "$OUTPUT" ;;
--T | --toggle-output-mute) toggle "$OUTPUT" ;;
+-T | --toggle-output-mute) set_mute "$OUTPUT" toggle ;;
 -M | --is-output-muted) get_mute "$OUTPUT" ;;
 -h | --help) display_help ;;
 *) display_help ;;
