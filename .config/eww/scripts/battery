@@ -1,0 +1,32 @@
+#!/bin/bash
+
+FULL_AT=100
+CHARGE_ICONS=("󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
+percentage=0
+state=""
+icon=""
+
+while read -r line; do
+	bat_charge=$(echo "$line" | grep -P -o '[0-9]+(?=%)')
+	percentage=$((percentage + bat_charge))
+	if [ "$state" = "Charging" ]; then
+		continue
+	fi
+	case "$line" in
+	*"Discharging"*) state="Discharging" ;;
+	*"Not Charging"*) state="Not Charging" ;;
+	*"Charging"*) state="Charging" ;;
+	*"Full"*) state="Full" ;;
+	esac
+done < <(acpi -b)
+
+percentage=$((percentage / 2))
+percentage=$((percentage * 100 / FULL_AT))
+icon_index=$(echo "scale=1; ($percentage / 100) * ${#CHARGE_ICONS[@]} - 1" | bc | cut -d'.' -f1)
+icon="${CHARGE_ICONS[icon_index]}"
+if [ "$state" = "Charging" ]; then
+	icon="$icon󱐋"
+fi
+
+jq -ncM --argjson percentage "$percentage" --arg icon "$icon" \
+	'{percentage: $percentage, icon: $icon}'

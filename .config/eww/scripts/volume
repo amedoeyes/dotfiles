@@ -1,0 +1,47 @@
+#!/bin/bash
+
+audioctl="$XDG_BIN_HOME"/audioctl
+
+ICONS=(" " " " " ")
+MUTE_ICON=" "
+
+volume=$($audioctl -G)
+prev_volume=$volume
+muted="$($audioctl -M)"
+prev_muted="$muted"
+icon=""
+
+update_prev() {
+	prev_volume=$volume
+	prev_muted=$muted
+}
+
+update_icon() {
+	if [[ "$muted" == "true" ]]; then
+		icon=$MUTE_ICON
+	elif [[ "$volume" -le 33 ]]; then
+		icon=${ICONS[0]}
+	elif [[ "$volume" -le 66 ]]; then
+		icon=${ICONS[1]}
+	else
+		icon=${ICONS[2]}
+	fi
+}
+
+to_json() {
+	jq -ncM --argjson volume "$volume" --arg icon "$icon" \
+		'{volume: $volume, icon: $icon}'
+}
+
+update_icon
+to_json
+
+pactl subscribe | grep --line-buffered "change.*sink" | while read -r _; do
+	volume=$($audioctl -G)
+	muted="$($audioctl -M)"
+	if [[ "$volume" != "$prev_volume" ]] || [[ "$muted" != "$prev_muted" ]]; then
+		update_icon
+		update_prev
+		to_json
+	fi
+done

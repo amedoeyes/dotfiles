@@ -1,0 +1,158 @@
+(defpoll date
+	:interval "10s"
+	:initial "{}"
+	"./scripts/date"
+)
+
+(defpoll battery
+	:interval "10s"
+	:initial "{}"
+	"./scripts/battery"
+)
+
+(defpoll network
+	:interval "10s"
+	:initial "{}"
+	"./scripts/network"
+)
+
+(deflisten volume
+	:initial "{}"
+	"./scripts/volume"
+)
+
+(deflisten workspaces
+	:initial "{}"
+	"./scripts/workspaces"
+)
+
+(defwidget date[]
+	(box
+		:space-evenly false
+		(box
+		:space-evenly false
+			(label
+				:class "icon"
+				:text {date.time_icon}
+			)
+			(label
+				:text {date.time}
+			)
+		)
+		(box
+		:space-evenly false
+			(label
+				:class "icon"
+				:text {date.date_icon}
+			)
+			(label
+				:text {date.date}
+			)
+		)
+	)
+)
+
+(defwidget battery[]
+	(box
+		:space-evenly false
+		(label
+			:class "icon"
+			:text {battery.icon}
+		)
+		(label
+			:text "${battery.percentage}%"
+		)
+	)
+)
+
+(defwidget network[]
+	(box
+		:space-evenly false
+		(label
+			:class "icon"
+			:text {network.icon}
+		)
+		(label
+			:text "${network.connection}"
+		)
+	)
+)
+
+(defwidget volume[]
+	(eventbox
+		(box
+			:space-evenly false
+			(label
+				:class "icon"
+				:text {volume.icon}
+			)
+			(label
+				:text "${volume.volume}%"
+			)
+		)
+	)
+)
+
+(defwidget workspaces []
+	(eventbox
+		(box
+			:class "workspaces"
+			:space-evenly false
+			(for w in "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
+				(button
+					:class "workspace ${workspaces[w].active ? "active" : ""}"
+					:onclick "hyprctl dispatch workspace ${workspaces[w].id}"
+					(label
+						:text {workspaces[w].icon}
+					)
+				)
+			)
+		)
+	)
+)
+
+(defwidget left[]
+	(box
+		:class "left"
+		:orientation "h"
+		:halign "start"
+		:space-evenly false
+		(date)
+	)
+)
+
+(defwidget center[]
+	(box
+		:class "center"
+		:orientation "h"
+		:halign "center"
+		:space-evenly false
+		(workspaces)
+	)
+)
+
+(defwidget right[]
+	(box
+		:class "right"
+		:orientation "h"
+		:halign "end"
+		:space-evenly false
+		(volume)
+		(network)
+		(battery)
+	)
+)
+
+(defwindow bar
+	:exclusive true
+	:geometry (geometry
+		:width "100%"
+		:anchor "top center"
+	)
+	(centerbox
+		:class "bar-inner"
+		(left)
+		(center)
+		(right)
+	)
+)

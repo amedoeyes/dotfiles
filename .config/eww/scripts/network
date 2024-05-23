@@ -1,0 +1,31 @@
+#!/bin/bash
+
+WIFI_ICONS=("󰤯 " "󰤟 " "󰤢 " "󰤨 ")
+ETHERNET_ICON="󰈀 "
+DISCONNECTED_ICON=" "
+
+ethernet=$(nmcli device | grep ethernet)
+ethernet_state=$(awk '{print $3}' <<<"$ethernet")
+if [ "$ethernet_state" = "connected" ]; then
+	connection=$(echo "$ethernet" | tr -s ' ' | cut -d' ' -f4-)
+	connection=${connection%?}
+	jq -ncM --arg connection "$connection" --arg icon "$ETHERNET_ICON" \
+		'{"connection": $connection, icon: $icon}'
+	exit
+fi
+
+wifi=$(nmcli device | grep wifi | head -1)
+wifi_state=$(awk '{print $3}' <<<"$wifi")
+if [ "$wifi_state" = "connected" ]; then
+	connection=$(echo "$wifi" | tr -s ' ' | cut -d' ' -f4-)
+	connection=${connection%?}
+	signal=$(nmcli device wifi list | awk '/\*/{print $8}')
+	icon_index=$(echo "scale=1; ($signal / 100) * ${#WIFI_ICONS[@]} - 1" | bc | cut -d'.' -f1)
+	icon="${WIFI_ICONS[icon_index]}"
+	jq -ncM --arg connection "$connection" --arg icon "$icon" \
+		'{"connection": $connection, "icon": $icon}'
+	exit
+fi
+
+jq -ncM --arg icon "$DISCONNECTED_ICON" \
+	'{"connection": "Disconnected", icon: $icon}'
