@@ -36,10 +36,24 @@ mpris_notify() {
 	local -r album=$($mprisctl --display-metadata xesam:album)
 	local -r title=$($mprisctl --display-metadata xesam:title)
 	local -r art_path=$(mpris_cache_art "$($mprisctl --display-metadata mpris:artUrl)")
-	if [ -z "$title" ]; then
-		return
-	fi
-	dunstify "$title" "${artist:+"$artist "}${album:+"- $album"}${1:+\n$1}" -i "${artpath:- }" -u low -t 2000 -r 998 $2
+	[ -z "$title" ] && return 1
+	dunstify "$title" "${artist:+$artist}${album:+ - $album}${1:+\n$1}" -i "${art_path:- }" -u low -t 2000 -r 998 $2
+}
+
+mpris_convert_time() {
+	local micro="$1"
+	local min=$((micro / 60000000))
+	local sec=$((micro / 1000000 % 60))
+	printf "%02d:%02d" "$min" "$sec"
+}
+
+mpris_notify_progress() {
+	local -r duration=$($mprisctl --display-metadata mpris:length)
+	local -r position=$($mprisctl --display-player-properties Position)
+	local -r time="$(mpris_convert_time "$position") / $(mpris_convert_time "$duration")"
+	[ -z "$duration" ] || [ -z "$position" ] && return 1
+	local -r progress=$((position * 100 / duration))
+	mpris_notify "$time" "-h int:value:$progress"
 }
 
 mpris_notify_volume() {
@@ -66,12 +80,12 @@ audio_get_icon() {
 	fi
 
 	local -r volume=$($audioctl --get-"$device"-volume)
-	if ((volume >= 66)); then
-		printf "%s-high-symbolic" "$icon_prefix"
-	elif ((volume >= 33)); then
-		printf "%s-medium-symbolic" "$icon_prefix"
-	elif ((volume >= 0)); then
+	if ((volume <= 33)); then
 		printf "%s-low-symbolic" "$icon_prefix"
+	elif ((volume <= 66)); then
+		printf "%s-medium-symbolic" "$icon_prefix"
+	else
+		printf "%s-high-symbolic" "$icon_prefix"
 	fi
 }
 
@@ -85,14 +99,14 @@ audio_notify() {
 brightness_notify() {
 	local -r brightness=$($brightctl -g)
 	local icon=""
-	if ((brightness >= 75)); then
-		icon="display-brightness-high-symbolic"
-	elif ((brightness >= 50)); then
-		icon="display-brightness-medium-symbolic"
-	elif ((brightness >= 25)); then
-		icon="display-brightness-low-symbolic"
-	elif ((brightness >= 0)); then
+	if ((brightness <= 25)); then
 		icon="display-brightness-off-symbolic"
+	elif ((brightness <= 50)); then
+		icon="display-brightness-low-symbolic"
+	elif ((brightness <= 75)); then
+		icon="display-brightness-medium-symbolic"
+	else
+		icon="display-brightness-high-symbolic"
 	fi
 	notify-send -a "Brightness" "$brightness%" -i "$icon" -u low -t 2000 -h int:value:"$brightness" -r 999
 }
@@ -110,6 +124,7 @@ display_help() {
 
 case "$1" in
 --mpris) mpris_notify ;;
+--mpris-progress) mpris_notify_progress || mpris_notify ;;
 --mpris-volume) mpris_notify_volume ;;
 --audio-input) audio_notify "input" ;;
 --audio-output) audio_notify "output" ;;
