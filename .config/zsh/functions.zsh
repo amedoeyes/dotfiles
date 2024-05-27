@@ -10,3 +10,7 @@ function ya() {
 	fi
 	rm -f -- "$tmp"
 }
+
+function recorder() {
+	wf-recorder -f "$HOME/Videos/screenrecords/$(date +%Y%m%d_%H%M%S).mp4" "$@"
+}
