@@ -54,6 +54,7 @@
 
 (defwidget battery[]
 	(box
+		:visible {battery.percentage >= 0}
 		:space-evenly false
 		(label
 			:class "icon"
