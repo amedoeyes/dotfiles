@@ -24,7 +24,6 @@ done < <(acpi -b)
 
 percentage=$((percentage / bat_count))
 percentage=$((percentage * 100 / FULL_AT))
-icon_index=$(echo "scale=1; ($percentage / 100) * ${#CHARGE_ICONS[@]} - 1" | bc | cut -d'.' -f1)
 icon="${CHARGE_ICONS[icon_index]}"
 if [ "$state" = "Charging" ]; then
 	icon="$icon󱐋"

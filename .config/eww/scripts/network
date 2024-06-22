@@ -20,7 +20,7 @@ if [ "$wifi_state" = "connected" ]; then
 	connection=$(echo "$wifi" | tr -s ' ' | cut -d' ' -f4-)
 	connection=${connection%?}
 	signal=$(nmcli device wifi list | awk '/\*/{print $8}')
-	icon_index=$(echo "scale=1; ($signal / 100) * ${#WIFI_ICONS[@]} - 1" | bc | cut -d'.' -f1)
+	icon_index=$(echo "scale=1; ($signal / 100) * (${#WIFI_ICONS[@]} - 1)" | bc | cut -d'.' -f1)
 	icon="${WIFI_ICONS[icon_index]}"
 	jq -ncM --arg connection "$connection" --arg icon "$icon" \
 		'{"connection": $connection, "icon": $icon}'
