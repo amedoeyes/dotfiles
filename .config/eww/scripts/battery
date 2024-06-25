@@ -18,7 +18,7 @@ while read -r line; do
 done < <(acpi -b)
 
 percentage=$(((percentage / bat_count) * 100 / FULL_AT))
-icon_index=$(echo "scale=1; ($percentage / 100) * (${#ICONS[@]} - 1)" | bc | cut -d'.' -f1)
+icon_index=$(awk -v percentage="$percentage" -v num_icons="${#ICONS[@]}" 'BEGIN {print int((percentage / 100) * (num_icons - 1))}')
 icon="${ICONS[icon_index]}"
 if ((is_charging == 1)); then
 	icon="$icon$CHARGING_ICON"
