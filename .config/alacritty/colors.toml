@@ -9,5 +9,5 @@ hints.start = { background = "#A0A0A0", foreground = "#000000" }
 hints.end = { background = "#707070", foreground = "#000000" }
 line_indicator = { background = "#000000", foreground = "#A0A0A0" }
 selection = { background = "#303030", text = "CellForeground" }
-normal = { black = "#404040", blue = "#606060", cyan = "#808080", green = "#A0A0A0", magenta = "#404040", red = "#606060", white = "#808080", yellow = "#A0A0A0" }
-bright = { black = "#404040", blue = "#606060", cyan = "#808080", green = "#A0A0A0", magenta = "#404040", red = "#606060", white = "#808080", yellow = "#A0A0A0" }
+normal = { black = "#404040", red = "#606060", green = "#808080", yellow = "#A0A0A0", blue = "#404040", magenta = "#606060", cyan = "#808080", white = "#A0A0A0" }
+bright = { black = "#404040", red = "#606060", green = "#808080", yellow = "#A0A0A0", blue = "#404040", magenta = "#606060", cyan = "#808080", white = "#A0A0A0" }
