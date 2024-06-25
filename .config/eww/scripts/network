@@ -1,7 +1,7 @@
 #!/bin/bash
 
-WIFI_ICONS=("󰤯 " "󰤟 " "󰤢 " "󰤨 ")
 ETHERNET_ICON="󰈀 "
+WIFI_ICONS=("󰤯 " "󰤟 " "󰤢 " "󰤨 ")
 DISCONNECTED_ICON=" "
 
 ethernet=$(nmcli device | grep ethernet)
@@ -19,8 +19,8 @@ wifi_state=$(awk '{print $3}' <<<"$wifi")
 if [ "$wifi_state" = "connected" ]; then
 	connection=$(echo "$wifi" | tr -s ' ' | cut -d' ' -f4-)
 	connection=${connection%?}
-	signal=$(nmcli device wifi list | awk '/\*/{print $8}')
 	icon_index=$(echo "scale=1; ($signal / 100) * (${#WIFI_ICONS[@]} - 1)" | bc | cut -d'.' -f1)
+	signal=$(nmcli device wifi list | grep '\*' | tr -s ' ' | cut -d' ' -f8)
 	icon="${WIFI_ICONS[icon_index]}"
 	jq -ncM --arg connection "$connection" --arg icon "$icon" \
 		'{"connection": $connection, "icon": $icon}'
