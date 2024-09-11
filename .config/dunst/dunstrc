@@ -4,8 +4,9 @@
     frame_width = 1
 
     frame_color = "#404040"
-    highlight = "#a0a0a0"
+    highlight = "#A0A0A0"
 
+	width = (300, 400)
     offset = 10x10
     padding = 10
     horizontal_padding = 10
@@ -14,6 +15,7 @@
 
     corner_radius = 5
     icon_corner_radius = 5
+	progress_bar_max_width = 400
     progress_bar_corner_radius = 5
 
     enable_recursive_icon_lookup = true
@@ -25,15 +27,15 @@
 
 [urgency_low]
     background = "#000000"
-    foreground = "#a0a0a0"
+    foreground = "#A0A0A0"
     timeout = 10
 
 [urgency_normal]
     background = "#000000"
-    foreground = "#a0a0a0"
+    foreground = "#A0A0A0"
     timeout = 10
 
 [urgency_critical]
     background = "#000000"
-    foreground = "#a0a0a0"
+    foreground = "#A0A0A0"
     timeout = 0
