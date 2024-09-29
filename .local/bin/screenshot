@@ -1,44 +1,26 @@
 #!/bin/bash
 
-SCREENSHOT_PATH="$HOME"/Pictures/screenshots
-FILENAME=screenshot_$(date +%Y%m%d_%H%M%S).png
+select_geometry=$XDG_BIN_HOME/select-geometry
+
+SCREENSHOT_PATH="$HOME"/pictures/screenshots
+FILENAME=$(date +%Y%m%d_%H%M%S)
+FORMAT="png"
 COPY_TO_CLIPBOARD=false
 METHOD=""
 
-get_monitors_geometry() {
-	hyprctl monitors -j | jq -r '.[] | "\(.x),\(.y) \(.width)x\(.height)"'
-}
-
-get_windows_geometry() {
-	local -r workspaces=$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')
-	local -r windows=$(hyprctl clients -j | jq -r --argjson workspaces "$workspaces" 'map(select([.workspace.id] | inside($workspaces)))')
-	echo "$windows" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"'
-}
-
-get_all_geometry() {
-	local -r monitors=$(get_monitors_geometry)
-	local -r windows=$(get_windows_geometry)
-	printf "%s\n%s" "$monitors" "$windows"
-}
-
-select_geometry() {
-	local geometries="$1"
-	local -r selected=$(echo "$geometries" | slurp -b "#000000A0" -c "#A0A0A0FF" -s "#00000000" -B "#000000A0" -w 1)
-
-	if [[ -z $selected ]]; then
-		exit 1
-	fi
-
-	printf "%s" "$selected"
-}
-
 take_screenshot() {
-	local file="$SCREENSHOT_PATH/$FILENAME"
+	local file="$SCREENSHOT_PATH/$FILENAME.$FORMAT"
 	local -r geometry="$1"
 
+	if [[ ! -d $SCREENSHOT_PATH ]]; then
+		mkdir -p "$SCREENSHOT_PATH"
+	fi
+
 	if [[ -z $geometry ]]; then
+		sleep 0.5
 		grim "$file"
 	else
+		sleep 0.5
 		grim -g "$geometry" "$file"
 	fi
 
@@ -48,15 +30,33 @@ take_screenshot() {
 }
 
 sceeenshot_window() {
-	take_screenshot "$(select_geometry "$(get_windows_geometry)")"
+	geometry=$($select_geometry -w)
+
+	if [[ -z $geometry ]]; then
+		exit 1
+	fi
+
+	take_screenshot "$geometry"
 }
 
 screenshot_monitor() {
-	take_screenshot "$(select_geometry "$(get_monitors_geometry)")"
+	geometry=$($select_geometry -m)
+
+	if [[ -z $geometry ]]; then
+		exit 1
+	fi
+
+	take_screenshot "$geometry"
 }
 
 screenshot_any() {
-	take_screenshot "$(select_geometry "$(get_all_geometry)")"
+	geometry=$($select_geometry -a)
+
+	if [[ -z $geometry ]]; then
+		exit 1
+	fi
+
+	take_screenshot "$geometry"
 }
 
 screenshot_everything() {
