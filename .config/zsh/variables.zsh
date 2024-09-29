@@ -19,19 +19,31 @@ export XDG_STATE_HOME=$HOME/.local/state
 export XDG_BIN_HOME=$HOME/.local/bin
 
 export ANDROID_USER_HOME=$XDG_DATA_HOME/android
+export CABAL_CONFIG=$XDG_CONFIG_HOME/cabal/config
+export CABAL_DIR=$XDG_DATA_HOME/cabal
 export CARGO_HOME=$XDG_DATA_HOME/cargo
+export GHCUP_USE_XDG_DIRS=true
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
-export GOPATH="$XDG_DATA_HOME"/go
+export GOPATH=$XDG_DATA_HOME/go
 export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
 export HISTFILE=$XDG_CACHE_HOME/zsh/history
 export LESSHISTFILE=$XDG_CACHE_HOME/less/history
 export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
+export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export TEXMFHOME=$XDG_DATA_HOME/texmf
+export W3M_DIR=$XDG_DATA_HOME/w3m
 export WINEPREFIX=$XDG_DATA_HOME/wine
 export XCURSOR_PATH=$XDG_DATA_HOME/icons
+export XMAKE_CONFIGDIR=$XDG_CONFIG_HOME/xmake/local
+export XMAKE_GLOBALDIR=$XDG_CONFIG_HOME/xmake/global
+export XMAKE_LOGFILE=$XDG_CACHE_HOME/xmake/xmake.log
+export XMAKE_PKG_CACHEDIR=$XDG_CACHE_HOME/xmake
+export XMAKE_PKG_INSTALLDIR=$XDG_DATA_HOME/xmake
 export ZINIT_HOME=$XDG_DATA_HOME/zinit/zinit.git
+
+export WINEPATH=/usr/x86_64-w64-mingw32/bin
 
 export FZF_DEFAULT_OPTS="--ansi --color='fg:#A0A0A0,fg+:#A0A0A0,bg:#000000,bg+:#101010,hl:#A0A0A0,hl+:#A0A0A0,gutter:#000000,info:#707070,border:#404040,prompt:#A0A0A0,pointer:#A0A0A0,marker:#A0A0A0,spinner:#A0A0A0' --height='-1' --reverse --border --inline-info --prompt='> '"
 export FZF_ALT_C_COMMAND="fd -t d --exclude node_modules --exclude old ."
