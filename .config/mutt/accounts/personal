@@ -1,0 +1,22 @@
+source ../neomuttrc
+
+set from=$my_personal_email
+set realname=$my_personal_name
+
+set imap_user=$my_personal_email
+set imap_pass=$my_personal_password
+
+set smtp_authenticators='gssapi:login'
+set smtp_url="smtps://$my_personal_email@smtp.gmail.com:465/"
+set smtp_pass=$my_personal_password
+
+set ssl_starttls=yes
+set ssl_force_tls=yes
+
+set folder="imaps://imap.gmail.com:993/[Gmail]"
+set spoolfile="+All Mail"
+set postponed="+Drafts"
+set trash="+Trash"
+unset record
+
+mailboxes ="All Mail" =Important =Starred =Drafts ="Sent Mail" =Spam =Trash
