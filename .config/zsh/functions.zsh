@@ -11,6 +11,11 @@ function ya() {
 	rm -f -- "$tmp"
 }
 
-function recorder() {
-	wf-recorder -f "$HOME/Videos/screenrecords/$(date +%Y%m%d_%H%M%S).mp4" "$@"
+function screenrecord() {
+	directory="$HOME/videos/screenrecords/$(date +%Y)/$(date +%m)/$(date +%d)/"
+	filename="$(date +%H%M%S).mp4"
+	if [ ! -d "$directory" ]; then
+		mkdir -p "$directory"
+	fi
+	wf-recorder -f "$directory/$filename" "$@"
 }
