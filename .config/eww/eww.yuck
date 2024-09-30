@@ -22,7 +22,7 @@
 )
 
 (deflisten workspaces
-	:initial "{}"
+	:initial '[{"id":1,"active":false,"icon":" "},{"id":2,"active":false,"icon":" "},{"id":3,"active":false,"icon":" "},{"id":4,"active":false,"icon":" "},{"id":5,"active":false,"icon":" "},{"id":6,"active":false,"icon":" "},{"id":7,"active":false,"icon":" "},{"id":8,"active":false,"icon":" "},{"id":9,"active":false,"icon":" "},{"id":10,"active":false,"icon":" "}]'
 	"./scripts/workspaces"
 )
 
@@ -54,7 +54,7 @@
 
 (defwidget battery[]
 	(box
-		:visible {battery.percentage >= 0}
+		:visible {battery.percentage != -1}
 		:space-evenly false
 		(label
 			:class "icon"
@@ -99,12 +99,12 @@
 		(box
 			:class "workspaces"
 			:space-evenly false
-			(for w in "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
+			(for i in "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
 				(button
-					:class "workspace ${workspaces[w].active ? "active" : ""}"
-					:onclick "hyprctl dispatch workspace ${workspaces[w].id}"
+					:class "workspace ${workspaces[i].active ? "active" : ""}"
+					:onclick "hyprctl dispatch workspace ${workspaces[i].id}"
 					(label
-						:text {workspaces[w].icon}
+						:text {workspaces[i].icon}
 					)
 				)
 			)
