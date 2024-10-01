@@ -29,7 +29,6 @@ export GTK2_RC_FILES=$XDG_CONFIG_HOME/gtk-2.0/gtkrc
 export HISTFILE=$XDG_CACHE_HOME/zsh/history
 export LESSHISTFILE=$XDG_CACHE_HOME/less/history
 export NODE_REPL_HISTORY=$XDG_CACHE_HOME/node_repl_history
-export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export PYTHONSTARTUP=${XDG_CONFIG_HOME}/python/pythonrc
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export TEXMFHOME=$XDG_DATA_HOME/texmf
