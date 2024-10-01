@@ -1,13 +1,11 @@
 #!/bin/bash
 
-audioctl="$XDG_BIN_HOME"/audioctl
-
 ICONS=(" " " " " ")
 MUTE_ICON=" "
 
-volume=$($audioctl -G)
+volume=$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2*100}')
 prev_volume=$volume
-muted="$($audioctl -M)"
+muted=$([[ $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') == "[MUTED]" ]] && echo "true" || echo "false")
 prev_muted="$muted"
 icon=""
 
@@ -37,8 +35,8 @@ update_icon
 to_json
 
 pactl subscribe | grep --line-buffered "change.*sink" | while read -r _; do
-	volume=$($audioctl -G)
-	muted="$($audioctl -M)"
+	volume=$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2*100}')
+	muted=$([[ $(wpctl get-volume @DEFAULT_SINK@ | awk '{print $3}') == "[MUTED]" ]] && echo "true" || echo "false")
 	if [[ "$volume" != "$prev_volume" ]] || [[ "$muted" != "$prev_muted" ]]; then
 		update_icon
 		update_prev
