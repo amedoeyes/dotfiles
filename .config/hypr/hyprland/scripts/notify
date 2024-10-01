@@ -1,41 +1,32 @@
 #!/bin/bash
 
-mprisctl=$XDG_BIN_HOME/mprisctl
-audioctl=$XDG_BIN_HOME/audioctl
-brightctl=$XDG_BIN_HOME/brightctl
-
 mpris_cache_art() {
 	local artUrl=$1
 	if [ -z "$artUrl" ]; then
 		printf ""
 		return
 	fi
-
 	if [[ "$artUrl" == file://* ]]; then
 		printf "%s" "${artUrl#file://}"
 		return
 	fi
-
 	local cache_dir="$HOME/.cache/mpris"
 	local -r art_name=$(basename "$artUrl")
 	local -r art_path="$cache_dir/$art_name"
-
 	if [ ! -d "$cache_dir" ]; then
 		mkdir -p "$cache_dir"
 	fi
-
 	if [ ! -e "$art_path" ]; then
 		wget -q "$artUrl" -O "$art_path"
 	fi
-
 	printf "%s" "$art_path"
 }
 
 mpris_notify() {
-	local -r artist=$($mprisctl --display-metadata xesam:artist)
-	local -r album=$($mprisctl --display-metadata xesam:album)
-	local -r title=$($mprisctl --display-metadata xesam:title)
-	local -r art_path=$(mpris_cache_art "$($mprisctl --display-metadata mpris:artUrl)")
+	local -r artist=$(mprisctl --display-metadata xesam:artist)
+	local -r album=$(mprisctl --display-metadata xesam:album)
+	local -r title=$(mprisctl --display-metadata xesam:title)
+	local -r art_path=$(mpris_cache_art "$(mprisctl --display-metadata mpris:artUrl)")
 	[ -z "$title" ] && return 1
 	dunstify "$title" "${artist:+$artist}${album:+ - $album}${1:+\n$1}" -i "${art_path:- }" -u low -t 2000 -r 998 $2
 }
@@ -48,8 +39,8 @@ mpris_convert_time() {
 }
 
 mpris_notify_progress() {
-	local -r duration=$($mprisctl --display-metadata mpris:length)
-	local -r position=$($mprisctl --display-player-properties Position)
+	local -r duration=$(mprisctl --display-metadata mpris:length)
+	local -r position=$(mprisctl --display-player-properties Position)
 	local -r time="$(mpris_convert_time "$position") / $(mpris_convert_time "$duration")"
 	[ -z "$duration" ] || [ -z "$position" ] && return 1
 	local -r progress=$((position * 100 / duration))
@@ -57,47 +48,36 @@ mpris_notify_progress() {
 }
 
 mpris_notify_volume() {
-	local -r volume=$($mprisctl --display-player-properties Volume | awk '{print int($1 * 100)}')
+	local -r volume=$(mprisctl --display-player-properties Volume | awk '{print int($1 * 100)}')
 	mpris_notify "<b>Volume ${volume}%</b>" "-h int:value:$volume"
-}
-
-audio_get_icon() {
-	local device="$1"
-
-	local icon_prefix=""
-	if [[ $device == "input" ]]; then
-		icon_prefix="microphone-sensitivity"
-	elif [[ $device == "output" ]]; then
-		icon_prefix="audio-volume"
-	else
-		printf "Invalid device: %s\n" "$device" >&2
-		exit 1
-	fi
-
-	if "$($audioctl --is-"$device"-muted)"; then
-		printf "%s-muted-symbolic" "$icon_prefix"
-		return
-	fi
-
-	local -r volume=$($audioctl --get-"$device"-volume)
-	if ((volume <= 33)); then
-		printf "%s-low-symbolic" "$icon_prefix"
-	elif ((volume <= 66)); then
-		printf "%s-medium-symbolic" "$icon_prefix"
-	else
-		printf "%s-high-symbolic" "$icon_prefix"
-	fi
 }
 
 audio_notify() {
 	local device="$1"
-	local -r volume=$($audioctl --get-"$device"-volume)
-	local -r icon=$(audio_get_icon "$device")
+	local -r volume=$(wpctl get-volume "$device" | awk '{print $2*100}')
+	local icon=""
+	local icon_prefix=""
+	if [[ $device == "@DEFAULT_SOURCE@" ]]; then
+		icon_prefix="microphone-sensitivity"
+	elif [[ $device == "@DEFAULT_SINK@" ]]; then
+		icon_prefix="audio-volume"
+	fi
+	if [[ $(wpctl get-volume "$device" | awk '{print $3}') == "[MUTED]" ]]; then
+		icon="$icon_prefix-muted-symbolic"
+	else
+		if ((volume <= 33)); then
+			icon="$icon_prefix-low-symbolic"
+		elif ((volume <= 66)); then
+			icon="$icon_prefix-medium-symbolic"
+		else
+			icon="$icon_prefix-high-symbolic"
+		fi
+	fi
 	dunstify "Volume $volume%" -i "$icon" -u low -t 2000 -h int:value:"$volume" -r 999
 }
 
 brightness_notify() {
-	local -r brightness=$($brightctl -g)
+	local -r brightness=$(brightnessctl -m | tr ',' ' ' | awk '{print $4+5}' | sed 's/%//')
 	local icon=""
 	if ((brightness <= 25)); then
 		icon="display-brightness-off-symbolic"
@@ -111,23 +91,12 @@ brightness_notify() {
 	notify-send -a "Brightness" "$brightness%" -i "$icon" -u low -t 2000 -h int:value:"$brightness" -r 999
 }
 
-display_help() {
-	printf "Usage: notify [OPTION]\n\n"
-	printf "Options:\n"
-	printf "  --mpris           Notify about the currently playing media.\n"
-	printf "  --mpris-volume    Notify about the playing media and volume.\n"
-	printf "  --audio-input     Notify about the audio input device.\n"
-	printf "  --audio-output    Notify about the audio output device.\n"
-	printf "  --brightness      Notify about the current brightness level.\n"
-	printf "  --help            Display this help message.\n"
-}
-
 case "$1" in
 --mpris) mpris_notify ;;
 --mpris-progress) mpris_notify_progress || mpris_notify ;;
 --mpris-volume) mpris_notify_volume ;;
---audio-input) audio_notify "input" ;;
---audio-output) audio_notify "output" ;;
+--audio-source) audio_notify "@DEFAULT_SOURCE@" ;;
+--audio-sink) audio_notify "@DEFAULT_SINK@" ;;
 --brightness) brightness_notify ;;
 --help) display_help ;;
 *) display_help ;;
