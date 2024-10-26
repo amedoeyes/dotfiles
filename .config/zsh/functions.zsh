@@ -30,12 +30,8 @@ function screenrecord() {
 }
 
 select-geometry() {
-	local -r monitors_geometry=$(hyprctl monitors -j | jq -r '.[] | "\(.x),\(.y) \(.width)x\(.height)"')
-	local -r workspaces=$(hyprctl monitors -j | jq -r 'map(.activeWorkspace.id)')
-	local -r windows=$(hyprctl clients -j | jq -r --argjson workspaces "$workspaces" 'map(select([.workspace.id] | inside($workspaces)))')
-	local -r windows_geometry=$(echo "$windows" | jq -r '.[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')
-	local -r selected=$(echo "$monitors_geometry\n$windows_geometry" | slurp -b "#000000A0" -c "#A0A0A0FF" -s "#00000000" -B "#000000A0" -w 1)
-	if [[ -n "$selected" ]]; then
-		printf "%s\n" "$selected"
+	swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' | slurp -b "#000000A0" -c "#A0A0A0FF" -s "#00000000" -B "#000000A0" -w 1 -o
+}
+
 	fi
 }
