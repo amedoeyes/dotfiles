@@ -1,9 +1,0 @@
-#!/bin/bash
-
-TIME=$(date "+%H:%M")
-TIME_ICON=" "
-DATE=$(date "+%a, %b %e")
-DATE_ICON=" "
-
-jq -ncM --arg time "$TIME" --arg time_icon "$TIME_ICON" --arg date "$DATE" --arg date_icon "$DATE_ICON" \
-	'{ "time": $time, "time_icon": $time_icon, "date": $date, "date_icon": $date_icon }'
