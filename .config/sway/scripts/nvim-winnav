@@ -1,0 +1,27 @@
+#!/bin/bash
+
+ACTIVE_WINDOW_PID=$(swaymsg -t get_tree | jq '.. | select(.focused? == true).pid')
+FOCUS="swaymsg focus"
+DIRECTION_LEFT="left"
+DIRECTION_RIGHT="right"
+DIRECTION_UP="up"
+DIRECTION_DOWN="down"
+DIRECTION=""
+
+case "$1" in
+"$DIRECTION_LEFT") DIRECTION="h" ;;
+"$DIRECTION_RIGHT") DIRECTION="l" ;;
+"$DIRECTION_UP") DIRECTION="k" ;;
+"$DIRECTION_DOWN") DIRECTION="j" ;;
+*) exit 1 ;;
+esac
+
+if nvim_pid=$(pstree -plaT "$ACTIVE_WINDOW_PID" 2>/dev/null | rg -o "nvim,([0-9]+) --embed" -r '$1' -m 1); then
+	if [[ $(ps -o state= -q "$(ps -o ppid:1= -q "$nvim_pid")") == "S" ]]; then
+		nvim --server "$XDG_RUNTIME_DIR/nvim.$nvim_pid.0" \
+			--remote-expr "nvim_exec2('lua require(\"winnav\").nav(\"$DIRECTION\")', {})" >/dev/null 2>&1
+		exit 0
+	fi
+fi
+
+$FOCUS "$1"

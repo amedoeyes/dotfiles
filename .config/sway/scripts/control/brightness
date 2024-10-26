@@ -1,0 +1,36 @@
+#!/bin/bash
+
+ICONS=("󰃚 " "󰃛 " "󰃜 " "󰃝 " "󰃞 " "󰃟 " "󰃠 ")
+
+notify() {
+	local -r brightness="$1"
+	local icon_index=$((brightness * (${#ICONS[@]} - 1) / 100))
+	notify-send -a "control" "${ICONS[icon_index]} Brightness $brightness%" -u low -t 2000 -h int:value:"$brightness"
+}
+
+increment() {
+	local -r brightness=$(brightnessctl -m | awk -F, '{print $4}' | sed 's/%//')
+	local new_brightness
+	new_brightness=$((brightness + 5))
+	if ((new_brightness > 100)); then
+		new_brightness=100
+	fi
+	brightnessctl -q s "${new_brightness}%"
+	notify "$new_brightness"
+}
+
+decrement() {
+	local -r brightness=$(brightnessctl -m | awk -F, '{print $4}' | sed 's/%//')
+	local new_brightness
+	new_brightness=$((brightness - 5))
+	if ((new_brightness < 0)); then
+		new_brightness=0
+	fi
+	brightnessctl -q s "${new_brightness}%"
+	notify "$new_brightness"
+}
+
+case "$1" in
+--increment) increment ;;
+--decrement) decrement ;;
+esac
