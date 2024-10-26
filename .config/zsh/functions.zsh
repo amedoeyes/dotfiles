@@ -10,15 +10,12 @@ screenshot() {
 	if [[ ! -d $directory ]]; then
 		mkdir -p "$directory"
 	fi
-	hyprpicker -r -z &
-	local hyprpicker_pid=$!
 	local -r geometry=$(select-geometry)
 	if [[ -n "$geometry" ]]; then
 		sleep 0.2
 		grim -g "$geometry" "$file"
 		wl-copy -t image/png <"$file"
 	fi
-	kill -TERM "$hyprpicker_pid"
 }
 
 function screenrecord() {
