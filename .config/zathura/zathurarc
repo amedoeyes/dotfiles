@@ -1,6 +1,6 @@
 set selection-clipboard clipboard
 
-set font "JetBrainsMono Nerd Font 10"
+set font "monospace 10"
 
 set synctex true
 set synctex-editor-command "nvim --headless -c 'VimtexInverseSearch %{line} %{input}'"
