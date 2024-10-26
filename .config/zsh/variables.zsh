@@ -40,7 +40,7 @@ export ZINIT_HOME=$XDG_DATA_HOME/zinit/zinit.git
 
 export WINEPATH=/usr/x86_64-w64-mingw32/bin
 
-export FZF_DEFAULT_OPTS="--ansi --color='fg:#A0A0A0,fg+:#A0A0A0,bg:#000000,bg+:#101010,hl:#A0A0A0,hl+:#A0A0A0,gutter:#000000,info:#707070,border:#404040,prompt:#A0A0A0,pointer:#A0A0A0,marker:#A0A0A0,spinner:#A0A0A0' --height='-1' --reverse --border --inline-info --prompt='> '"
+export FZF_DEFAULT_OPTS="--ansi --color='fg:#A0A0A0,fg+:#A0A0A0,bg:#000000,bg+:#101010,hl:#A0A0A0,hl+:#A0A0A0,gutter:#000000,info:#707070,border:#404040,prompt:#A0A0A0,pointer:#A0A0A0,marker:#A0A0A0,spinner:#A0A0A0' --height='-1' --reverse --border sharp --inline-info --prompt='> '"
 export FZF_ALT_C_COMMAND="fd -t d --exclude node_modules --exclude old ."
 export FZF_ALT_C_OPTS="--height='-1'"
 export FZF_CTRL_T_COMMAND="fd --exclude node_modules --exclude old ."
