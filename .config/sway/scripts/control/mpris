@@ -5,7 +5,7 @@ get_art_path() {
 	if [ ! -d "$cache_dir" ]; then
 		mkdir -p "$cache_dir"
 	fi
-	local -r player=$(mprisctl --display-mpris-properties Player)
+	local -r player=$(mprisctl --properties Player)
 	if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
 		if [ ! -d "$player" ]; then
 			mkdir -p "$cache_dir/$player"
@@ -19,10 +19,10 @@ get_art_path() {
 		fi
 		printf "%s" "$art_path"
 	elif [[ "$player" =~ org\.mpris\.MediaPlayer2\.firefox ]]; then
-		local -r art_url=$(mprisctl --display-metadata mpris:artUrl)
+		local -r art_url=$(mprisctl --metadata mpris:artUrl)
 		printf "%s" "${art_url#file://}"
 	else
-		local -r art_url=$(mprisctl --display-metadata mpris:artUrl)
+		local -r art_url=$(mprisctl --metadata mpris:artUrl)
 		if [[ "$art_url" == file://* ]]; then
 			printf "%s" "${art_url#file://}"
 		elif [[ "$art_url" == https://* ]]; then
@@ -46,31 +46,31 @@ convert_time() {
 }
 
 notify() {
-	local -r artist=$(mprisctl --display-metadata xesam:artist)
-	local -r album=$(mprisctl --display-metadata xesam:album)
-	local -r title=$(mprisctl --display-metadata xesam:title)
+	local -r artist=$(mprisctl --metadata xesam:artist)
+	local -r album=$(mprisctl --metadata xesam:album)
+	local -r title=$(mprisctl --metadata xesam:title)
 	local -r art_path=$(get_art_path)
 	notify-send -a "mpris" "$title" "${artist:+$artist}${album:+\n$album}" -i "${art_path:- }" -u low -t 2000
 }
 
 notify_progress() {
-	local -r artist=$(mprisctl --display-metadata xesam:artist)
-	local -r album=$(mprisctl --display-metadata xesam:album)
-	local -r title=$(mprisctl --display-metadata xesam:title)
+	local -r artist=$(mprisctl --metadata xesam:artist)
+	local -r album=$(mprisctl --metadata xesam:album)
+	local -r title=$(mprisctl --metadata xesam:title)
 	local -r art_path=$(get_art_path)
-	local -r duration=$(mprisctl --display-metadata mpris:length)
-	local -r position=$(mprisctl --display-player-properties Position)
+	local -r duration=$(mprisctl --metadata mpris:length)
+	local -r position=$(mprisctl --player-properties Position)
 	local -r time="$(convert_time "$position") / $(convert_time "$duration")"
 	local -r progress=$((position * 100 / duration))
 	notify-send -a "mpris" "$title" "${artist:+$artist}${album:+\n$album}\n$time" -i "${art_path:- }" -u low -t 2000 -h int:value:$progress
 }
 
 notify_volume() {
-	local -r artist=$(mprisctl --display-metadata xesam:artist)
-	local -r album=$(mprisctl --display-metadata xesam:album)
-	local -r title=$(mprisctl --display-metadata xesam:title)
+	local -r artist=$(mprisctl --metadata xesam:artist)
+	local -r album=$(mprisctl --metadata xesam:album)
+	local -r title=$(mprisctl --metadata xesam:title)
 	local -r art_path=$(get_art_path)
-	local -r volume=$(mprisctl --display-player-properties Volume | awk '{print int($1 * 100)}')
+	local -r volume=$(mprisctl --player-properties Volume | awk '{print int($1 * 100)}')
 	notify-send -a "control" "$title" "${artist:+$artist}${album:+\n$album}\n<b>Volume ${volume}%</b>" -i "${art_path:- }" -u low -t 2000 -h int:value:"$volume"
 }
 
@@ -85,12 +85,12 @@ decrement_volume() {
 }
 
 seek_backward() {
-	mprisctl -s -5000000
+	mprisctl -s=-5000000
 	notify_progress
 }
 
 seek_forward() {
-	mprisctl -s 5000000
+	mprisctl -s=5000000
 	notify_progress
 }
 

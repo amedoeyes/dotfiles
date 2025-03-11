@@ -1,0 +1,5 @@
+#!/bin/bash
+
+result=$(cliphist -preview-width 1024 list | "$XDG_CONFIG_HOME"/sway/scripts/fzfmenu --with-nth=2..)
+
+[[ -n "$result" ]] && cliphist decode "$result" | wl-copy
