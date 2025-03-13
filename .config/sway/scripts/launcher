@@ -1,18 +1,20 @@
 #!/bin/bash
 
-max_len=$(fd desktop "$XDG_DATA_HOME"/applications /usr/share/applications/ \
-	--absolute-path \
-	--exec awk '
+max_len=$(
+	find "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
+		-exec awk '
         /^Name=/ {
             name = substr($0, index($0, "=") + 1)
 						print(length(name))
         }
-    ' '{}' \; | sort -nr | head -1)
+    ' '{}' \; |
+		sort -nr |
+		head -1
+)
 
 application=$(
-	fd desktop "$XDG_DATA_HOME"/applications /usr/share/applications/ \
-		--absolute-path \
-		--exec awk -v max_len="$max_len" '
+	find "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
+		-exec awk -v max_len="$max_len" '
         BEGIN { OFS = "\t" }
         /^Name=/ && !name { name = substr($0, index($0, "=") + 1) }
         /^Exec=/ && !exec { exec = substr($0, index($0, "=") + 1) } 
