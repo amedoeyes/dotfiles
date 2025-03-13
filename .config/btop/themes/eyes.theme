@@ -56,5 +56,5 @@ theme[upload_mid]="#A0A0A0"
 theme[upload_end]="#A0A0A0"
 
 theme[process_start]="#A0A0A0"
-theme[process_mid]="#808080"
-theme[process_end]="#606060"
+theme[process_mid]="#A0A0A0"
+theme[process_end]="#A0A0A0"
