@@ -19,7 +19,7 @@ highlight OtherLine    ctermfg=white ctermbg=black cterm=none guifg=white   guib
 highlight OddLine      ctermfg=white ctermbg=black cterm=none guifg=white   guibg=black   gui=none
 highlight LineNr       ctermfg=237   ctermbg=black cterm=none guifg=#404040 guibg=black   gui=none
 highlight Selected     ctermfg=white ctermbg=234   cterm=none guifg=white   guibg=#202020 gui=none
-highlight Directory    ctermfg=white ctermbg=black cterm=none guifg=#808080 guibg=black   gui=none
+highlight Directory    ctermfg=white ctermbg=black cterm=none guifg=white   guibg=black   gui=none
 highlight Link         ctermfg=white ctermbg=black cterm=none guifg=white   guibg=black   gui=none
 highlight BrokenLink   ctermfg=white ctermbg=black cterm=none guifg=white   guibg=black   gui=none
 highlight HardLink     ctermfg=white ctermbg=black cterm=none guifg=white   guibg=black   gui=none
