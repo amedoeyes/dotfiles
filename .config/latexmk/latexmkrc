@@ -1,0 +1,4 @@
+$pdf_previewer = 'zathura';
+$pdflatex = 'lualatex';
+$latex = 'lualatex';
+$bibtex = 'biber';
