@@ -1,0 +1,11 @@
+filetype <application/pdf> zathura %c %i
+filetype <application/x-object> nm %f | less
+filetype <text/html> qutebrowser %f %i
+
+filetype <application/*> $EDITOR %f
+filetype <audio/*> mpv --no-video %f %s
+filetype <image/*> imv %f &
+filetype <text/*> $EDITOR %f
+filetype <video/*> mpv %f
+
+filetype * xdg-open
