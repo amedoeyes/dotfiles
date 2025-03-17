@@ -1,0 +1,19 @@
+font=monospace 10
+background-color=#000000
+text-color=#A0A0A0
+border-size=1
+border-color=#404040
+progress-color=#101010
+padding=10
+height=500
+
+[app-name=mpris]
+format=<b>%s</b>\n%b
+group-by=app-name
+
+[app-name=control]
+width=350
+format=<b>%s</b>\n%b
+group-by=app-name
+anchor=top-center
+text-alignment=center
