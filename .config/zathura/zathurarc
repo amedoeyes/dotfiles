@@ -1,14 +1,9 @@
 set selection-clipboard clipboard
 
 set font "monospace 10"
+set window-title-basename true
 
-set synctex true
-set synctex-editor-command "nvim --headless -c 'VimtexInverseSearch %{line} %{input}'"
-
-map h feedkeys "<C-Left>"
-map j feedkeys "<C-Down>"
-map k feedkeys "<C-Up>"
-map l feedkeys "<C-Right>"
+set scroll-step 50
 
 set recolor true
 set recolor-lightcolor "#000000"
