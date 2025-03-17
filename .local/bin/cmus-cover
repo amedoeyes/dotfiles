@@ -1,0 +1,21 @@
+#!/bin/bash
+
+IFS=';' read -rs -d t -p $'\e[16t' -a CELL_SIZE
+
+display_cover() {
+	term_width=$(($(tput cols) * CELL_SIZE[2]))
+	term_height=$(($(tput lines) * CELL_SIZE[1]))
+	song_filepath=$(cmus-remote -Q | grep 'file' | cut -d ' ' -f 2-)
+	ffmpeg -loglevel quiet -i "$song_filepath" -an -vcodec png -f image2pipe - | img2sixel -w $term_width -h $term_height -p 8
+}
+
+clear
+display_cover
+
+dbus-monitor "type='signal',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged'" |
+	while read -r line; do
+		if echo "$line" | grep -q "Metadata"; then
+			clear
+			display_cover
+		fi
+	done
