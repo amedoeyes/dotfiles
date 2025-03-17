@@ -1,28 +1,37 @@
+notARepository: "quit"
 gui:
   border: single
-  nerdFontsVersion: 3
+  nerdFontsVersion: "3"
+  showBottomLine: false
+  showCommandLog: false
+  showFileIcons: false
+  showPanelJumps: false
+  showRandomTip: false
+  tabWidth: 2
   theme:
     activeBorderColor:
-      - "#A0A0A0"
+      - default
     inactiveBorderColor:
       - "#404040"
     searchingActiveBorderColor:
-      - "#A0A0A0"
+      - default
     optionsTextColor:
-      - "#A0A0A0"
+      - default
     selectedLineBgColor:
       - "#101010"
     inactiveViewSelectedLineBgColor:
       - "#101010"
     cherryPickedCommitFgColor:
-      - "#ff0000"
+      - default
     cherryPickedCommitBgColor:
-      - "#ff0000"
+      - default
     markedBaseCommitFgColor:
-      - "#ff0000"
+      - default
     markedBaseCommitBgColor:
-      - "#ff0000"
+      - default
     unstagedChangesColor:
       - "#404040"
     defaultFgColor:
-      - "#A0A0A0"
+      - default
+  authorColors:
+    "*": "#606060"
