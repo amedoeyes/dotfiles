@@ -1,7 +1,7 @@
 #!/bin/bash
 
 max_len=$(
-	find "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
+	find -L "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
 		-exec awk '
         /^Name=/ {
             name = substr($0, index($0, "=") + 1)
@@ -13,7 +13,7 @@ max_len=$(
 )
 
 application=$(
-	find "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
+	find -L "$XDG_DATA_HOME"/applications /usr/share/applications -type f -name '*.desktop' \
 		-exec awk -v max_len="$max_len" '
         BEGIN { OFS = "\t" }
         /^Name=/ && !name { name = substr($0, index($0, "=") + 1) }
