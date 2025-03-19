@@ -1,0 +1,56 @@
+vim.opt.clipboard = "unnamedplus"
+vim.opt.winborder = "single"
+vim.opt.cmdheight = 0
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"
+vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy" }
+vim.opt.confirm = true
+vim.opt.cursorline = true
+vim.opt.fillchars = {
+	diff = "╱",
+	eob = " ",
+	fold = " ",
+	foldopen = "",
+	foldclose = "",
+	foldsep = " ",
+	lastline = " ",
+}
+vim.opt.foldlevel = 99
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.vim.lsp.foldtext()"
+vim.opt.formatoptions = "tcrqnlj"
+vim.opt.grepformat = "%f:%l:%c:%m"
+vim.opt.grepprg = "rg --vimgrep"
+vim.opt.guicursor:append("a:blinkwait500-blinkoff500-blinkon500-Cursor/lCursor")
+vim.opt.ignorecase = true
+vim.opt.inccommand = "nosplit"
+vim.opt.jumpoptions = "view"
+vim.opt.laststatus = 3
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.breakindentopt = "list:-1"
+vim.opt.list = true
+vim.opt.listchars = { tab = "  ", trail = " " }
+vim.opt.mouse = "a"
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.scrolloff = 4
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 2
+vim.opt.shortmess:append("ISacqs")
+vim.opt.showmode = false
+vim.opt.showcmd = false
+vim.opt.sidescrolloff = 8
+vim.opt.smartcase = true
+vim.opt.smartindent = true
+vim.opt.splitbelow = true
+vim.opt.splitkeep = "screen"
+vim.opt.splitright = true
+vim.opt.swapfile = false
+vim.opt.tabstop = 2
+vim.opt.timeoutlen = 300
+vim.opt.undofile = true
+vim.opt.undolevels = 10000
+vim.opt.updatetime = 300
+vim.opt.wrap = false

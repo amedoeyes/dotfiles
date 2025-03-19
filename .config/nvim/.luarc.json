@@ -1,0 +1,4 @@
+{
+  "runtime.version": "LuaJIT",
+  "workspace.library": ["$VIMRUNTIME", "$XDG_DATA_HOME/nvim/site"]
+}
