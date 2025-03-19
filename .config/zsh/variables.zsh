@@ -30,10 +30,13 @@ export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/pass"
+export XMAKE_PKG_INSTALLDIR="$XDG_DATA_HOME/xmake"
 
 export HIGHLIGHT_DATADIR="$XDG_CONFIG_HOME/highlight/"
 export W3M_DIR="$XDG_CONFIG_HOME/w3m"
 export XMAKE_GLOBALDIR="$XDG_CONFIG_HOME/xmake"
+
+export XMAKE_PKG_CACHEDIR="$XDG_CACHE_HOME/xmake"
 
 export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
