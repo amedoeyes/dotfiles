@@ -1,4 +1,4 @@
-fileviewer */,.*/ tree -a --noreport %c
+fileviewer */,.*/ tree -L1 -a --noreport %c
 
 fileviewer *.tar tar -tf %c
 fileviewer *.tar.bz2,*.tbz2 tar -tjf %c

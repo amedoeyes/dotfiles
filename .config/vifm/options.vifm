@@ -31,7 +31,7 @@ set vifminfo=dhistory,chistory,state,tabs,shistory,ehistory,phistory,fhistory,di
 set vimhelp
 set wildmenu
 set wildstyle=popup
-windo set viewcolumns=-{name},{target},{size}
+windo set viewcolumns=-{name},-{target},{size}
 
 mark t /tmp
 mark h ~/
