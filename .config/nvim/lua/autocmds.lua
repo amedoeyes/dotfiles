@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("eyes.highlight_yank", { clear = true }),
-	callback = function() vim.highlight.on_yank() end,
+	callback = function() vim.hl.on_yank() end,
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {

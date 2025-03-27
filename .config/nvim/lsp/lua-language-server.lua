@@ -21,4 +21,7 @@ return {
 			},
 		},
 	},
+	root_markers = {
+		".luarc.json",
+	},
 }

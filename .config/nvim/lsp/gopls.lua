@@ -15,7 +15,6 @@ return {
 				parameterNames = true,
 				rangeVariableTypes = true,
 			},
-			analyses = { shadow = true },
 			usePlaceholders = true,
 			staticcheck = true,
 			semanticTokens = true,

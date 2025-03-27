@@ -8,6 +8,7 @@ return {
 		"--clang-tidy",
 		"--completion-style=detailed",
 		"--enable-config",
+		"--experimental-modules-support",
 		"--fallback-style=llvm",
 		"--function-arg-placeholders",
 		"--header-insertion=never",
