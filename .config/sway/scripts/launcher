@@ -22,7 +22,7 @@ application=$(
 		' '{}' \; |
 		sort -t$'\t' -k2,2 -u |
 		sort -t$'\t' -k1,1 |
-		"$XDG_CONFIG_HOME"/sway/scripts/fzfmenu -d '\\t' --with-nth=1..2 |
+		"$XDG_BIN_HOME"/fzfmenu -d '\\t' --with-nth=1..2 |
 		cut -f3
 )
 
