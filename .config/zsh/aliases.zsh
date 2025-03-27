@@ -1,5 +1,3 @@
 alias cfg="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
-alias nv="nvim"
 alias pm="yay"
-alias py="python -q"
 alias wget="wget --hsts-file=$XDG_STATE_HOME/wget-hsts"
