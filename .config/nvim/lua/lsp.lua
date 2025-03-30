@@ -1,11 +1,43 @@
 vim.lsp.set_log_level("off")
 
-vim.lsp.config("*", { root_markers = { ".git" } })
+vim.g.codelens = false
+
+vim.lsp.config("*", {
+	root_markers = { ".git" },
+	on_attach = function(client, buf)
+		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, buf) then
+			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
+				buffer = buf,
+				callback = function()
+					if vim.g.codelens then vim.lsp.codelens.refresh({ bufnr = buf }) end
+				end,
+			})
+		end
+
+		if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, buf) then
+			vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
+		end
+
+		if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
+			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+				callback = function()
+					vim.lsp.buf.clear_references()
+					vim.lsp.buf.document_highlight()
+				end,
+			})
+			vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
+				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+				callback = function() vim.lsp.buf.clear_references() end,
+			})
+		end
+	end,
+})
 
 vim.lsp.enable({
 	"bash-language-server",
 	"clangd",
-	"glslls",
 	"gopls",
 	"haskell-language-server",
 	"lua-language-server",
@@ -19,27 +51,6 @@ vim.lsp.enable({
 	"vscode-html-language-server",
 	"vscode-json-language-server",
 	"zk",
-})
-
-vim.g.codelens = false
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(e)
-		local client = vim.lsp.get_client_by_id(e.data.client_id)
-		if not client then return end
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
-			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
-				buffer = e.buf,
-				callback = function()
-					if vim.g.codelens then vim.lsp.codelens.refresh({ bufnr = e.buf }) end
-				end,
-			})
-		end
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
-			vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
-		end
-	end,
 })
 
 vim.keymap.set("n", "grlr", vim.lsp.codelens.run, { desc = "Codelens run" })
