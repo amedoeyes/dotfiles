@@ -2,24 +2,6 @@ require("mini.deps").later(
 	function()
 		require("render-markdown").setup({
 			render_modes = true,
-			anti_conceal = {
-				ignore = {
-					bullet = { "n", "c" },
-					callout = { "n", "c" },
-					check_icon = { "n", "c" },
-					check_scope = { "n", "c" },
-					code_background = true,
-					code_border = { "n", "c" },
-					code_language = { "n", "c" },
-					dash = { "n", "c" },
-					head_background = true,
-					head_border = { "n", "c" },
-					head_icon = { "n", "c" },
-					link = { "n", "c" },
-					quote = { "n", "c" },
-					table_border = { "n", "c" },
-				},
-			},
 			heading = {
 				icons = {
 					"█ ",
@@ -38,16 +20,35 @@ require("mini.deps").later(
 				position = "right",
 				disable_background = {},
 				width = "block",
+				border = "thick",
+				inline_pad = 1,
 				left_pad = 2,
 				right_pad = 2,
 				min_width = 80,
-				border = "thick",
 				highlight_language = "Comment",
 			},
 			sign = { enabled = false },
 			overrides = {
 				buftype = {
 					nofile = {
+						anti_conceal = {
+							ignore = {
+								bullet = { "n" },
+								callout = { "n" },
+								check_icon = { "n" },
+								check_scope = { "n" },
+								code_background = true,
+								code_border = { "n" },
+								code_language = { "n" },
+								dash = { "n" },
+								head_background = true,
+								head_border = { "n" },
+								head_icon = { "n" },
+								link = { "n" },
+								quote = { "n" },
+								table_border = { "n" },
+							},
+						},
 						heading = {
 							position = "inline",
 							border = false,
@@ -55,13 +56,25 @@ require("mini.deps").later(
 							border_prefix = false,
 							backgrounds = {},
 						},
-						code = { style = "none" },
+						code = {
+							language_icon = false,
+							language_name = false,
+							left_pad = 0,
+							right_pad = 0,
+							min_width = 0,
+							inline_pad = 0,
+							highlight = "None",
+							highlight_language = "None",
+							highlight_border = "None",
+							highlight_fallback = "None",
+							highlight_inline = "None",
+						},
+						win_options = {
+							conceallevel = { rendered = 3 },
+							concealcursor = { rendered = "nvic" },
+						},
 					},
 				},
-			},
-			win_options = {
-				conceallevel = { rendered = 2 },
-				concealcursor = { rendered = "nc" },
 			},
 		})
 	end
