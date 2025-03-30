@@ -1,6 +1,5 @@
 require("mini.deps").now(function()
 	Snacks.setup({
-		bigfile = { enabled = true },
 		indent = { enabled = true },
 		notifier = {
 			enabled = true,
@@ -45,14 +44,12 @@ require("mini.deps").now(function()
 				},
 			},
 		},
-		quickfile = { enabled = true },
 		statuscolumn = { enabled = true },
-		words = { enabled = true, debounce = 100 },
 		styles = {
 			blame_line = { border = vim.o.winborder },
 			lazygit = { border = vim.o.winborder },
 			notification = { border = vim.o.winborder },
-			terminal = { border = vim.o.winborder, wo = { winbar = "" } },
+			terminal = { border = vim.o.winborder },
 		},
 	})
 
@@ -196,7 +193,12 @@ require("mini.deps").now(function()
 	vim.keymap.set("n", "grt", picker.lsp_type_definitions, { desc = "Type definition" })
 	vim.keymap.set({ "n", "x" }, "gW", picker.grep_word, { desc = "grep word" })
 
-	vim.keymap.set({ "n", "t" }, "<c-/>", Snacks.terminal.toggle, { desc = "Terminal" })
+	vim.keymap.set(
+		{ "n", "t" },
+		"<c-/>",
+		function() Snacks.terminal.toggle(vim.env.SHELL) end,
+		{ desc = "Terminal" }
+	)
 
 	vim.keymap.set(
 		"n",
