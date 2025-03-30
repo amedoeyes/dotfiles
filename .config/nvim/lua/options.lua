@@ -1,8 +1,7 @@
 vim.opt.clipboard = "unnamedplus"
 vim.opt.winborder = "single"
 vim.opt.cmdheight = 0
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = "nc"
+vim.opt.conceallevel = 0
 vim.opt.completeopt = { "menuone", "noinsert", "fuzzy" }
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -52,5 +51,5 @@ vim.opt.tabstop = 2
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
-vim.opt.updatetime = 300
+vim.opt.updatetime = 100
 vim.opt.wrap = false
