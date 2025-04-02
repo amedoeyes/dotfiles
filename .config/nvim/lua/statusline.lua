@@ -75,7 +75,7 @@ function Statusline()
 
 	local search_count = ""
 	if vim.v.hlsearch == 1 then
-		local res = vim.fn.searchcount({ maxcount = 999, timeout = 500 })
+		local _, res = pcall(vim.fn.searchcount, { maxcount = 999, timeout = 500 })
 		if res.total and res.total > 0 then
 			search_count =
 				string.format(" %" .. #tostring(res.total) .. "d/%d", res.current, res.total)
