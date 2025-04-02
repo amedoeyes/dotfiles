@@ -6,7 +6,6 @@ vim.g.codelens = false
 vim.lsp.config("*", {
 	root_markers = { ".git" },
 	on_attach = function(client, buf)
-		vim.notify(client.name)
 		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, buf) then
 			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
