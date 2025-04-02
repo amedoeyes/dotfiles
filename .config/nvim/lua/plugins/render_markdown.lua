@@ -63,6 +63,7 @@ require("mini.deps").later(
 							right_pad = 0,
 							min_width = 0,
 							inline_pad = 0,
+							border = "hide",
 							highlight = "None",
 							highlight_language = "None",
 							highlight_border = "None",
