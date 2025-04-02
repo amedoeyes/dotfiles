@@ -1,10 +1,12 @@
 vim.lsp.set_log_level("off")
 
+vim.g.autoformat = true
 vim.g.codelens = false
 
 vim.lsp.config("*", {
 	root_markers = { ".git" },
 	on_attach = function(client, buf)
+		vim.notify(client.name)
 		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, buf) then
 			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
@@ -13,10 +15,6 @@ vim.lsp.config("*", {
 					if vim.g.codelens then vim.lsp.codelens.refresh({ bufnr = buf }) end
 				end,
 			})
-		end
-
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, buf) then
-			vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
 		end
 
 		if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
@@ -31,6 +29,25 @@ vim.lsp.config("*", {
 				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
 				callback = function() vim.lsp.buf.clear_references() end,
 			})
+		end
+
+		if
+			not client:supports_method(vim.lsp.protocol.Methods.textDocument_willSaveWaitUntil, buf)
+			and client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting, buf)
+		then
+			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:1000})"
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
+				buffer = buf,
+				callback = function()
+					if not vim.g.autoformat then return end
+					vim.lsp.buf.format({ bufnr = buf, id = client.id, timeout_ms = 1000 })
+				end,
+			})
+		end
+
+		if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, buf) then
+			vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
 		end
 	end,
 })
