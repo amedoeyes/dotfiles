@@ -19,6 +19,7 @@ vim.lsp.config("*", {
 		if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+				buffer = buf,
 				callback = function()
 					vim.lsp.buf.clear_references()
 					vim.lsp.buf.document_highlight()
@@ -26,6 +27,7 @@ vim.lsp.config("*", {
 			})
 			vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
 				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+				buffer = buf,
 				callback = function() vim.lsp.buf.clear_references() end,
 			})
 		end
@@ -33,6 +35,7 @@ vim.lsp.config("*", {
 		if
 			not client:supports_method(vim.lsp.protocol.Methods.textDocument_willSaveWaitUntil, buf)
 			and client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting, buf)
+			and client.name ~= "typescript-language-server"
 		then
 			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:1000})"
 			vim.api.nvim_create_autocmd("BufWritePre", {
@@ -58,7 +61,6 @@ vim.lsp.enable({
 	"haskell-language-server",
 	"lua-language-server",
 	"marksman",
-	"omnisharp",
 	"pyright",
 	"ruff",
 	"typescript-language-server",
