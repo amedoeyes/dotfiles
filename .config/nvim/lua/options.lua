@@ -36,7 +36,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 4
 vim.opt.shiftround = true
-vim.opt.shiftwidth = 2
+vim.opt.shiftwidth = 4
 vim.opt.shortmess:append("ISacqs")
 vim.opt.showmode = false
 vim.opt.showcmd = false
@@ -47,7 +47,7 @@ vim.opt.splitbelow = true
 vim.opt.splitkeep = "screen"
 vim.opt.splitright = true
 vim.opt.swapfile = false
-vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
