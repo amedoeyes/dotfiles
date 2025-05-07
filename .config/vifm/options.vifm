@@ -31,7 +31,6 @@ set vifminfo=dhistory,chistory,state,tabs,shistory,ehistory,phistory,fhistory,di
 set vimhelp
 set wildmenu
 set wildstyle=popup
-windo set viewcolumns=-{name},-{target},{size}
 
 mark t /tmp
 mark h ~/
@@ -41,3 +40,7 @@ mark l ~/.local
 colorscheme eyes
 
 view
+
+if &columns < 80
+	only
+endif
