@@ -19,7 +19,6 @@ deps.setup({ path = { package = path_package } })
 deps.add({
 	source = "saghen/blink.cmp",
 	depends = { "rafamadriz/friendly-snippets" },
-	checkout = "v1.0.0",
 })
 deps.add("amedoeyes/eyes.nvim")
 deps.add({

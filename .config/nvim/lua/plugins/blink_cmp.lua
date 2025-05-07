@@ -1,20 +1,13 @@
 require("mini.deps").later(
 	function()
 		require("blink.cmp").setup({
-			completion = {
-				keyword = { range = "full" },
-				list = {
-					selection = {
-						auto_insert = false,
-					},
-				},
-				menu = { border = vim.o.winborder },
-				documentation = {
-					window = { border = vim.o.winborder },
-				},
+			fuzzy = {
+				prebuilt_binaries = { force_version = "v1.2.0" },
 			},
-			signature = {
-				window = { border = vim.o.winborder },
+			completion = {
+				list = {
+					selection = { auto_insert = false },
+				},
 			},
 			appearance = {
 				kind_icons = {
