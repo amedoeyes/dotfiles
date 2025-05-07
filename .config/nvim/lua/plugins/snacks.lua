@@ -1,6 +1,5 @@
 require("mini.deps").now(function()
 	Snacks.setup({
-		indent = { enabled = true },
 		notifier = {
 			enabled = true,
 			style = function(buf, notif)
@@ -93,7 +92,6 @@ require("mini.deps").now(function()
 				toggle.get("wrap"):set(true)
 				toggle.get("statuscolumn"):set(false)
 				toggle.get("line_number"):set(false)
-				toggle.get("indent"):set(false)
 				vim.g.writemodebuf = vim.api.nvim_create_buf(false, true)
 				vim.api.nvim_buf_set_name(vim.g.writemodebuf, "padding")
 				local lwin = vim.api.nvim_open_win(vim.g.writemodebuf, false, {
@@ -137,7 +135,6 @@ require("mini.deps").now(function()
 				toggle.get("wrap"):set(false)
 				toggle.get("statuscolumn"):set(true)
 				toggle.get("line_number"):set(true)
-				toggle.get("indent"):set(true)
 				vim.api.nvim_buf_delete(vim.g.writemodebuf, { force = true })
 				vim.api.nvim_set_hl(0, "WinSeparator", vim.g.writemodehl)
 				vim.api.nvim_clear_autocmds({ group = "writemode" })
