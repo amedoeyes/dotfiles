@@ -113,30 +113,6 @@ bar:
                     foreground: A0A0A0FF
 
   right:
-    - pipewire:
-        content:
-          map:
-            conditions:
-              type == "sink" && ~muted:
-                - ramp:
-                    tag: cubic_volume
-                    items:
-                      - string:
-                          text: 
-                      - string:
-                          text: 
-                      - string:
-                          text: 
-                - string:
-                    text: "{cubic_volume}%"
-                    left-margin: 10
-              type == "sink" && muted:
-                - string:
-                    text: 
-                - string:
-                    text: "{cubic_volume}%"
-                    left-margin: 10
-
     - network:
         content:
           map:
@@ -172,6 +148,30 @@ bar:
                 - string:
                     text: "{ssid}"
                     left-margin: 8
+
+    - pipewire:
+        content:
+          map:
+            conditions:
+              type == "sink" && ~muted:
+                - ramp:
+                    tag: cubic_volume
+                    items:
+                      - string:
+                          text: 
+                      - string:
+                          text: 
+                      - string:
+                          text: 
+                - string:
+                    text: "{cubic_volume}%"
+                    left-margin: 10
+              type == "sink" && muted:
+                - string:
+                    text: 
+                - string:
+                    text: "{cubic_volume}%"
+                    left-margin: 10
 
     - battery:
         name: BAT0
