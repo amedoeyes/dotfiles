@@ -11,6 +11,10 @@ function zle-keymap-select {
 precmd_functions+=(zle-keymap-select)
 zle -N zle-keymap-select
 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 bindkey '^?' backward-delete-char
 bindkey '^W' backward-kill-word
 bindkey '^P' history-search-backward

@@ -52,8 +52,10 @@ export FZF_DEFAULT_OPTS="
 	--bind ctrl-y:accept"
 export FZF_ALT_C_OPTS="
 	--walker dir,follow,hidden
-  --walker-skip .cache,.dotfiles,.git,.local/share/Smart\ Code\ ltd,Trash,.local/share/containers,.local/share/nvim/site/pack,.local/share/pipx,.local/share/qutebrowser,.local/share/xmake,.nuget,.ruff_cache,.stremio-server,.xmake,__pycache__,bin,build,mason/packages,media/screenrecords,media/screenshots,music,node_modules,obj,old,target,venv
+  --walker-skip .cache,.dotfiles,.git,.local/share/Smart\ Code\ ltd,.local/share/containers,.local/share/ghcup,.local/share/nvim/site/pack,.local/share/pipx,.local/share/qutebrowser,.local/share/xmake,.nuget,.ruff_cache,.stremio-server,.xmake,Trash,__pycache__,bin,build,mason/packages,media/screenrecords,media/screenshots,music,node_modules,obj,old,target,venv
   --preview 'tree --noreport {}'"
+
+export GHCUP_USE_XDG_DIRS="true"
 
 export HIGHLIGHT_OPTIONS="--style=eyes --out-format=xterm256 --line-numbers"
 
