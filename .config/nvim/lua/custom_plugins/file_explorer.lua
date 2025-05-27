@@ -1,23 +1,14 @@
----@param path string
-local function open(path)
+local M = {}
+
+local function open(path, term_func)
 	local tempname = vim.fn.tempname()
 
 	local curr_buf = vim.fn.bufnr("%")
 	local curr_buf_name = vim.api.nvim_buf_get_name(curr_buf)
-	local vifm_buf = vim.api.nvim_create_buf(true, true)
 
 	local curr_win = vim.api.nvim_get_current_win()
-	local vifm_win = Snacks.win({
-		buf = vifm_buf,
-		relative = "editor",
-		style = "minimal",
-		border = "single",
-	})
 
-	vim.bo[vifm_buf].bufhidden = "wipe"
-	vim.defer_fn(function() vim.cmd.startinsert() end, 10)
-
-	vim.fn.jobstart({
+	term_func({
 		"vifm",
 		"--choose-files",
 		tempname,
@@ -25,8 +16,8 @@ local function open(path)
 		curr_buf_name ~= "" and curr_buf_name or vim.env.PWD,
 		path,
 	}, {
-		term = true,
-		on_exit = vim.schedule_wrap(function()
+		name = "file_explorer",
+		on_exit = function()
 			vim.api.nvim_set_current_win(curr_win)
 
 			local has_files = false
@@ -43,36 +34,52 @@ local function open(path)
 				end
 			end
 
-			if has_files and vim.api.nvim_buf_is_valid(curr_buf) then vim.fn.setreg("#", curr_buf) end
-			vifm_win:destroy()
-		end),
+			if has_files and vim.api.nvim_buf_is_valid(curr_buf) then
+				vim.fn.setreg("#", curr_buf)
+			end
+		end,
 	})
 end
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+---@param path string
+M.open = function(path)
+	open(path, require("custom_plugins.terminal").open)
+end
 
-vim.cmd("silent! autocmd! FileExplorer *")
-vim.cmd("autocmd VimEnter * ++once silent! autocmd! FileExplorer *")
+M.close = function()
+	require("custom_plugins.terminal").close("file_explorer")
+end
 
-vim.api.nvim_create_autocmd("BufEnter", {
-	group = vim.api.nvim_create_augroup("eyes.file_explorer", { clear = true }),
-	callback = function(args)
-		if vim.b[args.buf].opened then return end
-		local path = vim.api.nvim_buf_get_name(args.buf)
-		if vim.fn.isdirectory(path) ~= 1 then return end
-		vim.bo[args.buf].buflisted = false
-		vim.bo[args.buf].bufhidden = "wipe"
-		vim.b[args.buf].opened = true
-		vim.schedule(function() open(path) end)
-	end,
-})
+---@param path string
+M.toggle = function(path)
+	open(path, require("custom_plugins.terminal").toggle)
+end
 
-vim.keymap.set("n", "<leader>fe", function()
-	local buf_name = vim.api.nvim_buf_get_name(0)
-	if vim.fn.isdirectory(buf_name) ~= 1 then
-		open(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"))
-	else
-		open(buf_name)
-	end
-end, { desc = "File explorer" })
+M.setup = function()
+	vim.g.loaded_netrw = 1
+	vim.g.loaded_netrwPlugin = 1
+
+	vim.cmd("silent! autocmd! FileExplorer *")
+	vim.cmd("autocmd VimEnter * ++once silent! autocmd! FileExplorer *")
+
+	vim.api.nvim_create_autocmd("BufEnter", {
+		group = vim.api.nvim_create_augroup("eyes.file_explorer", { clear = true }),
+		callback = function(args)
+			if vim.b[args.buf].opened then
+				return
+			end
+			local path = vim.api.nvim_buf_get_name(args.buf)
+			if vim.fn.isdirectory(path) ~= 1 then
+				return
+			end
+			vim.bo[args.buf].buflisted = false
+			vim.bo[args.buf].bufhidden = "wipe"
+			vim.b[args.buf].opened = true
+			vim.schedule(function()
+				M.open(path)
+			end)
+		end,
+	})
+end
+
+return M
