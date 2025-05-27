@@ -9,8 +9,8 @@ vim.opt.fillchars = {
 	diff = "╱",
 	eob = " ",
 	fold = " ",
-	foldopen = "",
-	foldclose = "",
+	foldopen = " ",
+	foldclose = " ",
 	foldsep = " ",
 	lastline = " ",
 }
@@ -53,3 +53,4 @@ vim.opt.undofile = true
 vim.opt.undolevels = 10000
 vim.opt.updatetime = 100
 vim.opt.wrap = false
+vim.opt.signcolumn = "no"

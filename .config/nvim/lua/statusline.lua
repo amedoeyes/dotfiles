@@ -1,8 +1,3 @@
-local function padding(n, str)
-	if not str then return string.rep(" ", n) end
-	return str ~= "" and string.rep(" ", n) or ""
-end
-
 local modes = {
 	n = "NOR",
 	no = "ONR",
@@ -40,53 +35,74 @@ local modes = {
 	t = "TRM",
 }
 
-function Statusline()
-	local mode = modes[vim.fn.mode(1)]
+local function mode()
+	return modes[vim.fn.mode(1)]
+end
 
-	local git_branch = vim.g.git_branch and string.format(" %s", vim.g.git_branch) or ""
+local function git_branch()
+	return vim.g.git_branch and string.format(" %s", vim.g.git_branch) or nil
+end
 
-	local diagnostics_parts = {}
+local function diagnostics()
+	local parts = {}
 	for _, s in ipairs({
 		vim.diagnostic.severity.ERROR,
 		vim.diagnostic.severity.WARN,
 		vim.diagnostic.severity.INFO,
 		vim.diagnostic.severity.HINT,
 	}) do
-		local diag = #vim.diagnostic.get(0, { severity = s })
+		local diagnostic = #vim.diagnostic.get(0, { severity = s })
 		local icon = vim.diagnostic.config().signs.text[s]
-		if diag > 0 then table.insert(diagnostics_parts, icon .. diag) end
-	end
-	local diagnostics = table.concat(diagnostics_parts, " ")
-
-	local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
-	if filename == "" then filename = "[No Name]" end
-
-	local file_icon = require("mini.icons").get("file", filename)
-
-	local file_status = ""
-	if vim.bo.modified then
-		file_status = "●"
-	elseif vim.bo.readonly then
-		file_status = ""
-	end
-
-	local recording = vim.fn.reg_recording()
-	if recording ~= "" then recording = " recording @" .. recording end
-
-	local search_count = ""
-	if vim.v.hlsearch == 1 then
-		local _, res = pcall(vim.fn.searchcount, { maxcount = 999, timeout = 500 })
-		if res.total and res.total > 0 then
-			search_count =
-				string.format(" %" .. #tostring(res.total) .. "d/%d", res.current, res.total)
+		if diagnostic > 0 then
+			table.insert(parts, icon .. diagnostic)
 		end
 	end
+	return not vim.tbl_isempty(parts) and table.concat(parts, " ") or nil
+end
 
+local function file_name()
+	local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+	return name ~= "" and name or "[No Name]"
+end
+
+local function file_icon()
+	local icon, _, _ = require("mini.icons").get("file", vim.api.nvim_buf_get_name(0))
+	return icon
+end
+
+local function file_status()
+	if vim.bo.modified then
+		return "●"
+	end
+	if vim.bo.readonly then
+		return ""
+	end
+	return ""
+end
+
+local function recording()
+	local rec = vim.fn.reg_recording()
+	return rec ~= "" and " recording @" .. rec or nil
+end
+
+local function search()
+	if vim.v.hlsearch <= 0 then
+		return nil
+	end
+
+	local _, res = pcall(vim.fn.searchcount, { maxcount = 999, timeout = 500 })
+	if not res.total or res.total <= 0 then
+		return nil
+	end
+	return string.format(" %" .. #tostring(res.total) .. "d/%d", res.current, res.total)
+end
+
+local function ruler()
 	local cursor = vim.api.nvim_win_get_cursor(0)
 	local row = cursor[1]
 	local col = cursor[2] + 1
 	local lines = vim.api.nvim_buf_line_count(0)
-	local pos
+	local pos = nil
 	if row == 1 then
 		pos = "TOP"
 	elseif row == lines then
@@ -94,37 +110,29 @@ function Statusline()
 	else
 		pos = string.format("%2d%%%%", math.floor((row / lines) * 100))
 	end
-	local ruler = string.format("%" .. #tostring(lines) .. "d:%-3d %s", row, col, pos)
+	return string.format("%" .. #tostring(lines) .. "d:%-3d %s", row, col, pos)
+end
 
-	return table.concat({
-		padding(1),
-		"%#Title#",
-		mode,
-		"%#Normal#",
-		padding(2),
-		git_branch,
-		padding(2, git_branch),
-		diagnostics,
-		padding(2, diagnostics),
-		file_icon,
-		padding(1),
-		"%<",
-		filename,
-		padding(1),
-		file_status,
-		padding(1),
-		"%=",
-		padding(1),
-		recording,
-		padding(2, recording),
-		search_count,
-		padding(2, search_count),
-		"%#Title#",
-		ruler,
-		padding(1),
-	})
+local function with_padding(func)
+	local str = func()
+	return str and " " .. str .. " " or ""
+end
+
+function Statusline()
+	return "%#Bold#"
+		.. with_padding(mode)
+		.. "%#Normal#"
+		.. with_padding(git_branch)
+		.. with_padding(diagnostics)
+		.. with_padding(file_icon)
+		.. "%<"
+		.. file_name()
+		.. with_padding(file_status)
+		.. "%="
+		.. with_padding(recording)
+		.. with_padding(search)
+		.. "%#Bold#"
+		.. with_padding(ruler)
 end
 
 vim.opt.statusline = "%!v:lua.Statusline()"
-
-vim.api.nvim_create_autocmd({ "ModeChanged", "DiagnosticChanged" }, { command = "redrawstatus" })
