@@ -25,10 +25,14 @@ deps.add({
 	source = "MeanderingProgrammer/render-markdown.nvim",
 	depends = { "nvim-treesitter/nvim-treesitter" },
 })
-deps.add("folke/snacks.nvim")
+deps.add("ibhagwan/fzf-lua")
 deps.add({
 	source = "nvim-treesitter/nvim-treesitter",
-	hooks = { post_checkout = function() vim.cmd.TSUpdate() end },
+	hooks = {
+		post_checkout = function()
+			vim.cmd.TSUpdate()
+		end,
+	},
 })
 deps.add({
 	source = "nvimtools/none-ls.nvim",
@@ -40,6 +44,6 @@ require("plugins.eyes")
 require("plugins.mini")
 require("plugins.none_ls")
 require("plugins.render_markdown")
-require("plugins.snacks")
+require("plugins.fzf")
 require("plugins.termdebug")
 require("plugins.treesitter")
