@@ -8,7 +8,9 @@ require("mini.deps").later(function()
 				group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
 				buffer = buf,
 				callback = function()
-					if not vim.g.autoformat then return end
+					if not vim.g.autoformat then
+						return
+					end
 					vim.lsp.buf.format({ bufnr = buf, id = client.id, timeout_ms = 1000 })
 				end,
 			})

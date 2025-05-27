@@ -13,7 +13,9 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("eyes.highlight_yank", { clear = true }),
-	callback = function() vim.hl.on_yank() end,
+	callback = function()
+		vim.hl.on_yank()
+	end,
 })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -37,7 +39,9 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave", "VimEnter
 				local stat = vim.uv.fs_fstat(fd)
 				local data = vim.uv.fs_read(fd, stat.size, 0)
 				vim.uv.fs_close(fd)
-				if data then vim.g.git_branch = data:match("ref: refs/heads/(.+)\n") end
+				if data then
+					vim.g.git_branch = data:match("ref: refs/heads/(.+)\n")
+				end
 			end
 		end
 	end,

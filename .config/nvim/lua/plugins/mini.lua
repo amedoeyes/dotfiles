@@ -1,8 +1,12 @@
 local deps = require("mini.deps")
 
-deps.later(function() require("mini.ai").setup() end)
+deps.later(function()
+	require("mini.ai").setup()
+end)
 
-deps.later(function() require("mini.align").setup() end)
+deps.later(function()
+	require("mini.align").setup()
+end)
 
 deps.later(function()
 	local clue = require("mini.clue")
@@ -47,15 +51,15 @@ deps.now(function()
 				add = "▎",
 				change = "▎",
 				delete = "",
+				-- add = "🮇",
+				-- change = "🮇",
+				-- delete = "",
 			},
 		},
 	})
-	vim.keymap.set(
-		"n",
-		"<leader>go",
-		function() diff.toggle_overlay(0) end,
-		{ desc = "Git diff overlay" }
-	)
+	vim.keymap.set("n", "<leader>go", function()
+		diff.toggle_overlay(0)
+	end, { desc = "Git diff overlay" })
 end)
 
 deps.now(function()
@@ -76,36 +80,38 @@ deps.now(function()
 	end
 end)
 
-deps.later(function() require("mini.move").setup() end)
+deps.later(function()
+	require("mini.move").setup()
+end)
 
-deps.later(
-	function()
-		require("mini.operators").setup({
-			evaluate = { prefix = "go=" },
-			exchange = { prefix = "gox" },
-			multiply = { prefix = "gom" },
-			replace = { prefix = "gor" },
-			sort = { prefix = "gos" },
-		})
-	end
-)
+deps.later(function()
+	require("mini.operators").setup({
+		evaluate = { prefix = "go=" },
+		exchange = { prefix = "gox" },
+		multiply = { prefix = "gom" },
+		replace = { prefix = "gor" },
+		sort = { prefix = "gos" },
+	})
+end)
 
-deps.later(function() require("mini.pairs").setup() end)
+deps.later(function()
+	require("mini.pairs").setup()
+end)
 
-deps.later(function() require("mini.splitjoin").setup() end)
+deps.later(function()
+	require("mini.splitjoin").setup()
+end)
 
-deps.later(
-	function()
-		require("mini.surround").setup({
-			mappings = {
-				add = "gsa",
-				delete = "gsd",
-				find = "gsf",
-				find_left = "gsF",
-				highlight = "gsh",
-				replace = "gsr",
-				update_n_lines = "gsn",
-			},
-		})
-	end
-)
+deps.later(function()
+	require("mini.surround").setup({
+		mappings = {
+			add = "gsa",
+			delete = "gsd",
+			find = "gsf",
+			find_left = "gsF",
+			highlight = "gsh",
+			replace = "gsr",
+			update_n_lines = "gsn",
+		},
+	})
+end)

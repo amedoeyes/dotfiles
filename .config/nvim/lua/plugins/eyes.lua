@@ -1,1 +1,3 @@
-require("mini.deps").now(function() vim.cmd.colorscheme("eyes") end)
+require("mini.deps").now(function()
+	vim.cmd.colorscheme("eyes")
+end)

@@ -11,7 +11,9 @@ vim.lsp.config("*", {
 				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
 				buffer = buf,
 				callback = function()
-					if vim.g.codelens then vim.lsp.codelens.refresh({ bufnr = buf }) end
+					if vim.g.codelens then
+						vim.lsp.codelens.refresh({ bufnr = buf })
+					end
 				end,
 			})
 		end
@@ -28,7 +30,9 @@ vim.lsp.config("*", {
 			vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
 				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
 				buffer = buf,
-				callback = function() vim.lsp.buf.clear_references() end,
+				callback = function()
+					vim.lsp.buf.clear_references()
+				end,
 			})
 		end
 
@@ -37,13 +41,15 @@ vim.lsp.config("*", {
 			and client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting, buf)
 			and client.name ~= "typescript-language-server"
 		then
-			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:1000})"
+			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr()"
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
 				buffer = buf,
 				callback = function()
-					if not vim.g.autoformat then return end
-					vim.lsp.buf.format({ bufnr = buf, id = client.id, timeout_ms = 1000 })
+					if not vim.g.autoformat then
+						return
+					end
+					vim.lsp.buf.format({ bufnr = buf, id = client.id })
 				end,
 			})
 		end
