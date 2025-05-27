@@ -17,3 +17,6 @@ format=<b>%s</b>\n%b
 group-by=app-name
 anchor=top-center
 text-alignment=center
+
+[mode=do-not-disturb]
+invisible=1
