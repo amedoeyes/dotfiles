@@ -63,6 +63,7 @@ vim.lsp.enable({
 	"marksman",
 	"pyright",
 	"ruff",
+	"rust-analyzer",
 	"typescript-language-server",
 	"vscode-css-language-server",
 	"vscode-eslint-language-server",
