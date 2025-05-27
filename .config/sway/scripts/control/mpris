@@ -1,41 +1,40 @@
 #!/bin/bash
 
 get_art_path() {
-	local cache_dir="$HOME/.cache/mpris"
-	if [ ! -d "$cache_dir" ]; then
-		mkdir -p "$cache_dir"
-	fi
+	local cache_dir="$XDG_CACHE_HOME/mpris"
+	[ ! -d "$cache_dir" ] && mkdir -p "$cache_dir"
+
 	local -r player=$(mprisctl --properties Player)
-	if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
-		if [ ! -d "$player" ]; then
-			mkdir -p "$cache_dir/$player"
-		fi
-		local -r artist=$(cmus-remote -Q | grep -w 'tag artist' | cut -d ' ' -f 3-)
-		local -r album=$(cmus-remote -Q | grep -w 'tag album' | cut -d ' ' -f 3-)
-		local -r art_path="$cache_dir/$player/""$artist"_"$album".png
-		if [ ! -e "$art_path" ]; then
-			local -r song_filepath=$(cmus-remote -Q | grep 'file' | cut -d ' ' -f 2-)
-			ffmpeg -loglevel quiet -i "$song_filepath" -an -vcodec copy "$art_path"
-		fi
-		printf "%s" "$art_path"
-	elif [[ "$player" =~ org\.mpris\.MediaPlayer2\.firefox ]]; then
-		local -r art_url=$(mprisctl --metadata mpris:artUrl)
-		printf "%s" "${art_url#file://}"
+	local -r player_dir="$cache_dir/$player"
+
+	local -r art_url=$(mprisctl --metadata mpris:artUrl)
+	if [[ -n $art_url ]]; then
+		case "$art_url" in
+		file://*) printf "%s" "${art_url#file://}" ;;
+		https://*)
+			[ ! -d "$player_dir" ] && mkdir -p "$player_dir"
+
+			local -r art_path="$player_dir/$(basename "$art_url")"
+			[ ! -e "$art_path" ] && wget -q "$art_url" -O "$art_path"
+
+			printf "%s" "$art_path"
+			;;
+		esac
 	else
-		local -r art_url=$(mprisctl --metadata mpris:artUrl)
-		if [[ "$art_url" == file://* ]]; then
-			printf "%s" "${art_url#file://}"
-		elif [[ "$art_url" == https://* ]]; then
-			if [ ! -d "$player" ]; then
-				mkdir -p "$cache_dir/$player"
-			fi
-			local -r art_path="$cache_dir/$player'_'$(basename "$art_url")"
+		# HACK: until cmus supports mpris artUrl
+		if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
+			[ ! -d "$player_dir" ] && mkdir -p "$player_dir"
+			local -r artist=$(cmus-remote -Q | grep -w 'tag artist' | cut -d ' ' -f 3-)
+			local -r album=$(cmus-remote -Q | grep -w 'tag album' | cut -d ' ' -f 3-)
+			local -r art_path="$player_dir/$artist - $album.png"
 			if [ ! -e "$art_path" ]; then
-				wget -q "$art_url" -O "$art_path"
+				local -r song_filepath=$(cmus-remote -Q | grep 'file' | cut -d ' ' -f 2-)
+				ffmpeg -loglevel quiet -i "$song_filepath" -an -vcodec copy "$art_path"
 			fi
 			printf "%s" "$art_path"
 		fi
 	fi
+
 }
 
 convert_time() {
