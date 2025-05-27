@@ -4,7 +4,7 @@ export BROWSER="qutebrowser"
 export MANPAGER="nvim +Man!"
 export READER="zathura"
 export TERMINAL="footclient"
-export PS1="$ "
+export PROMPT="%(!.#.$) "
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
 
@@ -23,7 +23,6 @@ export XCURSOR_SIZE=24
 export XCURSOR_THEME=eyes
 
 export PATH="$XDG_BIN_HOME:$XDG_DATA_HOME/mason/bin:$PATH"
-export MANPATH=$XDG_CACHE_HOME/cppman:$MANPATH
 
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export LESSHISTFILE="$XDG_STATE_HOME/less/history"
@@ -31,6 +30,9 @@ export LESSHISTFILE="$XDG_STATE_HOME/less/history"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/pass"
 export XMAKE_PKG_INSTALLDIR="$XDG_DATA_HOME/xmake"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export GOPATH="$XDG_DATA_HOME/go"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 
 export HIGHLIGHT_DATADIR="$XDG_CONFIG_HOME/highlight/"
 export W3M_DIR="$XDG_CONFIG_HOME/w3m"
@@ -50,15 +52,14 @@ export FZF_DEFAULT_OPTS="
 	--prompt ' ' 
 	--highlight-line 
 	--bind ctrl-y:accept"
+export FZF_CTRL_T_OPTS="--preview 'highlight {}'"
 export FZF_ALT_C_OPTS="
 	--walker dir,follow,hidden
-  --walker-skip .cache,.dotfiles,.git,.local/share/Smart\ Code\ ltd,.local/share/containers,.local/share/ghcup,.local/share/nvim/site/pack,.local/share/pipx,.local/share/qutebrowser,.local/share/xmake,.nuget,.ruff_cache,.stremio-server,.xmake,Trash,__pycache__,bin,build,mason/packages,media/screenrecords,media/screenshots,music,node_modules,obj,old,target,venv
-  --preview 'tree --noreport {}'"
+	--walker-skip .cache,.dotfiles,.git,.local/share/Smart\ Code\ ltd,.local/share/containers,.local/share/ghcup,.local/share/nvim/site/pack,.local/share/pipx,.local/share/qutebrowser,.local/share/xmake,.nuget,.ruff_cache,.stremio-server,.xmake,Trash,__pycache__,bin,build,mason/packages,media/screenrecords,media/screenshots,music,node_modules,obj,old,target,venv
+	--preview 'tree --noreport {}'"
 
 export GHCUP_USE_XDG_DIRS="true"
 
 export HIGHLIGHT_OPTIONS="--style=eyes --out-format=xterm256 --line-numbers"
-
-export SUDO_PROMPT="Password: "
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#404040"
