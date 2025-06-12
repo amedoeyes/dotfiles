@@ -1,5 +1,0 @@
-nnoremap K <C-g>
-nnoremap s :sort<cr>
-nnoremap w :vsplit | view<cr>
-nnoremap yd :!echo -n %d | wl-copy %i && echo -n %d | wl-copy -p %i<cr>
-nnoremap yf :!echo -n %c:p | wl-copy %i && echo -n %c:p | wl-copy -p %i<cr>

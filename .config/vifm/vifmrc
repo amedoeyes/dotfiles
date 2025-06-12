@@ -1,6 +1,0 @@
-source $VIFM/commands.vifm
-source $VIFM/filetype.vifm
-source $VIFM/fileviewer.vifm
-source $VIFM/icons.vifm
-source $VIFM/keybinds.vifm
-source $VIFM/options.vifm

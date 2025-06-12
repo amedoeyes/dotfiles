@@ -1,7 +1,0 @@
-#!/bin/sh
-
-exec 9>"/tmp/fzfmenu.lock"
-
-flock -n 9 || exit
-
-footclient --app-id float_term sh -c "echo -ne '\e[5 q' && fzf --height 100% --list-border none --margin 1 $* </proc/$$/fd/0 >/proc/$$/fd/1"

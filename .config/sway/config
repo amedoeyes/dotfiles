@@ -1,8 +1,0 @@
-include cursor.conf
-include general.conf
-include input.conf
-include keybinds.conf
-include output.conf
-include rules.conf
-include startup.conf
-include style.conf

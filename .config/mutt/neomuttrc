@@ -1,4 +1,0 @@
-source "gpg -dq $XDG_CONFIG_HOME/mutt/accounts/data.gpg |"
-source ./options
-source ./keybinds
-source ./theme
