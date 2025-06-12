@@ -1,7 +1,0 @@
-[color]
-	ui = auto
-[color "diff"]
-	meta = white
-	frag = 241
-	old = 237
-	new = 244
