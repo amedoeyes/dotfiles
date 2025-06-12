@@ -1,2 +1,0 @@
-CompileFlags:
-  Add: [-Wall, -Wpedantic, -Werror, -std=c++23]

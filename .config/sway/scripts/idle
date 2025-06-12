@@ -1,9 +1,0 @@
-#!/bin/bash
-
-swayidle -w \
-	timeout 300 'brightnessctl -s s 5%' \
-	resume 'brightnessctl -r' \
-	timeout 600 'swaymsg "output * dpms off"' \
-	resume 'swaymsg "output * dpms on"' \
-	timeout 900 'systemctl suspend' \
-	before-sleep 'swaylock -f'
