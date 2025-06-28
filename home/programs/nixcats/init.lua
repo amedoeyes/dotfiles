@@ -1,0 +1,10 @@
+require("autocmds")
+require("diagnostics")
+require("globals")
+require("keybinds")
+require("lsp")
+require("options")
+require("statusline")
+require("statuscolumn")
+
+require("plugins")
