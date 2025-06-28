@@ -238,11 +238,11 @@ if nixCats("general") then
 	end, { desc = "File explorer" })
 
 	vim.keymap.set({ "n", "t" }, "<c-/>", function()
-		terminal.toggle({ vim.env.SHELL }, { name = "shell" })
+		terminal.toggle({ name = "shell" })
 	end, { desc = "Terminal" })
 
 	vim.keymap.set("n", "<leader>gg", function()
-		terminal.toggle({ "lazygit" }, { name = "lazygit" })
+		terminal.toggle({ name = "lazygit", cmd = { "lazygit" } })
 	end, { desc = "Lazygit" })
 
 	vim.keymap.set("n", "<leader>tf", function()

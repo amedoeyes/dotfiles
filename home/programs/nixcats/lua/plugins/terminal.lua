@@ -1,15 +1,16 @@
 local M = {}
 
----@class TermWindow
+---@class Terminal
 ---@field win integer
 ---@field buf integer
----@field on_exit function
+---@field cmd string[]
+---@field on_exit function?
+---@field on_stdout function?
 ---@field is_open boolean
----@field is_valid boolean
-local TermWindow = {}
-TermWindow.__index = TermWindow
+local Terminal = {}
+Terminal.__index = Terminal
 
-function TermWindow._calc_dims()
+function Terminal._calc_dims()
 	local ui = vim.api.nvim_list_uis()[1]
 	local width = math.floor(ui.width * 0.9)
 	local height = math.floor(ui.height * 0.9)
@@ -18,7 +19,7 @@ function TermWindow._calc_dims()
 	return row - 1, col, width, height
 end
 
-function TermWindow:_create_window()
+function Terminal:_open_window()
 	local row, col, width, height = self._calc_dims()
 	self.win = vim.api.nvim_open_win(self.buf, true, {
 		style = "minimal",
@@ -32,9 +33,7 @@ function TermWindow:_create_window()
 	vim.api.nvim_buf_set_keymap(self.buf, "n", "q", "", {
 		silent = true,
 		callback = function()
-			if vim.api.nvim_win_is_valid(self.win) then
-				vim.api.nvim_win_close(self.win, true)
-			end
+			self:close()
 		end,
 	})
 
@@ -43,88 +42,158 @@ function TermWindow:_create_window()
 	end, 10)
 end
 
-function TermWindow:_register_autocmd()
-	self._resize_autocmd = vim.api.nvim_create_autocmd("VimResized", {
-		callback = function()
-			local row, col, width, height = self._calc_dims()
-			vim.api.nvim_win_set_config(self.win, {
-				relative = "editor",
-				width = width,
-				height = height,
-				row = row,
-				col = col,
-			})
-		end,
-	})
-end
-
-function TermWindow.new()
-	local self = setmetatable({}, TermWindow)
-	self.buf = vim.api.nvim_create_buf(false, true)
-	self.win = nil
-	self.is_open = true
-	self.is_valid = true
-	self._resize_autocmd = nil
-
-	vim.bo[self.buf].bufhidden = "wipe"
-	self:_create_window()
-	self:_register_autocmd()
-
-	return self
-end
-
-function TermWindow:close()
-	if self._resize_autocmd then
-		vim.api.nvim_del_autocmd(self._resize_autocmd)
-		self._resize_autocmd = nil
-	end
+function Terminal:_close_window()
 	if vim.api.nvim_win_is_valid(self.win) then
 		vim.api.nvim_win_close(self.win, true)
 	end
-	self.is_valid = false
-	self.is_open = false
 end
 
-function TermWindow:hide()
-	if self._resize_autocmd then
-		vim.api.nvim_del_autocmd(self._resize_autocmd)
-		self._resize_autocmd = nil
-	end
+function Terminal:_hide_window()
 	if vim.api.nvim_win_is_valid(self.win) then
 		vim.api.nvim_win_hide(self.win)
 	end
-	self.is_open = false
 end
 
-function TermWindow:show()
-	self:_create_window()
-	self:_register_autocmd()
+function Terminal:_create_autocmds()
+	if self._autocmds ~= nil then
+		return
+	end
+
+	self._autocmds = {
+		resize = vim.api.nvim_create_autocmd("VimResized", {
+			callback = function()
+				local new_row, new_col, new_width, new_height = self._calc_dims()
+				vim.api.nvim_win_set_config(self.win, {
+					relative = "editor",
+					width = new_width,
+					height = new_height,
+					row = new_row,
+					col = new_col,
+				})
+			end,
+		}),
+
+		close = vim.api.nvim_create_autocmd("WinClosed", {
+			pattern = tostring(self.win),
+			callback = function()
+				self:close()
+			end,
+		}),
+	}
+end
+
+function Terminal:_delete_autocmds()
+	if self._autocmds == nil then
+		return
+	end
+
+	vim.api.nvim_del_autocmd(self._autocmds.resize)
+	vim.api.nvim_del_autocmd(self._autocmds.close)
+	self._autocmds = nil
+end
+
+---@param opts table?
+---@return Terminal
+function Terminal.new(opts)
+	local self = setmetatable({}, Terminal)
+	opts = opts or {}
+	self.buf = nil
+	self.win = nil
+	self.cmd = opts.cmd or { vim.env.SHELL }
+	self.on_exit = opts.on_exit or nil
+	self.is_open = false
+	self._autocmds = nil
+	return self
+end
+
+function Terminal:open()
+	if self.is_open then
+		return
+	end
+
+	if self.buf == nil then
+		self.buf = vim.api.nvim_create_buf(false, true)
+		vim.bo[self.buf].bufhidden = "wipe"
+
+		self:_open_window()
+
+		vim.fn.jobstart(self.cmd, {
+			term = true,
+			on_exit = vim.schedule_wrap(function()
+				if self.on_exit then
+					self.on_exit()
+				end
+
+				self:close()
+			end),
+			on_stdout = vim.schedule_wrap(function(_, data)
+				if self.on_stdout then
+					self.on_stdout(data)
+				end
+			end),
+		})
+	else
+		self:_open_window()
+	end
+
+	self:_create_autocmds()
+
 	self.is_open = true
 end
 
----@type table<string,TermWindow>
+function Terminal:close()
+	if not self.is_open then
+		return
+	end
+
+	self.buf = nil
+	self:_delete_autocmds()
+	self:_close_window()
+
+	self.is_open = false
+end
+
+function Terminal:hide()
+	if not self.is_open then
+		return
+	end
+
+	self:_delete_autocmds()
+	self:_hide_window()
+
+	self.is_open = false
+end
+
+function Terminal:toggle()
+	if self.is_open then
+		self:hide()
+	else
+		self:open()
+	end
+end
+
+---@type table<string,Terminal>
 local terms = {}
 local tid = 0
 
----@param cmd string[]
 ---@param opts table
-M.open = function(cmd, opts)
+---@return Terminal
+M.new = function(opts)
+	return Terminal.new(opts)
+end
+
+---@param opts table
+M.open = function(opts)
 	opts = opts or {}
 
 	local id = opts.name or ("term" .. tid)
 	tid = tid + 1
-	terms[id] = TermWindow.new()
-
-	vim.fn.jobstart(cmd, {
-		term = true,
-		on_exit = vim.schedule_wrap(function()
-			if opts.on_exit then
-				opts.on_exit()
-			end
-
-			terms[id]:close()
-		end),
+	terms[id] = Terminal.new({
+		cmd = opts.cmd,
+		on_exit = opts.on_exit,
+		on_stdout = opts.on_stdout,
 	})
+	terms[id]:open()
 end
 
 ---@param name string
@@ -135,22 +204,16 @@ M.close = function(name)
 	end
 end
 
----@param cmd string[]
 ---@param opts table
-M.toggle = function(cmd, opts)
-	local opts = opts or {}
+M.toggle = function(opts)
+	opts = opts or {}
 	opts.name = opts.name or "scratch"
 
 	local term = terms[opts.name]
-	if not term or not term.is_valid then
-		M.open(cmd, opts)
-		return
-	end
-
-	if not term.is_open then
-		term:show()
+	if term then
+		term:toggle()
 	else
-		term:hide()
+		M.open(opts)
 	end
 end
 
