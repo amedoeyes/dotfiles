@@ -57,6 +57,7 @@ local function diagnostics()
 			table.insert(parts, icon .. diagnostic)
 		end
 	end
+
 	return not vim.tbl_isempty(parts) and table.concat(parts, " ") or nil
 end
 
@@ -74,15 +75,17 @@ local function file_status()
 	if vim.bo.modified then
 		return "●"
 	end
+
 	if vim.bo.readonly then
 		return ""
 	end
+
 	return ""
 end
 
 local function recording()
 	local rec = vim.fn.reg_recording()
-	return rec ~= "" and " recording @" .. rec or nil
+	return rec ~= "" and "󰻂 recording @" .. rec or nil
 end
 
 local function search()
@@ -94,7 +97,8 @@ local function search()
 	if not res.total or res.total <= 0 then
 		return nil
 	end
-	return string.format(" %" .. #tostring(res.total) .. "d/%d", res.current, res.total)
+
+	return string.format(" %" .. #tostring(res.total) .. "d/%d", res.current, res.total)
 end
 
 local function ruler()
@@ -103,6 +107,7 @@ local function ruler()
 	local col = cursor[2] + 1
 	local lines = vim.api.nvim_buf_line_count(0)
 	local pos = nil
+
 	if row == 1 then
 		pos = "TOP"
 	elseif row == lines then
@@ -110,6 +115,7 @@ local function ruler()
 	else
 		pos = string.format("%2d%%%%", math.floor((row / lines) * 100))
 	end
+
 	return string.format("%" .. #tostring(lines) .. "d:%-3d %s", row, col, pos)
 end
 

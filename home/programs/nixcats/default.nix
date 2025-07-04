@@ -20,6 +20,11 @@ in
       type = lib.types.bool;
       default = false;
     };
+
+    unwrap = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -151,6 +156,8 @@ in
           { ... }:
           {
             settings = {
+              wrapRc = !cfg.unwrap;
+              unwrappedCfgPath = "/etc/nixos/home/programs/nixcats/";
               hosts = {
                 node.enable = false;
                 perl.enable = false;

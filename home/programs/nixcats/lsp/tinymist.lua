@@ -5,4 +5,7 @@ return {
 	settings = {
 		formatterMode = "typstyle",
 	},
+	capabilities = {
+		textDocument = { formatting = {} },
+	},
 }

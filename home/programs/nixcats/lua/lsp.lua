@@ -5,61 +5,69 @@ vim.g.codelens = false
 
 vim.lsp.config("*", {
 	root_markers = { ".git" },
-	on_attach = function(client, buf)
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, buf) then
-			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-				group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
-				buffer = buf,
-				callback = function()
-					if vim.g.codelens then
-						vim.lsp.codelens.refresh({ bufnr = buf })
-					end
-				end,
-			})
-		end
+	on_attach =
+		---@param client vim.lsp.Client
+		---@param buf integer
+		function(client, buf)
+			if client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, buf) then
+				vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+					group = vim.api.nvim_create_augroup("eyes.lsp.codelens", { clear = false }),
+					buffer = buf,
+					callback = function()
+						if vim.g.codelens then
+							vim.lsp.codelens.refresh({ bufnr = buf })
+						end
+					end,
+				})
+			end
 
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
-			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
-				buffer = buf,
-				callback = function()
-					vim.lsp.buf.clear_references()
-					vim.lsp.buf.document_highlight()
-				end,
-			})
-			vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
-				group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
-				buffer = buf,
-				callback = function()
-					vim.lsp.buf.clear_references()
-				end,
-			})
-		end
+			if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
+				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+					group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+					buffer = buf,
+					callback = function()
+						vim.lsp.buf.clear_references()
+						vim.lsp.buf.document_highlight()
+					end,
+				})
+				vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
+					group = vim.api.nvim_create_augroup("eyes.lsp.highlight", { clear = false }),
+					buffer = buf,
+					callback = function()
+						vim.lsp.buf.clear_references()
+					end,
+				})
+			end
 
-		if
-			(
+			if vim.tbl_contains({ "typescript-language-server" }, client.name) then
+				client.server_capabilities.documentFormattingProvider = false
+			end
+
+			if vim.tbl_contains({ "tinymist" }, client.name) then
+				client.server_capabilities.documentFormattingProvider = true
+			end
+
+			if
 				not client:supports_method(vim.lsp.protocol.Methods.textDocument_willSaveWaitUntil, buf)
 				and client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting, buf)
-				and client.name ~= "typescript-language-server"
-			) or client.name == "tinymist"
-		then
-			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr()"
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
-				buffer = buf,
-				callback = function()
-					if not vim.g.autoformat then
-						return
-					end
-					vim.lsp.buf.format({ bufnr = buf, id = client.id })
-				end,
-			})
-		end
+			then
+				vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr()"
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
+					buffer = buf,
+					callback = function()
+						if not vim.g.autoformat then
+							return
+						end
+						vim.lsp.buf.format({ bufnr = buf, id = client.id })
+					end,
+				})
+			end
 
-		if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, buf) then
-			vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
-		end
-	end,
+			if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, buf) then
+				vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
+			end
+		end,
 })
 
 vim.lsp.enable({

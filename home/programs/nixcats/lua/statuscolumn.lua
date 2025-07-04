@@ -82,6 +82,10 @@ local function diagnostic()
 end
 
 local function mark()
+	if vim.v.virtnum ~= 0 then
+		return nil
+	end
+
 	local res = nil
 
 	local win = vim.g.statusline_winid
