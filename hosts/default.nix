@@ -8,19 +8,7 @@
 }:
 {
   imports = [ ./${name}.nix ];
-  nixpkgs.overlays = [
-    (final: prev: import ../pkgs prev)
-
-    (final: prev: {
-      python313 = prev.python313.override {
-        packageOverrides = final: prev: {
-          lxml-html-clean = prev.lxml-html-clean.overridePythonAttrs (old: {
-            doCheck = false;
-          });
-        };
-      };
-    })
-  ];
+  nixpkgs.overlays = [ (final: prev: import ../pkgs prev) ];
   users.users = lib.mapAttrs (
     username: user:
     user.config {
