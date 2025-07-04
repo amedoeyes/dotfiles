@@ -1,15 +1,9 @@
 {
   writeShellScriptBin,
   lib,
-  gawk,
   libnotify,
   wireplumber,
 }:
-let
-  awkBin = lib.getExe gawk;
-  notifySendBin = lib.getExe' libnotify "notify-send";
-  wpctlBin = lib.getExe' wireplumber "wpctl";
-in
 writeShellScriptBin "audio" ''
   SOURCE_ICONS=(" " " ")
   SINK_ICONS=(" " " " " " " ")
@@ -18,9 +12,9 @@ writeShellScriptBin "audio" ''
     local device volume muted icon
 
     device="$1"
-    volume=$(${wpctlBin} get-volume "$1")
-    muted=$(echo "$volume" | ${awkBin} '{ print $3 }')
-    volume=$(echo "$volume" | ${awkBin} '{ print $2*100 }')
+    volume=$(${lib.getExe' wireplumber "wpctl"} get-volume "$1")
+    muted=$(echo "$volume" | awk '{ print $3 }')
+    volume=$(echo "$volume" | awk '{ print $2*100 }')
     icon=""
 
     if [[ $device == "@DEFAULT_SOURCE@" ]]; then
@@ -43,15 +37,15 @@ writeShellScriptBin "audio" ''
       fi
     fi
 
-    ${notifySendBin} -a "control" "$icon Volume $volume%" -u low -t 2000 -h int:value:"$volume"
+    ${lib.getExe' libnotify "notify-send"} -a "control" "$icon Volume $volume%" -u low -t 2000 -h int:value:"$volume"
   }
 
   function increment {
     local current_volume new_volume
 
-    current_volume=$(${wpctlBin} get-volume "$1" | ${awkBin} '{ print $2*100 }')
+    current_volume=$(${lib.getExe' wireplumber "wpctl"} get-volume "$1" | awk '{ print $2*100 }')
     new_volume=$((current_volume + 5))
-    ${wpctlBin} set-volume "$1" "$new_volume%"
+    ${lib.getExe' wireplumber "wpctl"} set-volume "$1" "$new_volume%"
 
     notify "$1"
   }
@@ -59,15 +53,15 @@ writeShellScriptBin "audio" ''
   function decrement {
     local current_volume new_volume
 
-    current_volume=$(${wpctlBin} get-volume "$1" | ${awkBin} '{ print $2*100 }')
+    current_volume=$(${lib.getExe' wireplumber "wpctl"} get-volume "$1" | awk '{ print $2*100 }')
     new_volume=$((current_volume - 5))
-    ${wpctlBin} set-volume "$1" "$new_volume%"
+    ${lib.getExe' wireplumber "wpctl"} set-volume "$1" "$new_volume%"
 
     notify "$1"
   }
 
   function toggle {
-    ${wpctlBin} set-mute "$1" toggle
+    ${lib.getExe' wireplumber "wpctl"} set-mute "$1" toggle
 
     notify "$1"
   }

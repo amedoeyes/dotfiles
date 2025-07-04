@@ -124,18 +124,14 @@ in
             mark l ~/.local/
           '';
 
-          keybinds =
-            let
-              wlCopyBin = lib.getExe' pkgs.wl-clipboard "wl-copy";
-            in
-            ''
-              nnoremap K <C-g>
-              nnoremap s :sort<cr>
-              nnoremap w :vsplit | view<cr>
-              nnoremap yd :!echo -n %d | ${wlCopyBin} %i && echo -n %d | ${wlCopyBin} -p %i<cr>
-              nnoremap yf :!echo -n %c:p | ${wlCopyBin} %i && echo -n %c:p | ${wlCopyBin} -p %i<cr>
-              nnoremap q :quit<cr>
-            '';
+          keybinds = ''
+            nnoremap K <C-g>
+            nnoremap s :sort<cr>
+            nnoremap w :vsplit | view<cr>
+            nnoremap yd :!echo -n %d | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} %i && echo -n %d | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
+            nnoremap yf :!echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} %i && echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
+            nnoremap q :quit<cr>
+          '';
 
           filetype = ''
             filetype * ${lib.getExe' pkgs.xdg-utils "xdg-open"} &

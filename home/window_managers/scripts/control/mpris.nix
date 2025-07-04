@@ -1,44 +1,31 @@
 {
   writeShellScriptBin,
   lib,
-  coreutils,
   wget,
-  gnugrep,
-  gawk,
   ffmpeg,
   libnotify,
   cmus,
   mprisctl,
 }:
-let
-  mkdirBin = lib.getExe' coreutils "mkdir";
-  wgetBin = lib.getExe wget;
-  grepBin = lib.getExe gnugrep;
-  awkBin = lib.getExe gawk;
-  ffmpegBin = lib.getExe ffmpeg;
-  notifySendBin = lib.getExe' libnotify "notify-send";
-  cmusRemoteBin = lib.getExe' cmus "cmus-remote";
-  mprisctlBin = lib.getExe mprisctl;
-in
 writeShellScriptBin "mpris" ''
   function get_art_path {
     local cache_dir player_dir art_url art_path song_path player artist album
 
     cache_dir="$XDG_CACHE_HOME/mpris"
-    [ ! -d "$cache_dir" ] && ${mkdirBin} -p "$cache_dir"
+    [ ! -d "$cache_dir" ] && mkdir -p "$cache_dir"
 
-    player=$(${mprisctlBin} player)
+    player=$(${lib.getExe mprisctl} player)
     player_dir="$cache_dir/$player"
 
-    art_url=$(${mprisctlBin} metadata mpris:artUrl)
+    art_url=$(${lib.getExe mprisctl} metadata mpris:artUrl)
     if [[ -n $art_url ]]; then
       case "$art_url" in
       file://*) echo "''${art_url#file://}" ;;
       https://*)
-        [ ! -d "$player_dir" ] && ${mkdirBin} -p "$player_dir"
+        [ ! -d "$player_dir" ] && mkdir -p "$player_dir"
 
         art_path="$player_dir/$(basename "$art_url")"
-        [ ! -e "$art_path" ] && ${wgetBin} -q "$art_url" -O "$art_path"
+        [ ! -e "$art_path" ] && ${lib.getExe wget} -q "$art_url" -O "$art_path"
 
         echo "$art_path"
         ;;
@@ -46,15 +33,15 @@ writeShellScriptBin "mpris" ''
     else
       # HACK: until cmus support mpris artUrl
       if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
-        [ ! -d "$player_dir" ] && ${mkdirBin} -p "$player_dir"
+        [ ! -d "$player_dir" ] && mkdir -p "$player_dir"
 
-        artist=$(${cmusRemoteBin} -Q | ${grepBin} -w 'tag artist' | cut -d ' ' -f 3-)
-        album=$(${cmusRemoteBin} -Q | ${grepBin} -w 'tag album' | cut -d ' ' -f 3-)
+        artist=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag artist' | cut -d ' ' -f 3-)
+        album=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag album' | cut -d ' ' -f 3-)
         art_path="$player_dir/$artist - $album.png"
 
         if [ ! -e "$art_path" ]; then
-          song_path=$(${cmusRemoteBin} -Q | ${grepBin} 'file' | cut -d ' ' -f 2-)
-          ${ffmpegBin} -loglevel quiet -i "$song_path" -an -vcodec copy "$art_path"
+          song_path=$(${lib.getExe' cmus "cmus-remote"} -Q | grep 'file' | cut -d ' ' -f 2-)
+          ${lib.getExe ffmpeg} -loglevel quiet -i "$song_path" -an -vcodec copy "$art_path"
         fi
 
         echo "$art_path"
@@ -70,88 +57,89 @@ writeShellScriptBin "mpris" ''
     min=$((micro / 60000000))
     sec=$((micro / 1000000 % 60))
 
-    ${awkBin} -v min="$min" -v sec="$sec" 'BEGIN { printf "%02d:%02d", min, sec }'
+    awk -v min="$min" -v sec="$sec" 'BEGIN { printf "%02d:%02d", min, sec }'
   }
 
   function notify {
     local artist album title art_path
 
-    artist=$(${mprisctlBin} metadata xesam:artist)
-    album=$(${mprisctlBin} metadata xesam:album)
-    title=$(${mprisctlBin} metadata xesam:title)
+    artist=$(${lib.getExe mprisctl} metadata xesam:artist)
+    album=$(${lib.getExe mprisctl} metadata xesam:album)
+    title=$(${lib.getExe mprisctl} metadata xesam:title)
     art_path=$(get_art_path)
 
-    ${notifySendBin} -a "mpris" "$title" "''${artist:+$artist}''${album:+\n$album}" -i "''${art_path:- }" -u low -t 2000
+    ${lib.getExe' libnotify "notify-send"} -a "mpris" "$title" "''${artist:+$artist}''${album:+\n$album}" -i "''${art_path:- }" -u low -t 2000
   }
 
   function notify_progress {
     local artist album title art_path duration position time progress
 
-    artist=$(${mprisctlBin} metadata xesam:artist)
-    album=$(${mprisctlBin} metadata xesam:album)
-    title=$(${mprisctlBin} metadata xesam:title)
+    artist=$(${lib.getExe mprisctl} metadata xesam:artist)
+    album=$(${lib.getExe mprisctl} metadata xesam:album)
+    title=$(${lib.getExe mprisctl} metadata xesam:title)
+    status=$([ "$(${lib.getExe mprisctl} player-properties PlaybackStatus)" == "Playing" ] && printf "󰏤" || printf "󰐊")
     art_path=$(get_art_path)
-    duration=$(${mprisctlBin} metadata mpris:length)
-    position=$(${mprisctlBin} player-properties Position)
+    duration=$(${lib.getExe mprisctl} metadata mpris:length)
+    position=$(${lib.getExe mprisctl} player-properties Position)
     time="$(convert_time "$position") / $(convert_time "$duration")"
     progress=$((position * 100 / duration))
 
-    ${notifySendBin} -a "mpris" "$title" "''${artist:+$artist}''${album:+\n$album}\n$time" -i "''${art_path:- }" -u low -t 2000 -h int:value:$progress
+    ${lib.getExe' libnotify "notify-send"} -a "mpris" "$title" "''${artist:+$artist}''${album:+\n$album}\n$status $time" -i "''${art_path:- }" -u low -t 2000 -h int:value:$progress
   }
 
   function notify_volume {
     local artist album title art_path volume  
 
-    artist=$(${mprisctlBin} metadata xesam:artist)
-    album=$(${mprisctlBin} metadata xesam:album)
-    title=$(${mprisctlBin} metadata xesam:title)
+    artist=$(${lib.getExe mprisctl} metadata xesam:artist)
+    album=$(${lib.getExe mprisctl} metadata xesam:album)
+    title=$(${lib.getExe mprisctl} metadata xesam:title)
     art_path=$(get_art_path)
-    volume=$(${mprisctlBin} player-properties Volume | ${awkBin} '{ print int($1 * 100) }')
+    volume=$(${lib.getExe mprisctl} player-properties Volume | awk '{ print int($1 * 100) }')
 
-    ${notifySendBin} -a "control" "$title" "''${artist:+$artist}''${album:+\n$album}\n<b>Volume ''${volume}%</b>" -i "''${art_path:- }" -u low -t 2000 -h int:value:"$volume"
+    ${lib.getExe' libnotify "notify-send"} -a "control" "$title" "''${artist:+$artist}''${album:+\n$album}\n<b>Volume ''${volume}%</b>" -i "''${art_path:- }" -u low -t 2000 -h int:value:"$volume"
   }
 
   function increment_volume {
-    ${mprisctlBin} set-volume 0.05+
+    ${lib.getExe mprisctl} set-volume 0.05+
     notify_volume
   }
 
   function decrement_volume {
-    ${mprisctlBin} set-volume 0.05-
+    ${lib.getExe mprisctl} set-volume 0.05-
     notify_volume
   }
 
   function seek_backward {
-    ${mprisctlBin} seek -- -5000000
+    ${lib.getExe mprisctl} seek -- -5000000
     notify_progress
   }
 
   function seek_forward {
-    ${mprisctlBin} seek 5000000
+    ${lib.getExe mprisctl} seek 5000000
     notify_progress
   }
 
   function toggle {
-    ${mprisctlBin} play-pause
+    ${lib.getExe mprisctl} play-pause
   }
 
   function next_track {
-    ${mprisctlBin} next
+    ${lib.getExe mprisctl} next
     notify
   }
 
   function previous_track {
-    ${mprisctlBin} previous
+    ${lib.getExe mprisctl} previous
     notify
   }
 
   function next_player {
-    ${mprisctlBin} next-player
+    ${lib.getExe mprisctl} next-player
     notify
   }
 
   function previous_player {
-    ${mprisctlBin} previous-player
+    ${lib.getExe mprisctl} previous-player
     notify
   }
 

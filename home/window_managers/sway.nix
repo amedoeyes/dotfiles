@@ -33,8 +33,6 @@ in
         let
           modifier = cfg.config.modifier;
           scripts = import ./scripts pkgs;
-
-          terminal = pkgs.foot;
           fzfmenu = pkgs.fzfmenu.override {
             fzfOptions = [
               "$FZF_DEFAULT_OPTS"
@@ -42,30 +40,11 @@ in
               "--list-border none"
               "--margin 1"
             ];
-            terminal = terminal;
-            terminalBinary = "foot";
+            terminal = pkgs.${config.home.sessionVariables.TERMINAL};
             terminalOptions = [
               "--app-id"
               "fzfmenu"
             ];
-          };
-
-          terminalBin = lib.getExe terminal;
-          fzfmenuBin = lib.getExe fzfmenu;
-          launcherBin = lib.getExe (scripts.launcher.override { inherit fzfmenu; });
-          clipboardBin = lib.getExe (scripts.clipboard.override { inherit fzfmenu; });
-          makoctlBin = lib.getExe' pkgs.mako "makoctl";
-
-          dateBin = lib.getExe' pkgs.coreutils "date";
-          mkdirBin = lib.getExe' pkgs.coreutils "mkdir";
-          wlCopyBin = lib.getExe' pkgs.wl-clipboard "wl-copy";
-          grimBin = lib.getExe pkgs.grim;
-          selectGeometryBin = lib.getExe pkgs.select-geometry;
-
-          control = {
-            audioBin = lib.getExe scripts.control.audio;
-            brightnessBin = lib.getExe scripts.control.brightness;
-            mprisBin = lib.getExe scripts.control.mpris;
           };
         in
         {
@@ -120,11 +99,7 @@ in
             mouseWarping = "container";
           };
 
-          bars = [
-            # {
-            #   position = "top";
-            # }
-          ];
+          bars = [ ];
 
           fonts = {
             names = [ "monospace" ];
@@ -160,20 +135,18 @@ in
           };
 
           keybindings = {
-            "${modifier}+return" = "exec ${terminalBin}";
-            "${modifier}+space" = "exec ${launcherBin}";
-            "${modifier}+c" = "exec ${clipboardBin}";
-            "print" =
-              "exec 'file=\"$HOME/media/screenshots/$(${dateBin} +%Y/%m/%d/%H%M%S).png\" ; ${mkdirBin} -p \"$''{file%/*}\" && ${grimBin} \"$file\" &&  ${wlCopyBin} -t image/png <\"$file\"'";
-            "shift+print" =
-              "exec 'file=\"$HOME/media/screenshots/$(${dateBin} +%Y/%m/%d/%H%M%S).png\" ; ${mkdirBin} -p \"$''{file%/*}\" && ${grimBin} -g \"$(${selectGeometryBin})\" \"$file\" &&  ${wlCopyBin} -t image/png <\"$file\"'";
+            "${modifier}+return" = "exec ${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}}";
+            "${modifier}+space" = "exec ${lib.getExe (scripts.launcher.override { inherit fzfmenu; })}";
+            "${modifier}+c" = "exec ${lib.getExe (scripts.clipboard.override { inherit fzfmenu; })}";
+            "print" = "exec ${lib.getExe pkgs.screenshot}";
+            "shift+print" = "exec ${lib.getExe pkgs.screenshot} -g \"$(${lib.getExe pkgs.select-geometry})\"";
 
-            "XF86AudioMute" = "exec ${control.audioBin} toggle-sink";
-            "XF86AudioMicMute" = "exec ${control.audioBin} toggle-source";
-            "XF86AudioLowerVolume" = "exec ${control.audioBin} decrement-sink";
-            "XF86AudioRaiseVolume" = "exec ${control.audioBin} increment-sink";
-            "XF86MonBrightnessDown" = "exec ${control.brightnessBin} decrement";
-            "XF86MonBrightnessUp" = "exec ${control.brightnessBin} increment";
+            "XF86AudioMute" = "exec ${lib.getExe scripts.control.audio} toggle-sink";
+            "XF86AudioMicMute" = "exec ${lib.getExe scripts.control.audio} toggle-source";
+            "XF86AudioLowerVolume" = "exec ${lib.getExe scripts.control.audio} decrement-sink";
+            "XF86AudioRaiseVolume" = "exec ${lib.getExe scripts.control.audio} increment-sink";
+            "XF86MonBrightnessDown" = "exec ${lib.getExe scripts.control.brightness} decrement";
+            "XF86MonBrightnessUp" = "exec ${lib.getExe scripts.control.brightness} increment";
 
             "${modifier}+q" = "kill";
 
@@ -236,24 +209,24 @@ in
             };
 
             MPRIS = {
-              "${modifier}+n" = "exec ${control.mprisBin} notify-progress";
-              "${modifier}+p" = "exec ${control.mprisBin} toggle";
-              "${modifier}+l" = "exec ${control.mprisBin} next-track";
-              "${modifier}+h" = "exec ${control.mprisBin} previous-track";
-              "${modifier}+shift+l" = "exec ${control.mprisBin} seek-forward";
-              "${modifier}+shift+h" = "exec ${control.mprisBin} seek-backward";
-              "${modifier}+k" = "exec ${control.mprisBin} increment-volume";
-              "${modifier}+j" = "exec ${control.mprisBin} decrement-volume";
-              "${modifier}+shift+k" = "exec ${control.mprisBin} next-player";
-              "${modifier}+shift+j" = "exec ${control.mprisBin} previous-player";
+              "${modifier}+n" = "exec ${lib.getExe scripts.control.mpris} notify-progress";
+              "${modifier}+p" = "exec ${lib.getExe scripts.control.mpris} toggle";
+              "${modifier}+l" = "exec ${lib.getExe scripts.control.mpris} next-track";
+              "${modifier}+h" = "exec ${lib.getExe scripts.control.mpris} previous-track";
+              "${modifier}+shift+l" = "exec ${lib.getExe scripts.control.mpris} seek-forward";
+              "${modifier}+shift+h" = "exec ${lib.getExe scripts.control.mpris} seek-backward";
+              "${modifier}+k" = "exec ${lib.getExe scripts.control.mpris} increment-volume";
+              "${modifier}+j" = "exec ${lib.getExe scripts.control.mpris} decrement-volume";
+              "${modifier}+shift+k" = "exec ${lib.getExe scripts.control.mpris} next-player";
+              "${modifier}+shift+j" = "exec ${lib.getExe scripts.control.mpris} previous-player";
 
               "${modifier}+escape" = "mode default";
             };
 
             NOTIFICATION = {
-              "${modifier}+m" = "exec ${makoctlBin} menu ${fzfmenuBin}";
-              "${modifier}+d" = "exec ${makoctlBin} dismiss -a";
-              "${modifier}+shift+d" = "exec ${makoctlBin} mode -t do-not-disturb";
+              "${modifier}+m" = "exec ${lib.getExe' pkgs.mako "makoctl"} menu ${lib.getExe fzfmenu}";
+              "${modifier}+d" = "exec ${lib.getExe' pkgs.mako "makoctl"} dismiss -a";
+              "${modifier}+shift+d" = "exec ${lib.getExe' pkgs.mako "makoctl"} mode -t do-not-disturb";
 
               "${modifier}+escape" = "mode default";
             };
