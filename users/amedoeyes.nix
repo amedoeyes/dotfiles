@@ -93,7 +93,8 @@
         blobdrop
         nix-index
         select-geometry
-        wf-recorder
+        screenrecord
+        screenshot
         wl-clipboard
       ];
 
