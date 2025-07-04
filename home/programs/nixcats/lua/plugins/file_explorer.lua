@@ -79,7 +79,6 @@ end
 
 ---@param path string
 M.toggle = function(path)
-	print(vim.inspect(file_explorer))
 	if file_explorer ~= nil then
 		M.close()
 	else

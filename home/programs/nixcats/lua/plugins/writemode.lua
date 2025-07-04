@@ -4,15 +4,13 @@ local state = {
 	is_open = false,
 	win = nil,
 	opt = {
+		cursorline = false,
 		number = false,
 		relativenumber = false,
 		signcolumn = "no",
 		spell = true,
 		statuscolumn = "",
 		wrap = true,
-	},
-	hl = {
-		win_seperator = { fg = "bg" },
 	},
 	padding = {
 		width = 0,
@@ -29,22 +27,21 @@ end
 M.enable = function()
 	state.is_open = true
 
-	state.opt.statuscolumn = vim.opt.statuscolumn:get()
-	state.opt.signcolumn = vim.opt.signcolumn:get()
-	state.opt.spell = vim.opt.spell:get()
-	state.opt.wrap = vim.opt.wrap:get()
+	state.opt.cursorline = vim.opt.cursorline:get()
 	state.opt.number = vim.opt.number:get()
 	state.opt.relativenumber = vim.opt.relativenumber:get()
+	state.opt.signcolumn = vim.opt.signcolumn:get()
+	state.opt.spell = vim.opt.spell:get()
+	state.opt.statuscolumn = vim.opt.statuscolumn:get()
+	state.opt.wrap = vim.opt.wrap:get()
 
-	vim.opt.statuscolumn = ""
-	vim.opt.signcolumn = "no"
-	vim.opt.spell = true
-	vim.opt.wrap = true
+	vim.opt.cursorline = false
 	vim.opt.number = false
 	vim.opt.relativenumber = false
-
-	state.hl.win_seperator = vim.api.nvim_get_hl(0, { name = "WinSeparator" })
-	vim.api.nvim_set_hl(0, "WinSeparator", { fg = "bg" })
+	vim.opt.signcolumn = "no"
+	vim.opt.spell = true
+	vim.opt.statuscolumn = ""
+	vim.opt.wrap = true
 
 	state.win = vim.api.nvim_get_current_win()
 
@@ -52,19 +49,20 @@ M.enable = function()
 	vim.api.nvim_buf_set_name(state.padding.buf, "padding")
 	state.padding.width = calc_padding_width()
 
-	state.padding.lwin = vim.api.nvim_open_win(state.padding.buf, false, {
-		split = "left",
-		focusable = false,
-		style = "minimal",
-	})
-	state.padding.rwin = vim.api.nvim_open_win(state.padding.buf, false, {
-		split = "right",
-		focusable = false,
-		style = "minimal",
-	})
-
-	vim.api.nvim_win_set_width(state.padding.lwin, state.padding.width)
-	vim.api.nvim_win_set_width(state.padding.rwin, state.padding.width)
+	if state.padding.width > 0 then
+		state.padding.lwin = vim.api.nvim_open_win(state.padding.buf, false, {
+			split = "left",
+			focusable = false,
+			style = "minimal",
+			width = state.padding.width,
+		})
+		state.padding.rwin = vim.api.nvim_open_win(state.padding.buf, false, {
+			split = "right",
+			focusable = false,
+			style = "minimal",
+			width = state.padding.width,
+		})
+	end
 
 	local augroup = vim.api.nvim_create_augroup("writemode", { clear = false })
 
@@ -72,8 +70,30 @@ M.enable = function()
 		group = augroup,
 		callback = function()
 			state.padding.width = calc_padding_width()
-			vim.api.nvim_win_set_width(state.padding.lwin, state.padding.width)
-			vim.api.nvim_win_set_width(state.padding.rwin, state.padding.width)
+			if state.padding.lwin ~= nil and state.padding.rwin ~= nil then
+				if state.padding.width > 0 then
+					vim.api.nvim_win_set_width(state.padding.lwin, state.padding.width)
+					vim.api.nvim_win_set_width(state.padding.rwin, state.padding.width)
+				else
+					vim.api.nvim_win_close(state.padding.lwin, true)
+					vim.api.nvim_win_close(state.padding.rwin, true)
+					state.padding.lwin = nil
+					state.padding.rwin = nil
+				end
+			elseif state.padding.width > 0 then
+				state.padding.lwin = vim.api.nvim_open_win(state.padding.buf, false, {
+					split = "left",
+					focusable = false,
+					style = "minimal",
+					width = state.padding.width,
+				})
+				state.padding.rwin = vim.api.nvim_open_win(state.padding.buf, false, {
+					split = "right",
+					focusable = false,
+					style = "minimal",
+					width = state.padding.width,
+				})
+			end
 		end,
 	})
 
@@ -100,22 +120,21 @@ end
 M.disable = function()
 	state.is_open = false
 
-	vim.opt.statuscolumn = state.opt.statuscolumn
-	vim.opt.signcolumn = state.opt.signcolumn
-	vim.opt.spell = state.opt.spell
-	vim.opt.wrap = state.opt.wrap
+	vim.opt.cursorline = state.opt.cursorline
 	vim.opt.number = state.opt.number
 	vim.opt.relativenumber = state.opt.relativenumber
+	vim.opt.signcolumn = state.opt.signcolumn
+	vim.opt.spell = state.opt.spell
+	vim.opt.statuscolumn = state.opt.statuscolumn
+	vim.opt.wrap = state.opt.wrap
 
-	state.opt.statuscolumn = ""
-	state.opt.signcolumn = "no"
-	state.opt.spell = true
-	state.opt.wrap = true
+	state.opt.cursorline = false
 	state.opt.number = false
 	state.opt.relativenumber = false
-
-	vim.api.nvim_set_hl(0, "WinSeparator", state.hl.win_seperator)
-	state.hl.win_seperator = { fg = "bg" }
+	state.opt.signcolumn = "no"
+	state.opt.spell = true
+	state.opt.statuscolumn = ""
+	state.opt.wrap = true
 
 	vim.api.nvim_buf_delete(state.padding.buf, { force = true })
 	vim.api.nvim_clear_autocmds({ group = "writemode" })
