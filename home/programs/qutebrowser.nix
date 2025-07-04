@@ -37,8 +37,8 @@ in
         auto_save.session = true;
 
         editor.command = [
-          "$TERMINAL"
-          "$EDITOR"
+          config.home.sessionVariables.TERMINAL
+          config.home.sessionVariables.EDITOR
           "{}"
         ];
 
