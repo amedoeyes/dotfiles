@@ -17,10 +17,7 @@
         {
           name = "iris";
           system = "x86_64-linux";
-          users = [
-            "amedoeyes"
-            "gamer"
-          ];
+          users = [ "amedoeyes" ];
         }
       ];
     in
