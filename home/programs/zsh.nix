@@ -18,7 +18,7 @@ in
     };
 
     history = {
-      path = "$XDG_STATE_HOME/zsh/history";
+      path = "${config.xdg.stateHome}/zsh/history";
       size = 100000;
       append = true;
       extended = true;
