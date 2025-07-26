@@ -2,6 +2,7 @@
 {
   xdg = {
     enable = true;
+    mimeApps.enable = true;
     userDirs = {
       enable = true;
       desktop = null;
@@ -16,7 +17,10 @@
   };
 
   home = {
-    packages = [ (pkgs.writeShellScriptBin "x-terminal-emulator" "exec $TERMINAL $@") ];
+    packages = [
+      (pkgs.writeShellScriptBin "x-terminal-emulator" "exec $TERMINAL $@")
+      (pkgs.writeShellScriptBin "xdg-terminal-exec" "exec $TERMINAL $@")
+    ];
 
     sessionVariables = {
       CARGO_HOME = "${config.xdg.dataHome}/cargo";

@@ -8,6 +8,13 @@ let
   cfg = config.programs.vifm;
 in
 {
+  options.programs.vifm = {
+    default = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+  };
+
   config = lib.mkIf cfg.enable {
     programs.zsh.initContent = (
       lib.mkOrder 900 ''
@@ -16,6 +23,8 @@ in
         }
       ''
     );
+
+    xdg.mimeApps.defaultApplications."inode/directory" = lib.mkIf cfg.default "vifm.desktop";
 
     xdg.configFile."vifm/colors/eyes.vifm".text = ''
       highlight clear

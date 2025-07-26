@@ -100,58 +100,15 @@
 
       programs = {
         aerc.enable = true;
-        zk.enable = true;
         btop.enable = true;
         cava.enable = true;
         cmus.enable = true;
         direnv.enable = true;
-        fzf.enable = true;
-        gpg.enable = true;
-        imv.enable = true;
-        less.enable = true;
-        mbsync.enable = true;
-        qutebrowser.enable = true;
-        ripgrep.enable = true;
-        swaylock.enable = true;
-        vifm.enable = true;
-        waybar.enable = true;
-        zathura.enable = true;
-        zsh.enable = true;
-
-        mpv = {
-          enable = true;
-          config = {
-            hwdec = "vaapi";
-            gpu-api = "opengl";
-          };
-        };
-
         foot = {
           enable = true;
           default = true;
         };
-
-        nixCats = {
-          enable = true;
-          default = true;
-        };
-
-        newsboat = {
-          enable = true;
-          urls = [
-            { url = "https://lwn.net/headlines/newrss"; }
-            { url = "https://isocpp.org/blog/rss"; }
-            { url = "https://www.cppstories.com/index.xml"; }
-          ];
-        };
-
-        password-store = {
-          enable = true;
-          settings = {
-            PASSWORD_STORE_KEY = gpgKey;
-          };
-        };
-
+        fzf.enable = true;
         git = {
           enable = true;
           userEmail = "amedoeyes@gmail.com";
@@ -161,7 +118,8 @@
             signByDefault = true;
           };
         };
-
+        gpg.enable = true;
+        imv.enable = true;
         lazygit = {
           enable = true;
           settings = {
@@ -170,6 +128,45 @@
             };
           };
         };
+        less.enable = true;
+        mbsync.enable = true;
+        mpv = {
+          enable = true;
+          config = {
+            hwdec = "vaapi";
+            gpu-api = "opengl";
+          };
+        };
+        newsboat = {
+          enable = true;
+          urls = [
+            { url = "https://lwn.net/headlines/newrss"; }
+            { url = "https://isocpp.org/blog/rss"; }
+            { url = "https://www.cppstories.com/index.xml"; }
+          ];
+        };
+        nixCats = {
+          enable = true;
+          default = true;
+          unwrap = true;
+        };
+        password-store = {
+          enable = true;
+          settings = {
+            PASSWORD_STORE_KEY = gpgKey;
+          };
+        };
+        qutebrowser.enable = true;
+        ripgrep.enable = true;
+        swaylock.enable = true;
+        vifm = {
+          enable = true;
+          default = true;
+        };
+        waybar.enable = true;
+        zathura.enable = true;
+        zk.enable = true;
+        zsh.enable = true;
       };
 
       services = {
