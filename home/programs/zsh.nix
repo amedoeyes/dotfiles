@@ -9,7 +9,7 @@ let
 in
 {
   config.programs.zsh = lib.mkIf cfg.enable {
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     defaultKeymap = "viins";
 
     autosuggestion = {

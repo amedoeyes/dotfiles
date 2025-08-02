@@ -31,7 +31,6 @@ in
           };
 
           cursor = {
-            color = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex10}";
             blink = "yes";
             beam-thickness = 0.5;
           };
@@ -43,6 +42,7 @@ in
           colors = {
             background = stripHash config.theme.colors.hex00;
             foreground = stripHash config.theme.colors.hex10;
+            cursor = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex10}";
 
             regular0 = stripHash config.theme.colors.hex00;
             regular1 = stripHash config.theme.colors.hex04;
