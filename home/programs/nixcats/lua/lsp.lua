@@ -81,12 +81,14 @@ vim.lsp.enable({
 	"pyright",
 	"ruff",
 	"rust-analyzer",
-	"typescript-language-server",
+	"taplo",
 	"tinymist",
+	"typescript-language-server",
 	"vscode-css-language-server",
 	"vscode-eslint-language-server",
 	"vscode-html-language-server",
 	"vscode-json-language-server",
+	"wgsl-analyzer",
 	"zk",
 })
 

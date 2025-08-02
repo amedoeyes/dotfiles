@@ -108,9 +108,17 @@ in
               shfmt
             ];
 
+            toml = [
+              taplo
+            ];
+
             typst = [
               tinymist
               typstyle
+            ];
+
+            wgsl = [
+              wgsl-analyzer
             ];
           };
 
@@ -182,7 +190,9 @@ in
               python = true;
               rust = true;
               sh = true;
+              toml = true;
               typst = true;
+              wgsl = true;
             };
           };
       };
