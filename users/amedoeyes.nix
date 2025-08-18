@@ -100,6 +100,7 @@
 
       programs = {
         aerc.enable = true;
+        beets.enable = true;
         btop.enable = true;
         cava.enable = true;
         cmus.enable = true;
