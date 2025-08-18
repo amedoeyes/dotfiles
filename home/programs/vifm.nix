@@ -118,24 +118,27 @@ in
     };
 
     programs = {
-      qutebrowser.settings.fileselect = {
+      qutebrowser.settings.fileselect = lib.mkIf cfg.picker {
         handler = "external";
         folder.command = [
           config.home.sessionVariables.TERMINAL
           "--app-id=filepicker"
           "vifm"
+          "-c only"
           "--choose-dir={}"
         ];
-        fileselect.single_file.command = [
+        single_file.command = [
           config.home.sessionVariables.TERMINAL
           "--app-id=filepicker"
           "vifm"
+          "-c only"
           "--choose-files={}"
         ];
         multiple_files.command = [
           config.home.sessionVariables.TERMINAL
           "--app-id=filepicker"
           "vifm"
+          "-c only"
           "--choose-files={}"
         ];
       };
@@ -177,10 +180,6 @@ in
               set wildstyle=popup
 
               view
-              if &columns < 80
-              	only
-              endif
-
               colorscheme eyes
             '';
 

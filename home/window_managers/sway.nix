@@ -19,12 +19,10 @@ in
         xdg-desktop-portal-wlr
       ];
 
-      config = {
-        common = {
-          default = "gtk";
-          "org.freedesktop.impl.portal.Screenshot" = "wlr";
-          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-        };
+      config.common = {
+        default = "gtk";
+        "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        "org.freedesktop.impl.portal.ScreenCast" = "wlr";
       };
     };
 
@@ -111,16 +109,21 @@ in
             border = 1;
             commands = [
               {
+                criteria.app_id = "fzfmenu";
                 command = "floating enable";
-                criteria = {
-                  app_id = "fzfmenu";
-                };
               }
               {
+                criteria.app_id = "fzfmenu";
                 command = "focus";
-                criteria = {
-                  app_id = "fzfmenu";
-                };
+              }
+
+              {
+                criteria.app_id = "filepicker";
+                command = "floating enable";
+              }
+              {
+                criteria.app_id = "filepicker";
+                command = "focus";
               }
             ];
           };
@@ -198,6 +201,7 @@ in
             "${modifier}+m" = "mode MPRIS";
             "${modifier}+n" = "mode NOTIFICATION";
           };
+
           modes = {
             RESIZE = {
               "${modifier}+h" = "resize shrink width 10px";
@@ -231,6 +235,7 @@ in
               "${modifier}+escape" = "mode default";
             };
           };
+
           colors = {
             background = config.theme.colors.hex00;
 
