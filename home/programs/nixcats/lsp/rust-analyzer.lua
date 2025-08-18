@@ -8,10 +8,16 @@ return {
 				command = "clippy",
 				extraArgs = { "--no-deps" },
 			},
+			cargo = {
+				allTargets = false,
+			},
 			diagnostics = {
 				experimental = {
 					enable = true,
 				},
+			},
+			cachePriming = {
+				enable = false,
 			},
 		},
 	},
