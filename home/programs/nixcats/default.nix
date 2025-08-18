@@ -34,6 +34,12 @@ in
       MANPAGER = "nvim +Man!";
     };
 
+    programs.qutebrowser.settings.editor.command = lib.mkIf cfg.default [
+      config.home.sessionVariables.TERMINAL
+      "nvim"
+      "{}"
+    ];
+
     nixCats = {
       enable = true;
       packageNames = [ "nvim" ];

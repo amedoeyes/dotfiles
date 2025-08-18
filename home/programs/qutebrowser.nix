@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.programs.qutebrowser;
 in
@@ -18,6 +23,13 @@ in
     };
 
     programs.qutebrowser = {
+      greasemonkey = [
+        (pkgs.fetchurl {
+          url = "https://update.greasyfork.org/scripts/9165/Auto%20Close%20YouTube%20Ads.user.js";
+          sha256 = "sha256-/SypoUVSVxvUq01s5i5Ep6WhIjCm5Of7JG9m3QSmWXc=";
+        })
+      ];
+
       settings = {
         downloads.location.directory = config.xdg.userDirs.download;
 
@@ -35,12 +47,6 @@ in
         ];
 
         auto_save.session = true;
-
-        editor.command = [
-          config.home.sessionVariables.TERMINAL
-          config.home.sessionVariables.EDITOR
-          "{}"
-        ];
 
         hints.border = "1px solid ${config.theme.colors.hex04}";
         prompt.radius = 0;
