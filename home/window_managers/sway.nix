@@ -74,12 +74,6 @@ in
             };
           };
 
-          seat = {
-            "*" = {
-              hide_cursor = "when-typing enable";
-            };
-          };
-
           workspaceOutputAssign = [
             {
               workspace = "1";
