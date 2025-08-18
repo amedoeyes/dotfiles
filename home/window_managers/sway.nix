@@ -30,16 +30,12 @@ in
           modifier = cfg.config.modifier;
           scripts = import ./scripts pkgs;
           fzfmenu = pkgs.fzfmenu.override {
+            terminalCmd = "${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=fzfmenu";
             fzfOptions = [
               "$FZF_DEFAULT_OPTS"
               "--height 100%"
               "--list-border none"
               "--margin 1"
-            ];
-            terminal = pkgs.${config.home.sessionVariables.TERMINAL};
-            terminalOptions = [
-              "--app-id"
-              "fzfmenu"
             ];
           };
         in
