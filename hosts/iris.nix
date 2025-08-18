@@ -1,9 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 {
   boot = {
     initrd = {
@@ -52,6 +47,15 @@
       ];
     };
   };
+
+  zramSwap.enable = true;
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 8 * 1024;
+    }
+  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
@@ -147,17 +151,15 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services = {
+    getty = {
+      greetingLine = "\\e[0;37m<<< Welcome to ${config.system.nixos.distroName} ${config.system.nixos.label} (\\m) - \\l >>>\\e[0m";
+    };
+    libinput.enable = true;
+    openssh.enable = true;
     pipewire = {
       enable = true;
       pulse.enable = true;
     };
-
-    libinput.enable = true;
-
-    getty = {
-      greetingLine = "\\e[0;37m<<< Welcome to ${config.system.nixos.distroName} ${config.system.nixos.label} (\\m) - \\l >>>\\e[0m";
-    };
-
     tlp = {
       enable = true;
       settings = {
