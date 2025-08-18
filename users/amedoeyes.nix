@@ -162,6 +162,7 @@
         vifm = {
           enable = true;
           default = true;
+          picker = true;
         };
         waybar.enable = true;
         zathura.enable = true;
