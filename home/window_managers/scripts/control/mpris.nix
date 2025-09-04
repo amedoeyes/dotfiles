@@ -35,7 +35,7 @@ writeShellScriptBin "mpris" ''
       if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
         [ ! -d "$player_dir" ] && mkdir -p "$player_dir"
 
-        artist=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag artist' | cut -d ' ' -f 3-)
+        artist=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag albumartist' | cut -d ' ' -f 3-)
         album=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag album' | cut -d ' ' -f 3-)
         art_path="$player_dir/$artist - $album.png"
 
@@ -74,7 +74,7 @@ writeShellScriptBin "mpris" ''
   function notify_progress {
     local artist album title art_path duration position time progress
 
-    artist=$(${lib.getExe mprisctl} metadata xesam:artist)
+    artist=$(${lib.getExe mprisctl} metadata xesam:albumArtist)
     album=$(${lib.getExe mprisctl} metadata xesam:album)
     title=$(${lib.getExe mprisctl} metadata xesam:title)
     status=$([ "$(${lib.getExe mprisctl} player-properties PlaybackStatus)" == "Playing" ] && printf "󰏤" || printf "󰐊")
@@ -90,7 +90,7 @@ writeShellScriptBin "mpris" ''
   function notify_volume {
     local artist album title art_path volume  
 
-    artist=$(${lib.getExe mprisctl} metadata xesam:artist)
+    artist=$(${lib.getExe mprisctl} metadata xesam:albumArtist)
     album=$(${lib.getExe mprisctl} metadata xesam:album)
     title=$(${lib.getExe mprisctl} metadata xesam:title)
     art_path=$(get_art_path)

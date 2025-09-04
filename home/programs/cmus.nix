@@ -9,7 +9,10 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.cmusfm ];
+    home.packages = [
+      pkgs.cmusfm
+      pkgs.cmus-cover
+    ];
 
     xdg.configFile."cmus/eyes.theme".text = ''
       set color_win_fg=${config.theme.colors.ansi10}
