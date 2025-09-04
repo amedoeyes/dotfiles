@@ -7,10 +7,10 @@
 }:
 writeShellScriptBin "cmus-cover" ''
   function display_cover {
-  	clear
   	${lib.getExe ffmpeg} -loglevel quiet -i "$(${lib.getExe' cmus "cmus-remote"} -Q | grep 'file' | cut -d ' ' -f 2-)" -an -vcodec copy -f image2pipe - |
-  		${lib.getExe chafa} -s "$(tput cols)"x"$(tput lines)" -C true |
+  		${lib.getExe chafa} -s "$(tput cols)"x"$(tput lines)" --align "center,center" --clear |
   		tr -d '\n'
+  	echo -en "\e[?25l"
   }
 
   display_cover
