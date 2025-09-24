@@ -33,6 +33,15 @@ in
         ];
       };
 
+      embedart = {
+        remove_art_file = true;
+      };
+
+      fetchart = {
+        maxwidth = 1500;
+        cover_format = "jpeg";
+      };
+
       zero = {
         keep_fields = [
           "title"
@@ -42,26 +51,8 @@ in
           "year"
           "track"
           "images"
+          "art"
         ];
-      };
-
-      fetchart = {
-        maxwidth = 1500;
-        quality = 75;
-        max_filesize = 300000;
-        enforce_ratio = true;
-        cover_format = "jpeg";
-        sources = [
-          "filesystem"
-          "coverart"
-          "itunes"
-          "albumart"
-          "*"
-        ];
-      };
-
-      embedart = {
-        remove_art_file = true;
       };
     };
   };
