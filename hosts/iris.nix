@@ -171,6 +171,7 @@
         STOP_CHARGE_THRESH_BAT1 = 100;
       };
     };
+    udisks2.enable = true;
   };
 
   security = {
