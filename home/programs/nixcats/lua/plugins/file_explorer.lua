@@ -26,7 +26,7 @@ function FileExplorer:open()
 			"--on-choose",
 			"nvim --server "
 				.. vim.v.servername
-				.. ' --remote-expr "nvim_exec2(\\"quit | args %f:p\\", {})"',
+				.. ' --remote-expr "nvim_exec2(\\"quit | edit %f:p\\", {})"',
 			"--select",
 			curr_buf_name ~= "" and curr_buf_name or vim.env.PWD,
 			self.path,
@@ -104,9 +104,7 @@ M.setup = function()
 			vim.bo[args.buf].buflisted = false
 			vim.bo[args.buf].bufhidden = "wipe"
 
-			vim.schedule(function()
-				M.open(path)
-			end)
+			M.open(path)
 		end,
 	})
 end
