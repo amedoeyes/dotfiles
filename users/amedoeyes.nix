@@ -92,10 +92,11 @@
       home.packages = with pkgs; [
         blobdrop
         nix-index
-        select-geometry
         screenrecord
         screenshot
+        select-geometry
         wl-clipboard
+        xdg-utils
       ];
 
       programs = {
@@ -116,7 +117,7 @@
           userName = "Ahmed AbouEleyoun";
           signing = {
             key = gpgKey;
-            signByDefault = true;
+            # signByDefault = true;
           };
         };
         gpg.enable = true;
@@ -153,6 +154,7 @@
         };
         password-store = {
           enable = true;
+          package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
           settings = {
             PASSWORD_STORE_KEY = gpgKey;
           };
@@ -174,17 +176,18 @@
       services = {
         batsignal.enable = true;
         cliphist.enable = true;
-        mako.enable = true;
-        swayidle.enable = true;
-
         gpg-agent = {
           enable = true;
+          enableSshSupport = true;
+          sshKeys = [ "42E2EEB2C6DE503C9795501A4138990BDC1731C4" ];
           extraConfig = ''
             allow-preset-passphrase
             default-cache-ttl 31536000
             max-cache-ttl 31536000
           '';
         };
+        mako.enable = true;
+        swayidle.enable = true;
       };
 
       wayland.windowManager.sway.enable = true;
