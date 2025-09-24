@@ -117,6 +117,10 @@
           hidden = true;
           pskRaw = "ext:iris_psk";
         };
+
+        "TRUFLA_STAFF" = {
+          pskRaw = "ext:trufla_staff_psk";
+        };
       };
     };
   };

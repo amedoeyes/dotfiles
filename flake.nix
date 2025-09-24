@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -18,6 +19,13 @@
           name = "iris";
           system = "x86_64-linux";
           users = [ "amedoeyes" ];
+          modules = [ ];
+        }
+        {
+          name = "wsl";
+          system = "x86_64-linux";
+          users = [ "wsl" ];
+          modules = [ inputs.nixos-wsl.nixosModules.default ];
         }
       ];
     in
@@ -35,7 +43,7 @@
                 acc: user: acc // { ${user} = import ./users/${user}.nix; }
               ) { } host.users;
             };
-            modules = [
+            modules = host.modules ++ [
               ./hosts
               ./home
             ];
