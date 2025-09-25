@@ -2,6 +2,7 @@
 {
   imports = [
     ./aerc.nix
+    ./alacritty.nix
     ./beets.nix
     ./btop.nix
     ./cava.nix
