@@ -13,6 +13,10 @@ in
       type = lib.types.attrsOf lib.types.str;
     };
 
+    ansiColors = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+    };
+
     darkColors = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
       default = {
@@ -89,33 +93,33 @@ in
           cfg.lightColors
         else
           throw "Unsupported palette: ${cfg.palette}";
-    };
 
-    programs.foot.settings.colors = {
-      "232" = "000000";
-      "233" = "101010";
-      "234" = "202020";
-      "235" = "303030";
-      "236" = "404040";
-      "237" = "4F4F4F";
-      "238" = "505050";
-      "239" = "5F5F5F";
-      "240" = "606060";
-      "241" = "6F6F6F";
-      "242" = "707070";
-      "243" = "7F7F7F";
-      "244" = "808080";
-      "245" = "8F8F8F";
-      "246" = "909090";
-      "247" = "9F9F9F";
-      "248" = "A0A0A0";
-      "249" = "AFAFAF";
-      "250" = "B0B0B0";
-      "251" = "BFBFBF";
-      "252" = "CFCFCF";
-      "253" = "DFDFDF";
-      "254" = "EFEFEF";
-      "255" = "FFFFFF";
+      ansiColors = {
+        "232" = "#000000";
+        "233" = "#101010";
+        "234" = "#202020";
+        "235" = "#303030";
+        "236" = "#404040";
+        "237" = "#4F4F4F";
+        "238" = "#505050";
+        "239" = "#5F5F5F";
+        "240" = "#606060";
+        "241" = "#6F6F6F";
+        "242" = "#707070";
+        "243" = "#7F7F7F";
+        "244" = "#808080";
+        "245" = "#8F8F8F";
+        "246" = "#909090";
+        "247" = "#9F9F9F";
+        "248" = "#A0A0A0";
+        "249" = "#AFAFAF";
+        "250" = "#B0B0B0";
+        "251" = "#BFBFBF";
+        "252" = "#CFCFCF";
+        "253" = "#DFDFDF";
+        "254" = "#EFEFEF";
+        "255" = "#FFFFFF";
+      };
     };
   };
 }

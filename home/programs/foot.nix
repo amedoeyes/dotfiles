@@ -69,7 +69,8 @@ in
 
             search-box-no-match = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex00}";
             search-box-match = "${stripHash config.theme.colors.hex10} ${stripHash config.theme.colors.hex00}";
-          };
+          }
+          // builtins.mapAttrs (_: color: stripHash color) config.theme.ansiColors;
 
           key-bindings = {
             search-start = "Control+Shift+slash";
