@@ -76,6 +76,7 @@ in
       theme = "eyes";
 
       extraConfig = ''
+        set auto_hide_playlists_panel=true
         set format_current= %a - %l%! - %02n %t%= %y 
         set format_trackwin= %02n %t%= %d 
         set format_playlist= %-21%a %02n %t%= %y %d %{?X!=0?%3X ?    }
