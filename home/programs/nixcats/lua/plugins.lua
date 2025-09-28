@@ -7,7 +7,6 @@ if nixCats("general") then
 	local clue = require("mini.clue")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
-	local operators = require("mini.operators")
 	local pairs = require("mini.pairs")
 	local splitjoin = require("mini.splitjoin")
 	local surround = require("mini.surround")
@@ -124,14 +123,6 @@ if nixCats("general") then
 		icons.mock_nvim_web_devicons()
 		return package.loaded["nvim-web-devicons"]
 	end
-
-	operators.setup({
-		evaluate = { prefix = "go=" },
-		exchange = { prefix = "gox" },
-		multiply = { prefix = "gom" },
-		replace = { prefix = "gor" },
-		sort = { prefix = "gos" },
-	})
 
 	pairs.setup()
 
