@@ -4,11 +4,9 @@ if nixCats("general") then
 	local blink = require("blink.cmp")
 	local fzf = require("fzf-lua")
 	local ai = require("mini.ai")
-	local align = require("mini.align")
 	local clue = require("mini.clue")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
-	local move = require("mini.move")
 	local operators = require("mini.operators")
 	local pairs = require("mini.pairs")
 	local splitjoin = require("mini.splitjoin")
@@ -68,8 +66,6 @@ if nixCats("general") then
 
 	ai.setup()
 
-	align.setup()
-
 	clue.setup({
 		triggers = {
 			{ keys = "'", mode = "n" },
@@ -128,8 +124,6 @@ if nixCats("general") then
 		icons.mock_nvim_web_devicons()
 		return package.loaded["nvim-web-devicons"]
 	end
-
-	move.setup()
 
 	operators.setup({
 		evaluate = { prefix = "go=" },
