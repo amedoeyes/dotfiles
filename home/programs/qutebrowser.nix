@@ -119,7 +119,7 @@ in
           statusbar.passthrough.fg = config.theme.colors.hex10;
           statusbar.passthrough.bg = config.theme.colors.hex00;
 
-          statusbar.progress.bg = config.theme.colors.hex00;
+          statusbar.progress.bg = config.theme.colors.hex10;
 
           statusbar.private.fg = config.theme.colors.hex10;
           statusbar.private.bg = config.theme.colors.hex00;
