@@ -16,6 +16,7 @@ in
       };
 
       plugins = [
+        "musicbrainz"
         "badfiles"
         "edit"
         "embedart"
