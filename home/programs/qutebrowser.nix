@@ -181,6 +181,12 @@ in
 
           webpage.preferred_color_scheme = config.theme.palette;
         };
+
+        keyBindings = {
+          command = {
+            "<Ctrl-e>" = "cmd-edit";
+          };
+        };
       };
     };
   };
