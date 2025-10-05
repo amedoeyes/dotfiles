@@ -154,9 +154,15 @@ M.toggle = require("plugins.toggle").create({
 })
 
 M.setup = function()
-	vim.api.nvim_create_user_command("WriteMode", function()
-		M.toggle()
-	end, {})
+	vim.api.nvim_create_autocmd("FileType", {
+		group = vim.api.nvim_create_augroup("writemode.command", { clear = true }),
+		pattern = { "markdown", "text" },
+		callback = function(e)
+			vim.api.nvim_buf_create_user_command(e.buf, "WriteMode", function()
+				M.toggle()
+			end, {})
+		end,
+	})
 end
 
 return M
