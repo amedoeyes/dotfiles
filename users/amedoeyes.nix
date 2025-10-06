@@ -117,7 +117,7 @@
           userName = "Ahmed AbouEleyoun";
           signing = {
             key = gpgKey;
-            # signByDefault = true;
+            signByDefault = true;
           };
         };
         gpg.enable = true;
@@ -130,7 +130,6 @@
             };
           };
         };
-        less.enable = true;
         mbsync.enable = true;
         mpv = {
           enable = true;

@@ -12,7 +12,6 @@
     ./fzf.nix
     ./gpg.nix
     ./lazygit.nix
-    ./less.nix
     ./mpv.nix
     ./newsboat.nix
     ./nixcats
