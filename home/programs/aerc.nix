@@ -11,24 +11,26 @@ in
   config.programs.aerc = lib.mkIf cfg.enable {
     stylesets = {
       eyes = {
-        "*.fg" = config.theme.colors.ansi10;
-        "*.bg" = config.theme.colors.ansi00;
-        "*.normal" = true;
-        "*.selected.bg" = config.theme.colors.ansi01;
-        "statusline_*.bold" = true;
+        global = {
+          "*.fg" = config.theme.colors.ansi10;
+          "*.bg" = config.theme.colors.ansi00;
+          "*.normal" = "true";
+          "*.selected.bg" = config.theme.colors.ansi01;
+          "statusline_*.bold" = "true";
 
-        "border.fg" = config.theme.colors.ansi04;
+          "border.fg" = config.theme.colors.ansi04;
 
-        "title.bold" = true;
-        "header.bold" = true;
+          "title.bold" = "true";
+          "header.bold" = "true";
 
-        "msglist_marked.bg" = config.theme.colors.ansi02;
-        "msglist_result.bg" = config.theme.colors.ansi03;
+          "msglist_marked.bg" = config.theme.colors.ansi02;
+          "msglist_result.bg" = config.theme.colors.ansi03;
 
-        "tab.fg" = config.theme.colors.ansi06;
-        "tab.selected.fg" = config.theme.colors.ansi10;
-        "tab.selected.bg" = config.theme.colors.ansi00;
-        "tab.selected.bold" = true;
+          "tab.fg" = config.theme.colors.ansi06;
+          "tab.selected.fg" = config.theme.colors.ansi10;
+          "tab.selected.bg" = config.theme.colors.ansi00;
+          "tab.selected.bold" = "true";
+        };
       };
     };
 
