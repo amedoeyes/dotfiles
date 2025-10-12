@@ -7,7 +7,6 @@ if nixCats("general") then
 	local clue = require("mini.clue")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
-	-- local pairs = require("mini.pairs")
 	local splitjoin = require("mini.splitjoin")
 	local surround = require("mini.surround")
 	local null_ls = require("null-ls")
@@ -124,8 +123,6 @@ if nixCats("general") then
 		return package.loaded["nvim-web-devicons"]
 	end
 
-	-- pairs.setup()
-
 	splitjoin.setup()
 
 	surround.setup({
@@ -241,18 +238,6 @@ if nixCats("general") then
 			end,
 		})()
 	end, { desc = "Toggle auto-format" })
-
-	vim.keymap.set("n", "<leader>tp", function()
-		toggle.create({
-			name = "Auto-Pairs",
-			get = function()
-				return not vim.g.minipairs_disable
-			end,
-			set = function(state)
-				vim.g.minipairs_disable = not state
-			end,
-		})()
-	end, { desc = "Toggle auto-pair" })
 
 	vim.keymap.set("n", "<leader>tl", function()
 		toggle.create({

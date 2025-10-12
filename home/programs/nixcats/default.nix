@@ -145,15 +145,10 @@ in
               none-ls-nvim
               nvim-treesitter.withAllGrammars
               fzf-lua
-              mini-nvim
               mini-ai
-              mini-align
               mini-clue
               mini-diff
               mini-icons
-              mini-move
-              mini-operators
-              mini-pairs
               mini-splitjoin
               mini-surround
             ];
