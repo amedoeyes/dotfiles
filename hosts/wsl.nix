@@ -6,6 +6,8 @@
     defaultUser = "wsl";
   };
 
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   nix = {
     settings = {
       use-xdg-base-directories = true;
