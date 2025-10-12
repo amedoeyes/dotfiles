@@ -146,10 +146,8 @@ in
               nvim-treesitter.withAllGrammars
               fzf-lua
               mini-ai
-              mini-clue
               mini-diff
               mini-icons
-              mini-splitjoin
               mini-surround
             ];
 

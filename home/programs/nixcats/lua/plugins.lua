@@ -4,10 +4,8 @@ if nixCats("general") then
 	local blink = require("blink.cmp")
 	local fzf = require("fzf-lua")
 	local ai = require("mini.ai")
-	local clue = require("mini.clue")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
-	local splitjoin = require("mini.splitjoin")
 	local surround = require("mini.surround")
 	local null_ls = require("null-ls")
 	local treesitter = require("nvim-treesitter.configs")
@@ -64,37 +62,6 @@ if nixCats("general") then
 
 	ai.setup()
 
-	clue.setup({
-		triggers = {
-			{ keys = "'", mode = "n" },
-			{ keys = "'", mode = "x" },
-			{ keys = "<C-r>", mode = "c" },
-			{ keys = "<C-r>", mode = "i" },
-			{ keys = "<C-w>", mode = "n" },
-			{ keys = "<C-x>", mode = "i" },
-			{ keys = "<leader>", mode = "n" },
-			{ keys = "<leader>", mode = "x" },
-			{ keys = "[", mode = "n" },
-			{ keys = "]", mode = "n" },
-			{ keys = "`", mode = "n" },
-			{ keys = "`", mode = "x" },
-			{ keys = "g", mode = "n" },
-			{ keys = "g", mode = "x" },
-			{ keys = "z", mode = "n" },
-			{ keys = "z", mode = "x" },
-			{ keys = '"', mode = "n" },
-			{ keys = '"', mode = "x" },
-		},
-		clues = {
-			clue.gen_clues.builtin_completion(),
-			clue.gen_clues.g(),
-			clue.gen_clues.marks(),
-			clue.gen_clues.registers(),
-			clue.gen_clues.windows(),
-			clue.gen_clues.z(),
-		},
-	})
-
 	diff.setup({
 		view = {
 			style = "sign",
@@ -122,8 +89,6 @@ if nixCats("general") then
 		icons.mock_nvim_web_devicons()
 		return package.loaded["nvim-web-devicons"]
 	end
-
-	splitjoin.setup()
 
 	surround.setup({
 		mappings = {
