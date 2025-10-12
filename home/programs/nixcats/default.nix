@@ -126,6 +126,10 @@ in
             wgsl = [
               wgsl-analyzer
             ];
+
+            xml = [
+              lemminx
+            ];
           };
 
           startupPlugins = with pkgs.vimPlugins; {
@@ -199,6 +203,7 @@ in
               toml = true;
               typst = true;
               wgsl = true;
+              xml = true;
             };
           };
       };
