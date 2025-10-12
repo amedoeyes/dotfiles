@@ -1,7 +1,27 @@
-vim.lsp.set_log_level("off")
-
 vim.g.autoformat = true
 vim.g.codelens = false
+
+vim.lsp.enable({
+	"bash-language-server",
+	"clangd",
+	"gopls",
+	"haskell-language-server",
+	"lua-language-server",
+	"marksman",
+	"nixd",
+	"pyright",
+	"ruff",
+	"rust-analyzer",
+	"taplo",
+	"tinymist",
+	"typescript-language-server",
+	"vscode-css-language-server",
+	"vscode-eslint-language-server",
+	"vscode-html-language-server",
+	"vscode-json-language-server",
+	"wgsl-analyzer",
+	"zk",
+})
 
 vim.lsp.config("*", {
 	root_markers = { ".git" },
@@ -19,6 +39,10 @@ vim.lsp.config("*", {
 						end
 					end,
 				})
+
+				vim.keymap.set("n", "grlr", vim.lsp.codelens.run, { desc = "Codelens run" })
+				vim.keymap.set("n", "grlc", vim.lsp.codelens.clear, { desc = "Codelens clear" })
+				vim.keymap.set("n", "grlf", vim.lsp.codelens.refresh, { desc = "Codelens refresh" })
 			end
 
 			if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, buf) then
@@ -37,14 +61,6 @@ vim.lsp.config("*", {
 						vim.lsp.buf.clear_references()
 					end,
 				})
-			end
-
-			if vim.tbl_contains({ "typescript-language-server" }, client.name) then
-				client.server_capabilities.documentFormattingProvider = false
-			end
-
-			if vim.tbl_contains({ "tinymist" }, client.name) then
-				client.server_capabilities.documentFormattingProvider = true
 			end
 
 			if
@@ -70,28 +86,4 @@ vim.lsp.config("*", {
 		end,
 })
 
-vim.lsp.enable({
-	"bash-language-server",
-	"clangd",
-	"gopls",
-	"haskell-language-server",
-	"lua-language-server",
-	"marksman",
-	"nixd",
-	"pyright",
-	"ruff",
-	"rust-analyzer",
-	"taplo",
-	"tinymist",
-	"typescript-language-server",
-	"vscode-css-language-server",
-	"vscode-eslint-language-server",
-	"vscode-html-language-server",
-	"vscode-json-language-server",
-	"wgsl-analyzer",
-	"zk",
-})
-
-vim.keymap.set("n", "grlr", vim.lsp.codelens.run, { desc = "Codelens run" })
-vim.keymap.set("n", "grlc", vim.lsp.codelens.clear, { desc = "Codelens clear" })
-vim.keymap.set("n", "grlf", vim.lsp.codelens.refresh, { desc = "Codelens refresh" })
+vim.lsp.set_log_level("off")

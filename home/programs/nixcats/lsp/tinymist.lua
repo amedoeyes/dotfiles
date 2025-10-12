@@ -8,4 +8,7 @@ return {
 	capabilities = {
 		textDocument = { formatting = {} },
 	},
+	on_init = function(client)
+		client.server_capabilities.documentFormattingProvider = true
+	end,
 }
