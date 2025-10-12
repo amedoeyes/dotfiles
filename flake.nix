@@ -17,13 +17,11 @@
       hosts = [
         {
           name = "iris";
-          system = "x86_64-linux";
           users = [ "amedoeyes" ];
           modules = [ ];
         }
         {
           name = "wsl";
-          system = "x86_64-linux";
           users = [ "wsl" ];
           modules = [ inputs.nixos-wsl.nixosModules.default ];
         }
@@ -35,7 +33,6 @@
         acc
         // {
           ${host.name} = nixpkgs.lib.nixosSystem {
-            inherit (host) system;
             specialArgs = {
               inherit inputs;
               inherit (host) name;
