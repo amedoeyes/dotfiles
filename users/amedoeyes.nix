@@ -97,6 +97,7 @@
         select-geometry
         wl-clipboard
         xdg-utils
+        mprisctl
       ];
 
       programs = {
