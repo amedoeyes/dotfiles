@@ -109,8 +109,8 @@
       secretsFile = "/etc/nixos/wifi-passwords";
 
       networks = {
-        "<O>" = {
-          pskRaw = "ext:eye_psk";
+        "eyes" = {
+          pskRaw = "ext:eyes_psk";
         };
 
         "Iris" = {
