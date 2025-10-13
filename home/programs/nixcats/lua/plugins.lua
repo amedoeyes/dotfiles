@@ -1,7 +1,11 @@
 if nixCats("general") then
 	vim.cmd.colorscheme("eyes")
+	vim.api.nvim_set_hl(0, "FloatShadow", { bg = "#404040", blend = 80 })
+	vim.api.nvim_set_hl(0, "FloatShadowThrough", { bg = "#404040", blend = 100 })
+	vim.api.nvim_set_hl(0, "PmenuBorder", { link = "FloatBorder" })
+	vim.api.nvim_set_hl(0, "PmenuShadow", { link = "FloatShadow" })
+	vim.api.nvim_set_hl(0, "PmenuShadowThrough", { link = "FloatShadowThrough" })
 
-	local blink = require("blink.cmp")
 	local fzf = require("fzf-lua")
 	local ai = require("mini.ai")
 	local diff = require("mini.diff")
@@ -12,43 +16,6 @@ if nixCats("general") then
 	local file_explorer = require("plugins.file_explorer")
 	local terminal = require("plugins.terminal")
 	local toggle = require("plugins.toggle")
-
-	blink.setup({
-		completion = {
-			list = {
-				selection = { auto_insert = false },
-			},
-		},
-		appearance = {
-			kind_icons = {
-				Class = "",
-				Color = "",
-				Constant = "",
-				Constructor = "",
-				Enum = "",
-				EnumMember = "",
-				Event = "",
-				Field = "",
-				File = "",
-				Folder = "",
-				Function = "",
-				Interface = "",
-				Keyword = "",
-				Method = "",
-				Module = "",
-				Operator = "",
-				Property = "",
-				Reference = "",
-				Snippet = "",
-				Struct = "",
-				Text = "",
-				TypeParameter = "",
-				Unit = "",
-				Value = "󰎠",
-				Variable = "",
-			},
-		},
-	})
 
 	fzf.config.defaults.keymap.fzf["ctrl-q"] = "select-all+accept"
 	fzf.register_ui_select()

@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   inputs,
   config,
@@ -140,8 +141,6 @@ in
                 rev = "master";
                 hash = "sha256-tUeuORxJ0Oe/z9bMBb5uPplYp6CoHVmBshxajAJACjs=";
               })
-              blink-cmp
-              friendly-snippets
               none-ls-nvim
               nvim-treesitter.withAllGrammars
               fzf-lua
@@ -167,6 +166,7 @@ in
           { ... }:
           {
             settings = {
+              neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
               wrapRc = !cfg.unwrap;
               unwrappedCfgPath = "/etc/nixos/home/programs/nixcats/";
               hosts = {

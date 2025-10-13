@@ -14,3 +14,9 @@ vim.keymap.set("n", "gK", function()
 end, { desc = "Toggle diagnostic virtual_lines" })
 
 vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
+
+vim.keymap.set("i", "<C-Space>", function()
+	if vim.fn.pumvisible() == 0 then
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n", true)
+	end
+end)
