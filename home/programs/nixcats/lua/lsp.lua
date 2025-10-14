@@ -57,12 +57,103 @@ vim.lsp.config("*", {
 					"", -- Operator
 					"", -- TypeParameter
 				}
-
-				vim.bo[buf].complete = "o"
+				local max_width = 80
 
 				local show_docs = false
 				local complete_item = nil
 				local docs_win = nil
+
+				local open_docs = function()
+					vim.opt.completeopt:append("popup")
+
+					local detail = complete_item and complete_item.detail
+					local docs = complete_item and vim.tbl_get(complete_item, "documentation", "value")
+
+					if
+						(not detail or not docs)
+						and client.server_capabilities.completionProvider.resolveProvider
+					then
+						local res = vim.lsp.buf_request_sync(
+							buf,
+							vim.lsp.protocol.Methods.completionItem_resolve,
+							complete_item
+						)
+						detail = res and vim.tbl_get(res[client.id], "result", "detail") or detail
+						docs = res and vim.tbl_get(res[client.id], "result", "documentation", "value")
+					end
+
+					detail = detail and ("```" .. vim.bo[buf].filetype .. "\n" .. detail .. "\n```")
+
+					local info = nil
+
+					if detail and docs then
+						info = detail .. "\n\n" .. docs
+					elseif detail then
+						info = detail
+					elseif docs then
+						info = docs
+					end
+
+					if not info then
+						return
+					end
+
+					local max_line_len = vim
+						.iter(vim.split(info, "\n"))
+						:filter(function(v)
+							return not vim.startswith(v, "```")
+						end)
+						:map(function(v)
+							return #v
+						end)
+						:fold(0, function(acc, v)
+							return math.max(acc, v)
+						end)
+
+					local width = math.min(max_width, max_line_len)
+
+					local data = vim.api.nvim__complete_set(
+						vim.fn.complete_info({ "selected" }).selected,
+						{ info = info }
+					)
+
+					if detail and docs then
+						vim.api.nvim_buf_set_extmark(data.bufnr, 1, #vim.split(detail, "\n"), 0, {
+							virt_text = { { string.rep("─", width), "FloatBorder" } },
+							virt_text_pos = "overlay",
+						})
+					end
+
+					vim.treesitter.start(data.bufnr, "markdown")
+
+					vim.wo[data.winid].conceallevel = 2
+					vim.wo[data.winid].wrap = width == max_width
+
+					local pum = vim.fn.pum_getpos()
+					local win_cfg = vim.api.nvim_win_get_config(data.winid)
+
+					win_cfg.width = width
+					win_cfg.height = vim.api.nvim_win_text_height(data.winid, {}).all
+					if (win_cfg.width + 2) + (pum.width + 2) + pum.col >= vim.o.columns then
+						win_cfg.height = math.min(win_cfg.height, vim.o.lines - (pum.row + pum.height) - 5)
+						win_cfg.row = pum.row + pum.height + 2
+						win_cfg.col = pum.col - 1
+					else
+						win_cfg.height = math.min(win_cfg.height, vim.o.lines - pum.row - 3)
+					end
+					win_cfg.border = vim.o.winborder
+					vim.api.nvim_win_set_config(data.winid, win_cfg)
+
+					docs_win = data.winid
+				end
+
+				local close_docs = function()
+					vim.opt.completeopt:remove("popup")
+					if docs_win and vim.api.nvim_win_is_valid(docs_win) then
+						vim.api.nvim_win_close(docs_win, true)
+						docs_win = nil
+					end
+				end
 
 				vim.lsp.completion.enable(true, client.id, buf, {
 					autotrigger = true,
@@ -82,22 +173,13 @@ vim.lsp.config("*", {
 
 				vim.keymap.set("i", "<C-Space>", function()
 					if vim.fn.pumvisible() == 0 then
-						vim.api.nvim_feedkeys(
-							vim.api.nvim_replace_termcodes("<C-n>", true, true, true),
-							"n",
-							true
-						)
+						vim.lsp.completion.get()
 					else
 						show_docs = not show_docs
 						if show_docs then
-							vim.opt.completeopt:append("popup")
-							vim.api.nvim_exec_autocmds("CompleteChanged", {})
+							open_docs()
 						else
-							vim.opt.completeopt:remove("popup")
-							if docs_win ~= nil and vim.api.nvim_win_is_valid(docs_win) then
-								vim.api.nvim_win_close(docs_win, true)
-								docs_win = nil
-							end
+							close_docs()
 						end
 					end
 				end, { buffer = buf })
@@ -105,7 +187,7 @@ vim.lsp.config("*", {
 				vim.api.nvim_create_autocmd("CompleteChanged", {
 					buffer = buf,
 					callback = function()
-						if vim.v.event.completed_item ~= nil then
+						if vim.v.event.completed_item then
 							complete_item = vim.tbl_get(
 								vim.v.event.completed_item,
 								"user_data",
@@ -114,97 +196,18 @@ vim.lsp.config("*", {
 								"completion_item"
 							)
 						end
-
-						if not show_docs then
-							return
+						if show_docs then
+							open_docs()
 						end
-
-						local detail = complete_item and complete_item.detail
-						local docs = complete_item and vim.tbl_get(complete_item, "documentation", "value")
-
-						if
-							(not detail or not docs)
-							and client.server_capabilities.completionProvider.resolveProvider
-						then
-							local res = vim.lsp.buf_request_sync(
-								buf,
-								vim.lsp.protocol.Methods.completionItem_resolve,
-								complete_item
-							)
-							detail = res and vim.tbl_get(res[client.id], "result", "detail") or detail
-							docs = res and vim.tbl_get(res[client.id], "result", "documentation", "value")
-						end
-
-						detail = detail and ("```" .. vim.bo[buf].filetype .. "\n" .. detail .. "\n```")
-
-						if not detail and not docs then
-							return
-						end
-
-						local info = table.concat(
-							vim.tbl_filter(function(i)
-								return i ~= nil
-							end, { detail, docs }),
-							"\n\n"
-						)
-
-						local data = vim.api.nvim__complete_set(
-							vim.fn.complete_info({ "selected" })["selected"],
-							{ info = info }
-						)
-						if not data.winid or not vim.api.nvim_win_is_valid(data.winid) then
-							return
-						end
-
-						vim.treesitter.start(data.bufnr, "markdown")
-
-						if detail and docs then
-							vim.api.nvim_buf_set_extmark(
-								data.bufnr,
-								vim.api.nvim_create_namespace("line"),
-								#vim.split(detail, "\n"),
-								0,
-								{
-									virt_text = { { string.rep("─", 80), "FloatBorder" } },
-									virt_text_pos = "overlay",
-								}
-							)
-						end
-
-						vim.api.nvim_win_set_config(data.winid, { border = "single" })
-						vim.wo[data.winid].conceallevel = 2
-						vim.wo[data.winid].wrap = true
-						vim.api.nvim_win_set_width(data.winid, 80)
-						vim.api.nvim_win_set_height(
-							data.winid,
-							vim.api.nvim_win_text_height(data.winid, {}).all
-						)
-
-						local win_config = vim.api.nvim_win_get_config(data.winid)
-						local pum = vim.fn.pum_getpos()
-
-						if win_config.width > vim.o.columns * 0.5 then
-							win_config.height =
-								math.min(win_config.height, vim.o.lines - (pum.row + pum.height) - 5)
-							win_config.row = pum.row + pum.height + 2
-							win_config.col = pum.col - 1
-							vim.api.nvim_win_set_config(data.winid, win_config)
-						else
-							win_config.height = math.min(win_config.height, vim.o.lines - pum.row - 3)
-							vim.api.nvim_win_set_config(data.winid, win_config)
-						end
-
-						docs_win = data.winid
 					end,
 				})
 
 				vim.api.nvim_create_autocmd("CompleteDone", {
 					buffer = buf,
 					callback = function()
-						vim.opt.completeopt:remove("popup")
-						show_docs = false
-						docs_win = nil
 						complete_item = nil
+						show_docs = false
+						close_docs()
 					end,
 				})
 			end
