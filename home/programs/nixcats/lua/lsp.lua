@@ -129,11 +129,12 @@ vim.lsp.config("*", {
 					vim.wo[data.winid].conceallevel = 2
 					vim.wo[data.winid].wrap = width == max_width
 
+					vim.api.nvim_win_set_width(data.winid, width)
+					vim.api.nvim_win_set_height(data.winid, vim.api.nvim_win_text_height(data.winid, {}).all)
+
 					local pum = vim.fn.pum_getpos()
 					local win_cfg = vim.api.nvim_win_get_config(data.winid)
 
-					win_cfg.width = width
-					win_cfg.height = vim.api.nvim_win_text_height(data.winid, {}).all
 					if (win_cfg.width + 2) + (pum.width + 2) + pum.col >= vim.o.columns then
 						win_cfg.height = math.min(win_cfg.height, vim.o.lines - (pum.row + pum.height) - 5)
 						win_cfg.row = pum.row + pum.height + 2
