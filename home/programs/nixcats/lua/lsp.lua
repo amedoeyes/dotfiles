@@ -140,6 +140,7 @@ vim.lsp.config("*", {
 						win_cfg.row = pum.row + pum.height + 2
 						win_cfg.col = pum.col - 1
 					else
+						win_cfg.row = pum.row
 						win_cfg.height = math.min(win_cfg.height, vim.o.lines - pum.row - 3)
 					end
 					win_cfg.border = vim.o.winborder
