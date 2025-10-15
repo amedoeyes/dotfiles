@@ -3,7 +3,7 @@ vim.opt.breakindent = true
 vim.opt.breakindentopt = "list:-1"
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cmdheight = 0
-vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy" }
+vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "nosort" }
 vim.opt.conceallevel = 0
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -26,7 +26,6 @@ vim.opt.grepprg = "rg --vimgrep"
 vim.opt.guicursor:append("a:blinkwait500-blinkoff500-blinkon500-Cursor/lCursor")
 vim.opt.ignorecase = true
 vim.opt.inccommand = "nosplit"
-vim.opt.jumpoptions = "view"
 vim.opt.laststatus = 3
 vim.opt.linebreak = true
 vim.opt.list = true
