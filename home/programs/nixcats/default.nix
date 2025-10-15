@@ -149,9 +149,6 @@ in
               mini-icons
               mini-surround
             ];
-
-            markdown = [ render-markdown-nvim ];
-
           };
           environmentVariables = {
             general = {

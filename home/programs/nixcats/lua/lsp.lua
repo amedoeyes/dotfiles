@@ -124,7 +124,7 @@ vim.lsp.config("*", {
 						})
 					end
 
-					vim.treesitter.start(data.bufnr, "markdown")
+					vim.bo[data.bufnr].filetype = "markdown"
 
 					vim.wo[data.winid].conceallevel = 2
 					vim.wo[data.winid].wrap = width == max_width
