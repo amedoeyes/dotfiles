@@ -86,27 +86,4 @@ M.toggle = function(path)
 	end
 end
 
-M.setup = function()
-	vim.g.loaded_netrw = 1
-	vim.g.loaded_netrwPlugin = 1
-
-	vim.cmd("silent! autocmd! FileExplorer *")
-	vim.cmd("autocmd VimEnter * ++once silent! autocmd! FileExplorer *")
-
-	vim.api.nvim_create_autocmd("BufEnter", {
-		group = vim.api.nvim_create_augroup("eyes.file_explorer", { clear = true }),
-		callback = function(args)
-			local path = vim.api.nvim_buf_get_name(args.buf)
-			if vim.fn.isdirectory(path) ~= 1 then
-				return
-			end
-
-			vim.bo[args.buf].buflisted = false
-			vim.bo[args.buf].bufhidden = "wipe"
-
-			M.open(path)
-		end,
-	})
-end
-
 return M

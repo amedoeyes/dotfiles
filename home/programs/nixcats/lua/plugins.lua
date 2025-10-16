@@ -105,8 +105,6 @@ if nixCats("general") then
 		},
 	})
 
-	file_explorer.setup()
-
 	vim.keymap.set("n", "<leader>go", function()
 		diff.toggle_overlay(0)
 	end, { desc = "Git diff overlay" })
