@@ -62,7 +62,7 @@
   hardware = {
     enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
-
+    bluetooth.enable = true;
     graphics = {
       enable = true;
       extraPackages = with pkgs; [ intel-media-driver ];
