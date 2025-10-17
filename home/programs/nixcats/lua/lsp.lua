@@ -106,6 +106,34 @@ vim.lsp.config("*", {
 					vim.wo[data.winid].conceallevel = 2
 					vim.bo[data.bufnr].filetype = "markdown"
 
+					vim.keymap.set("i", "<C-f>", function()
+						if vim.fn.pumvisible() == 0 then
+							return "<C-f>"
+						end
+						if not vim.api.nvim_win_is_valid(data.winid) then
+							return
+						end
+						vim.api.nvim_win_call(data.winid, function()
+							local v = vim.fn.winsaveview()
+							v.topline = math.max(1, (v.topline or 1) + 3)
+							vim.fn.winrestview(v)
+						end)
+					end, { silent = true, expr = true })
+
+					vim.keymap.set("i", "<C-b>", function()
+						if vim.fn.pumvisible() == 0 then
+							return "<C-b>"
+						end
+						if not vim.api.nvim_win_is_valid(data.winid) then
+							return
+						end
+						vim.api.nvim_win_call(data.winid, function()
+							local v = vim.fn.winsaveview()
+							v.topline = math.max(1, (v.topline or 1) - 3)
+							vim.fn.winrestview(v)
+						end)
+					end, { silent = true, expr = true })
+
 					local win_cfg = vim.api.nvim_win_get_config(data.winid)
 
 					local pum = vim.fn.pum_getpos()
