@@ -98,6 +98,27 @@ vim.lsp.config("*", {
 						return
 					end
 
+					local data = vim.api.nvim__complete_set(
+						vim.fn.complete_info({ "selected" }).selected,
+						{ info = info }
+					)
+
+					vim.wo[data.winid].conceallevel = 2
+					vim.bo[data.bufnr].filetype = "markdown"
+
+					local win_cfg = vim.api.nvim_win_get_config(data.winid)
+
+					local pum = vim.fn.pum_getpos()
+					local cur = vim.fn.screenpos(0, vim.fn.line("."), vim.fn.col("."))
+
+					local signcolumn_width = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1].textoff
+					local view_width = vim.o.columns - signcolumn_width
+					local view_height = vim.o.lines - vim.o.cmdheight - 1
+
+					local docs_win_padding = (vim.o.winborder == "" or vim.o.winborder == "none") and 0 or 2
+					local pum_padding = (vim.o.pumborder == "" or vim.o.pumborder == "none") and 0 or 2
+					local pum_end_row = pum.row + pum.height + pum_padding
+
 					local max_line_len = vim
 						.iter(vim.split(info, "\n"))
 						:filter(function(v)
@@ -110,40 +131,62 @@ vim.lsp.config("*", {
 							return math.max(acc, v)
 						end)
 
-					local width = math.min(max_width, max_line_len)
+					win_cfg.width = math.min(max_width, max_line_len)
 
-					local data = vim.api.nvim__complete_set(
-						vim.fn.complete_info({ "selected" }).selected,
-						{ info = info }
-					)
+					vim.wo[data.winid].wrap = win_cfg.width == max_width or win_cfg.width > view_width
+
+					if win_cfg.width > view_width then
+						win_cfg.width = view_width - docs_win_padding
+					end
 
 					if detail and docs then
 						vim.api.nvim_buf_set_extmark(data.bufnr, 1, #vim.split(detail, "\n"), 0, {
-							virt_text = { { string.rep("─", width), "FloatBorder" } },
+							virt_text = { { string.rep("─", win_cfg.width), "FloatBorder" } },
 							virt_text_pos = "overlay",
 						})
 					end
 
-					vim.bo[data.bufnr].filetype = "markdown"
+					local space_right = view_width - (pum.col + pum.width)
+					local space_top = view_height - (view_height - pum.row)
+					local space_bottom = view_height - pum_end_row
 
-					vim.wo[data.winid].conceallevel = 2
-					vim.wo[data.winid].wrap = width == max_width
+					win_cfg.height = vim.api.nvim_win_text_height(data.winid, {}).all
 
-					vim.api.nvim_win_set_width(data.winid, width)
-					vim.api.nvim_win_set_height(data.winid, vim.api.nvim_win_text_height(data.winid, {}).all)
-
-					local pum = vim.fn.pum_getpos()
-					local win_cfg = vim.api.nvim_win_get_config(data.winid)
-
-					if (win_cfg.width + 2) + (pum.width + 2) + pum.col >= vim.o.columns then
-						win_cfg.height = math.min(win_cfg.height, vim.o.lines - (pum.row + pum.height) - 5)
-						win_cfg.row = pum.row + pum.height + 2
-						win_cfg.col = pum.col - 1
+					if space_right >= win_cfg.width + docs_win_padding then
+						if cur.row == pum.row then
+							win_cfg.height = math.min(win_cfg.height, view_height - pum.row - docs_win_padding)
+							win_cfg.row = pum.row
+						else
+							win_cfg.height = math.min(
+								win_cfg.height,
+								view_height - (view_height - (pum_end_row + pum_padding)) - docs_win_padding
+							)
+							win_cfg.row = pum_end_row + pum_padding
+						end
 					else
-						win_cfg.row = pum.row
-						win_cfg.height = math.min(win_cfg.height, vim.o.lines - pum.row - 3)
+						if space_bottom >= space_top then
+							if cur.row == pum.row then
+								win_cfg.height =
+									math.min(win_cfg.height, space_bottom - pum_padding - docs_win_padding)
+								win_cfg.row = pum_end_row + pum_padding
+							else
+								win_cfg.height = math.min(win_cfg.height, view_height - cur.row - docs_win_padding)
+								win_cfg.row = cur.row + win_cfg.height + docs_win_padding
+							end
+						else
+							if cur.row == pum.row then
+								win_cfg.height = math.min(win_cfg.height, (cur.row - 1) - docs_win_padding)
+								win_cfg.row = (cur.row - 1) - win_cfg.height - docs_win_padding
+							else
+								win_cfg.height = math.min(win_cfg.height, pum.row - docs_win_padding)
+								win_cfg.row = pum.row
+							end
+						end
+						win_cfg.col = pum.col - 1
 					end
+
 					win_cfg.border = vim.o.winborder
+
 					vim.api.nvim_win_set_config(data.winid, win_cfg)
 
 					docs_win = data.winid
