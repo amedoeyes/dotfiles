@@ -21,6 +21,8 @@ if nixCats("general") then
 	fzf.register_ui_select()
 	fzf.setup({
 		winopts = {
+			row = 0.5,
+			col = 0.5,
 			border = "none",
 			backdrop = 100,
 			preview = {
