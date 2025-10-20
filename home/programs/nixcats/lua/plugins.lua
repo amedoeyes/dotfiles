@@ -23,7 +23,16 @@ if nixCats("general") then
 		winopts = {
 			border = "none",
 			backdrop = 100,
-			preview = { title = false, border = vim.o.winborder },
+			preview = {
+				title = false,
+				border = vim.o.winborder,
+				hidden = true,
+			},
+		},
+		keymap = {
+			builtin = {
+				["<M-p>"] = "toggle-preview",
+			},
 		},
 	})
 
