@@ -11,12 +11,17 @@ local Terminal = {}
 Terminal.__index = Terminal
 
 function Terminal._calc_dims()
-	local ui = vim.api.nvim_list_uis()[1]
-	local width = math.floor(ui.width * 0.9)
-	local height = math.floor(ui.height * 0.9)
-	local row = math.floor((ui.height - height) / 2)
-	local col = math.floor((ui.width - width) / 2)
-	return row - 1, col, width, height
+	local border = (vim.o.winborder == "" or vim.o.winborder == "none") and 0 or 1
+
+	local width = math.floor(vim.o.columns * 0.9)
+	local height = math.floor(vim.o.lines * 0.9)
+	local row = math.floor((vim.o.lines - height) * 0.5)
+	local col = math.floor((vim.o.columns - width) * 0.5)
+
+	width = math.max(1, width - (border * 2))
+	height = math.max(1, height - (border * 2))
+
+	return row, col, width, height
 end
 
 function Terminal:_open_window()

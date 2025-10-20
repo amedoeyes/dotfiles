@@ -17,20 +17,26 @@ if nixCats("general") then
 	local terminal = require("plugins.terminal")
 	local toggle = require("plugins.toggle")
 
-	fzf.config.defaults.keymap.fzf["ctrl-q"] = "select-all+accept"
 	fzf.register_ui_select()
 	fzf.setup({
 		winopts = {
+			width = 0.90,
+			height = 0.90,
 			row = 0.5,
 			col = 0.5,
 			border = "none",
 			backdrop = 100,
 			preview = {
-				title = false,
-				border = vim.o.winborder,
+				scrollbar = "float",
 				hidden = true,
+				border = vim.o.winborder,
 			},
 		},
+		fzf_opts = {
+			["--list-border"] = "sharp",
+			["--preview-border"] = "sharp",
+		},
+		fzf_colors = { true },
 		keymap = {
 			builtin = {
 				["<M-p>"] = "toggle-preview",
