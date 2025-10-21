@@ -40,7 +40,7 @@ if nixCats("general") then
 		fzf_colors = { true },
 		keymap = {
 			builtin = {
-				["<M-p>"] = "toggle-preview",
+				["<C-/>"] = "toggle-preview",
 			},
 		},
 	})

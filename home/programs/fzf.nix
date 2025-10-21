@@ -24,6 +24,8 @@ in
 
     fileWidgetOptions = [
       "--preview '${lib.getExe' pkgs.coreutils "cat"} {}'"
+      "--preview-window hidden"
+      "--bind ctrl-/:toggle-preview"
     ];
 
     changeDirWidgetOptions = [
@@ -61,6 +63,8 @@ in
         ]
       }"
       "--preview '${lib.getExe pkgs.tree} --noreport {}'"
+      "--preview-window hidden"
+      "--bind ctrl-/:toggle-preview"
     ];
 
     colors = {
