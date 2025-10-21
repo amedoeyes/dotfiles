@@ -11,15 +11,15 @@ local Terminal = {}
 Terminal.__index = Terminal
 
 function Terminal._calc_dims()
-	local border = (vim.o.winborder == "" or vim.o.winborder == "none") and 0 or 1
+	local padding = (vim.o.winborder == "" or vim.o.winborder == "none") and 0 or 2
 
 	local width = math.floor(vim.o.columns * 0.9)
 	local height = math.floor(vim.o.lines * 0.9)
 	local row = math.floor((vim.o.lines - height) * 0.5)
 	local col = math.floor((vim.o.columns - width) * 0.5)
 
-	width = math.max(1, width - (border * 2))
-	height = math.max(1, height - (border * 2))
+	width = math.max(1, width - padding)
+	height = math.max(1, height - padding)
 
 	return row, col, width, height
 end

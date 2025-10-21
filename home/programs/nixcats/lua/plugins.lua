@@ -27,7 +27,8 @@ if nixCats("general") then
 			border = "none",
 			backdrop = 100,
 			preview = {
-				scrollbar = "float",
+				title = false,
+				scrollbar = false,
 				hidden = true,
 				border = vim.o.winborder,
 			},
