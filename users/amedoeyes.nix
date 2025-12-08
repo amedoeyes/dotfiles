@@ -114,8 +114,12 @@
         fzf.enable = true;
         git = {
           enable = true;
-          userEmail = "amedoeyes@gmail.com";
-          userName = "Ahmed AbouEleyoun";
+          settings = {
+            user = {
+              email = "amedoeyes@gmail.com";
+              name = "Ahmed AbouEleyoun";
+            };
+          };
           signing = {
             key = gpgKey;
             signByDefault = true;

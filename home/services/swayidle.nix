@@ -9,17 +9,10 @@ let
 in
 {
   config.services.swayidle = lib.mkIf cfg.enable {
-    events = [
-      {
-        event = "before-sleep";
-        command = "${lib.getExe pkgs.swaylock} -fF";
-      }
-
-      {
-        event = "lock";
-        command = "lock";
-      }
-    ];
+    events = {
+      "before-sleep" = "${lib.getExe pkgs.swaylock} -fF";
+      "lock" = "lock";
+    };
 
     timeouts = [
       {

@@ -163,7 +163,8 @@ in
           { ... }:
           {
             settings = {
-              neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+              neovim-unwrapped =
+                inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
               wrapRc = !cfg.unwrap;
               unwrappedCfgPath = "/etc/nixos/home/programs/nixcats/";
               hosts = {
