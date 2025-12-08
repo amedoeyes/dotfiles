@@ -229,7 +229,6 @@ vim.lsp.config("*", {
 				end
 
 				vim.lsp.completion.enable(true, client.id, buf, {
-					autotrigger = true,
 					convert = function(item)
 						return {
 							abbr = string.format(
