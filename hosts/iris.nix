@@ -105,7 +105,7 @@
 
     wireless = {
       enable = true;
-      userControlled.enable = true;
+      userControlled = true;
       secretsFile = "/etc/nixos/wifi-passwords";
 
       networks = {
