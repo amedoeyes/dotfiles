@@ -187,16 +187,15 @@ vim.lsp.config("*", {
 						else
 							win_cfg.height = math.min(
 								win_cfg.height,
-								view_height - (view_height - (pum_end_row + pum_padding)) - docs_win_padding
+								view_height - (view_height - pum_end_row) - docs_win_padding
 							)
-							win_cfg.row = pum_end_row + pum_padding
+							win_cfg.row = pum_end_row
 						end
 					else
 						if space_bottom >= space_top then
 							if cur.row == pum.row then
-								win_cfg.height =
-									math.min(win_cfg.height, space_bottom - pum_padding - docs_win_padding)
-								win_cfg.row = pum_end_row + pum_padding
+								win_cfg.height = math.min(win_cfg.height, space_bottom - docs_win_padding)
+								win_cfg.row = pum_end_row
 							else
 								win_cfg.height = math.min(win_cfg.height, view_height - cur.row - docs_win_padding)
 								win_cfg.row = cur.row + win_cfg.height + docs_win_padding
