@@ -78,7 +78,7 @@ in
             js = [
               nodePackages.eslint_d
               nodePackages.prettier
-              typescript-language-server
+              typescript-go
             ];
 
             json = [
