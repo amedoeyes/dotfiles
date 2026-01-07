@@ -1,3 +1,14 @@
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("eyes.treesitter", { clear = true }),
+	callback = function(e)
+		local ok = pcall(vim.treesitter.start, e.buf)
+		if ok then
+			vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end
+	end,
+})
+
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = vim.api.nvim_create_augroup("eyes.terminal", { clear = true }),
 	callback = function()

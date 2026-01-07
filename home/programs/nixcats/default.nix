@@ -51,6 +51,7 @@ in
         {
           lspsAndRuntimeDeps = with pkgs; {
             general = [
+              tree-sitter
               chafa
               xdg-utils
               wl-clipboard

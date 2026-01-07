@@ -6,16 +6,20 @@ if nixCats("general") then
 	vim.api.nvim_set_hl(0, "PmenuShadow", { link = "FloatShadow" })
 	vim.api.nvim_set_hl(0, "PmenuShadowThrough", { link = "FloatShadowThrough" })
 
+	local treesitter = require("nvim-treesitter")
 	local fzf = require("fzf-lua")
 	local ai = require("mini.ai")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
 	local surround = require("mini.surround")
 	local null_ls = require("null-ls")
-	local treesitter = require("nvim-treesitter.configs")
 	local file_explorer = require("plugins.file_explorer")
 	local terminal = require("plugins.terminal")
 	local toggle = require("plugins.toggle")
+
+	treesitter.setup({
+		install_dir = require("nixCats").pawsible.allPlugins.start["nvim-treesitter"] .. "/runtime",
+	})
 
 	fzf.register_ui_select()
 	fzf.setup({
@@ -106,20 +110,6 @@ if nixCats("general") then
 			null_ls.builtins.formatting.prettier,
 			null_ls.builtins.formatting.shfmt,
 			null_ls.builtins.formatting.stylua,
-		},
-	})
-
-	treesitter.setup({
-		highlight = { enable = true },
-		indent = { enable = true },
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = "<C-space>",
-				node_incremental = "<C-space>",
-				scope_incremental = false,
-				node_decremental = "<bs>",
-			},
 		},
 	})
 
