@@ -8,13 +8,17 @@
   mprisctl,
 }:
 writeShellScriptBin "mpris" ''
+  function sanitize {
+     sed 's/[\/\\:*?"<>| ]/_/g'<<< "$1"
+  }
+
   function get_art_path {
     local cache_dir player_dir art_url art_path song_path player artist album
 
     cache_dir="$XDG_CACHE_HOME/mpris"
     [ ! -d "$cache_dir" ] && mkdir -p "$cache_dir"
 
-    player=$(${lib.getExe mprisctl} player)
+    player=$(sanitize $(${lib.getExe mprisctl} player))
     player_dir="$cache_dir/$player"
 
     art_url=$(${lib.getExe mprisctl} metadata mpris:artUrl)
@@ -35,8 +39,8 @@ writeShellScriptBin "mpris" ''
       if [[ "$player" == "org.mpris.MediaPlayer2.cmus" ]]; then
         [ ! -d "$player_dir" ] && mkdir -p "$player_dir"
 
-        artist=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag albumartist' | cut -d ' ' -f 3-)
-        album=$(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag album' | cut -d ' ' -f 3-)
+        artist=$(sanitize $(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag albumartist' | cut -d ' ' -f 3-))
+        album=$(sanitize $(${lib.getExe' cmus "cmus-remote"} -Q | grep -w 'tag album' | cut -d ' ' -f 3-))
         art_path="$player_dir/$artist - $album.png"
 
         if [ ! -e "$art_path" ]; then
