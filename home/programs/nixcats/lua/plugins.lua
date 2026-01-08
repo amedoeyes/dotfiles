@@ -1,52 +1,40 @@
 if nixCats("general") then
-	vim.cmd.colorscheme("eyes")
-	vim.api.nvim_set_hl(0, "FloatShadow", { bg = "#404040", blend = 80 })
-	vim.api.nvim_set_hl(0, "FloatShadowThrough", { bg = "#404040", blend = 100 })
-	vim.api.nvim_set_hl(0, "PmenuBorder", { link = "FloatBorder" })
-	vim.api.nvim_set_hl(0, "PmenuShadow", { link = "FloatShadow" })
-	vim.api.nvim_set_hl(0, "PmenuShadowThrough", { link = "FloatShadowThrough" })
+	require("eyes").setup({
+		extend = {
+			highlights = {
+				FloatShadow = { bg = "#404040", blend = 80 },
+				FloatShadowThrough = { bg = "#404040", blend = 100 },
+				PmenuBorder = { link = "FloatBorder" },
+				PmenuShadow = { link = "FloatShadow" },
+				PmenuShadowThrough = { link = "FloatShadowThrough" },
 
-	local fzf = require("fzf-lua")
-	local ai = require("mini.ai")
-	local diff = require("mini.diff")
-	local icons = require("mini.icons")
-	local surround = require("mini.surround")
-	local terminal = require("plugins.terminal")
-	local toggle = require("plugins.toggle")
-
-	vim.opt.rtp:prepend(require("nixCats").pawsible.allPlugins.start["nvim-treesitter"] .. "/runtime")
-
-	fzf.register_ui_select()
-	fzf.setup({
-		winopts = {
-			width = 0.90,
-			height = 0.90,
-			row = 0.5,
-			col = 0.5,
-			border = "none",
-			backdrop = 100,
-			preview = {
-				title = false,
-				scrollbar = false,
-				hidden = true,
-				border = vim.o.winborder,
-			},
-		},
-		fzf_opts = {
-			["--list-border"] = "sharp",
-			["--preview-border"] = "sharp",
-		},
-		fzf_colors = { true },
-		keymap = {
-			builtin = {
-				["<C-/>"] = "toggle-preview",
+				MiniPickBorder = { link = "Border" },
+				MiniPickBorderBusy = { link = "MiniPickBorderBusy" },
+				MiniPickBorderText = { link = "Mute" },
+				MiniPickCursor = { blend = 100 },
+				MiniPickIconDirectory = { link = "Icon" },
+				MiniPickIconFile = { link = "Icon" },
+				MiniPickHeader = { link = "Title" },
+				MiniPickMatchCurrent = { link = "PmenuMatchSel" },
+				MiniPickMatchMarked = { link = "Visual" },
+				MiniPickMatchRanges = { link = "MiniPickMatchRanges" },
+				MiniPickNormal = { link = "Normal" },
+				MiniPickPreviewLine = { link = "CursorLine" },
+				MiniPickPreviewRegion = { link = "MiniPickPreviewLine" },
+				MiniPickPrompt = { fg = "fg" },
+				MiniPickPromptCaret = { fg = "fg" },
+				MiniPickPromptPrefix = { link = "Mute" },
 			},
 		},
 	})
 
-	ai.setup()
+	vim.cmd.colorscheme("eyes")
 
-	diff.setup({
+	vim.opt.rtp:prepend(require("nixCats").pawsible.allPlugins.start["nvim-treesitter"] .. "/runtime")
+
+	require("mini.ai").setup()
+
+	require("mini.diff").setup({
 		view = {
 			style = "sign",
 			signs = {
@@ -57,24 +45,40 @@ if nixCats("general") then
 		},
 	})
 
-	icons.setup({
-		extension = {
-			h = { glyph = "" },
-			hpp = { glyph = "" },
+	require("mini.extra").setup()
+
+	require("mini.icons").setup()
+
+	require("mini.pick").setup({
+		mappings = {
+			choose = "<C-y>",
+			choose_marked = "<M-y>",
 		},
-		filetype = {
-			c = { glyph = "" },
-			cpp = { glyph = "" },
-			cs = { glyph = "" },
+		window = {
+			config = function()
+				local padding = (vim.o.winborder == "" or vim.o.winborder == "none") and 0 or 2
+
+				local width = math.floor(vim.o.columns * 0.9)
+				local height = math.floor(vim.o.lines * 0.9)
+				local row = math.floor((vim.o.lines - height) * 0.5)
+				local col = math.floor((vim.o.columns - width) * 0.5)
+
+				width = math.max(1, width - padding)
+				height = math.max(1, height - padding)
+
+				return {
+					anchor = "NW",
+					height = height,
+					width = width,
+					row = row,
+					col = col,
+				}
+			end,
+			prompt_prefix = " ",
 		},
 	})
 
-	package.preload["nvim-web-devicons"] = function()
-		icons.mock_nvim_web_devicons()
-		return package.loaded["nvim-web-devicons"]
-	end
-
-	surround.setup({
+	require("mini.surround").setup({
 		mappings = {
 			add = "gsa",
 			delete = "gsd",
@@ -86,127 +90,44 @@ if nixCats("general") then
 		},
 	})
 
-	vim.keymap.set("n", "<leader>go", function()
-		diff.toggle_overlay(0)
-	end, { desc = "Git diff overlay" })
+	vim.keymap.set("n", "<leader>go", require("mini.diff").toggle_overlay)
 
-	vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find file" })
-	vim.keymap.set("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Find recent file" })
-	vim.keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<cr>", { desc = "Search files" })
+	vim.keymap.set("n", "<leader>ff", require("mini.pick").builtin.files)
+	vim.keymap.set("n", "<leader>fo", require("mini.extra").pickers.oldfiles)
+	vim.keymap.set("n", "<leader>fs", require("mini.pick").builtin.grep_live)
+	vim.keymap.set("n", "<leader>bf", require("mini.pick").builtin.buffers)
+	vim.keymap.set("n", "<leader>ph", require("mini.pick").builtin.help)
+	vim.keymap.set("n", "<leader>pr", require("mini.pick").builtin.resume)
 
-	vim.keymap.set("n", "<leader>bf", "<cmd>FzfLua buffers<cr>", { desc = "Find buffer" })
-	vim.keymap.set("n", "<leader>bs", "<cmd>FzfLua lines<cr>", { desc = "Search buffer" })
+	local function on_list(opts)
+		vim.fn.setqflist({}, " ", opts)
 
-	vim.keymap.set("n", "<leader>ph", "<cmd>FzfLua helptags<cr>", { desc = "Help tags" })
-	vim.keymap.set("n", "<leader>pm", "<cmd>FzfLua manpages<cr>", { desc = "Man pages" })
-	vim.keymap.set("n", "<leader>pp", "<cmd>FzfLua<cr>", { desc = "Pickers" })
-	vim.keymap.set("n", "<leader>pr", "<cmd>FzfLua resume<cr>", { desc = "Resume" })
+		if #opts.items == 1 then
+			vim.cmd.cfirst()
+		else
+			require("mini.extra").pickers.list({ scope = "quickfix" }, { source = { name = opts.title } })
+		end
 
-	vim.keymap.set("n", "grD", "<cmd>FzfLua lsp_declarations<cr>", { desc = "Declaration" })
-	vim.keymap.set("n", "grd", "<cmd>FzfLua lsp_definitions<cr>", { desc = "Definition" })
-	vim.keymap.set("n", "gri", "<cmd>FzfLua lsp_implementations<cr>", { desc = "Implementation" })
-	vim.keymap.set(
-		"n",
-		"grr",
-		"<cmd>FzfLua lsp_references<cr>",
-		{ nowait = true, desc = "References" }
-	)
-	vim.keymap.set(
-		"n",
-		"grS",
-		"<cmd>FzfLua lsp_workspace_symbols<cr>",
-		{ desc = "Workspace symbols" }
-	)
-	vim.keymap.set("n", "grs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "Symbols" })
-	vim.keymap.set("n", "grt", "<cmd>FzfLua lsp_typedefs<cr>", { desc = "Type definition" })
-	vim.keymap.set({ "n", "x" }, "gW", "<cmd>FzfLua grep_cword<cr>", { desc = "grep word" })
+		vim.fn.setqflist({})
+	end
 
-	vim.keymap.set({ "n", "t" }, "<c-/>", function()
-		terminal.toggle("shell")
-	end, { desc = "Terminal" })
+	vim.keymap.set("n", "grD", function()
+		vim.lsp.buf.declaration({ on_list = on_list })
+	end)
 
-	vim.keymap.set("n", "<leader>fe", function()
-		terminal.toggle("file_explorer", {
-			cmd = function()
-				local buf_name = vim.api.nvim_buf_get_name(0)
-				return {
-					"vifm",
-					"--on-choose",
-					"nvim --server "
-						.. vim.v.servername
-						.. ' --remote-expr "nvim_exec2(\\"quit | edit %f:p\\", {})"',
-					"--select",
-					buf_name ~= "" and buf_name or vim.env.PWD,
-					vim.fn.isdirectory(buf_name) ~= 1 and vim.fn.fnamemodify(buf_name, ":h") or buf_name,
-				}
-			end,
-		})
-	end, { desc = "File explorer" })
+	vim.keymap.set("n", "grd", function()
+		vim.lsp.buf.definition({ on_list = on_list })
+	end)
 
-	vim.keymap.set("n", "<leader>gg", function()
-		terminal.toggle("lazygit", { cmd = "lazygit" })
-	end, { desc = "Lazygit" })
+	vim.keymap.set("n", "gri", function()
+		vim.lsp.buf.implementation({ on_list = on_list })
+	end)
 
-	vim.keymap.set("n", "<leader>tf", function()
-		toggle.create({
-			name = "Auto-Format",
-			get = function()
-				return vim.g.autoformat
-			end,
-			set = function(state)
-				vim.g.autoformat = state
-			end,
-		})()
-	end, { desc = "Toggle auto-format" })
+	vim.keymap.set("n", "grr", function()
+		vim.lsp.buf.references(nil, { on_list = on_list })
+	end)
 
-	vim.keymap.set("n", "<leader>tl", function()
-		toggle.create({
-			name = "Codelens",
-			get = function()
-				return vim.g.codelens
-			end,
-			set = function(state)
-				vim.g.codelens = state
-				if state then
-					vim.lsp.codelens.refresh()
-				else
-					vim.lsp.codelens.clear()
-				end
-			end,
-		})()
-	end, { desc = "Toggle codelens" })
-
-	vim.keymap.set("n", "<leader>td", function()
-		toggle.create({
-			name = "Diagnostics",
-			get = function()
-				return vim.diagnostic.is_enabled()
-			end,
-			set = function(state)
-				vim.diagnostic.enable(state)
-			end,
-		})()
-	end, { desc = "Toggle diagnostics" })
-
-	vim.keymap.set("n", "<leader>ti", function()
-		toggle.create({
-			name = "Diagnostics",
-			get = function()
-				return vim.lsp.inlay_hint.is_enabled()
-			end,
-			set = function(state)
-				vim.lsp.inlay_hint.enable(state)
-			end,
-		})()
-	end, { desc = "Toggle inlay-hints" })
-
-	vim.keymap.set("n", "<leader>ts", function()
-		toggle.create_option("spell", { name = "Spell" })()
-	end, { desc = "Toggle spell" })
-end
-
-if nixCats("markdown") then
-	local writemode = require("plugins.writemode")
-
-	writemode.setup()
+	vim.keymap.set("n", "grt", function()
+		vim.lsp.buf.type_definition({ on_list = on_list })
+	end)
 end

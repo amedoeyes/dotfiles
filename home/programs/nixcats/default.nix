@@ -56,6 +56,8 @@ in
               chafa
               xdg-utils
               wl-clipboard
+              ripgrep
+              fd
             ];
 
             c = [ clang-tools ];
@@ -148,10 +150,11 @@ in
                 };
               })
               nvim-treesitter.withAllGrammars
-              fzf-lua
               mini-ai
               mini-diff
+              mini-extra
               mini-icons
+              mini-pick
               mini-surround
             ];
           };
