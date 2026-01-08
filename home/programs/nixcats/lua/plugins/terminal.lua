@@ -183,8 +183,7 @@ function Terminal:toggle()
 end
 
 ---@type table<string,Terminal>
-local terms = {}
-local tid = 0
+local terminals = {}
 
 ---@param opts table
 ---@return Terminal
@@ -195,16 +194,13 @@ end
 ---@param opts table
 M.open = function(opts)
 	opts = opts or {}
-
-	local id = opts.name or ("term" .. tid)
-	tid = tid + 1
-	terms[id] = Terminal.new(opts)
-	terms[id]:open()
+	terminals[opts.name] = Terminal.new(opts)
+	terminals[opts.name]:open()
 end
 
 ---@param name string
 M.close = function(name)
-	local term = terms[name]
+	local term = terminals[name]
 	if term then
 		term:close()
 	end
@@ -215,7 +211,7 @@ M.toggle = function(opts)
 	opts = opts or {}
 	opts.name = opts.name or "scratch"
 
-	local term = terms[opts.name]
+	local term = terminals[opts.name]
 	if term then
 		term:toggle()
 	else
