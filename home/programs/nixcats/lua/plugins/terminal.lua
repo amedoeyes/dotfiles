@@ -3,7 +3,7 @@ local M = {}
 ---@class Terminal
 ---@field win integer
 ---@field buf integer
----@field cmd string[]
+---@field cmd string|string[]|function(): string|string[]
 ---@field on_exit function?
 ---@field on_stdout function?
 ---@field is_open boolean
@@ -104,8 +104,9 @@ function Terminal.new(opts)
 	opts = opts or {}
 	self.buf = nil
 	self.win = nil
-	self.cmd = opts.cmd or { vim.env.SHELL }
-	self.on_exit = opts.on_exit or nil
+	self.cmd = opts.cmd
+	self.on_exit = opts.on_exit
+	self.on_stdout = opts.on_stdout
 	self.is_open = false
 	self._autocmds = nil
 	return self
@@ -117,12 +118,16 @@ function Terminal:open()
 	end
 
 	if self.buf == nil then
+		local cmd = (type(self.cmd) == "string" or type(self.cmd) == "table") and self.cmd
+			or type(self.cmd) == "function" and self.cmd()
+			or vim.env.SHELL
+
 		self.buf = vim.api.nvim_create_buf(false, true)
 		vim.bo[self.buf].bufhidden = "wipe"
 
 		self:_open_window()
 
-		vim.fn.jobstart(self.cmd, {
+		vim.fn.jobstart(cmd, {
 			term = true,
 			on_exit = vim.schedule_wrap(function()
 				if self.on_exit then
@@ -193,11 +198,7 @@ M.open = function(opts)
 
 	local id = opts.name or ("term" .. tid)
 	tid = tid + 1
-	terms[id] = Terminal.new({
-		cmd = opts.cmd,
-		on_exit = opts.on_exit,
-		on_stdout = opts.on_stdout,
-	})
+	terms[id] = Terminal.new(opts)
 	terms[id]:open()
 end
 

@@ -11,7 +11,6 @@ if nixCats("general") then
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
 	local surround = require("mini.surround")
-	local file_explorer = require("plugins.file_explorer")
 	local terminal = require("plugins.terminal")
 	local toggle = require("plugins.toggle")
 
@@ -122,18 +121,28 @@ if nixCats("general") then
 	vim.keymap.set("n", "grt", "<cmd>FzfLua lsp_typedefs<cr>", { desc = "Type definition" })
 	vim.keymap.set({ "n", "x" }, "gW", "<cmd>FzfLua grep_cword<cr>", { desc = "grep word" })
 
-	vim.keymap.set("n", "<leader>fe", function()
-		local buf_name = vim.api.nvim_buf_get_name(0)
-		if vim.fn.isdirectory(buf_name) ~= 1 then
-			file_explorer.toggle(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"))
-		else
-			file_explorer.toggle(buf_name)
-		end
-	end, { desc = "File explorer" })
-
 	vim.keymap.set({ "n", "t" }, "<c-/>", function()
 		terminal.toggle({ name = "shell" })
 	end, { desc = "Terminal" })
+
+	vim.keymap.set("n", "<leader>fe", function()
+		terminal.toggle({
+			name = "file_explorer",
+			cmd = function()
+				local buf_name = vim.api.nvim_buf_get_name(0)
+				return {
+					"vifm",
+					"--on-choose",
+					"nvim --server "
+						.. vim.v.servername
+						.. ' --remote-expr "nvim_exec2(\\"quit | edit %f:p\\", {})"',
+					"--select",
+					buf_name ~= "" and buf_name or vim.env.PWD,
+					vim.fn.isdirectory(buf_name) ~= 1 and vim.fn.fnamemodify(buf_name, ":h") or buf_name,
+				}
+			end,
+		})
+	end, { desc = "File explorer" })
 
 	vim.keymap.set("n", "<leader>gg", function()
 		terminal.toggle({ name = "lazygit", cmd = { "lazygit" } })
