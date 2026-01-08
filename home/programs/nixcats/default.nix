@@ -137,11 +137,15 @@ in
 
           startupPlugins = with pkgs.vimPlugins; {
             general = [
-              (pkgs.fetchFromGitHub {
-                owner = "amedoeyes";
-                repo = "eyes.nvim";
-                rev = "master";
-                hash = "sha256-tUeuORxJ0Oe/z9bMBb5uPplYp6CoHVmBshxajAJACjs=";
+              (pkgs.vimUtils.buildVimPlugin {
+                pname = "eyes.nvim";
+                version = "";
+                src = pkgs.fetchFromGitHub {
+                  owner = "amedoeyes";
+                  repo = "eyes.nvim";
+                  rev = "master";
+                  hash = "sha256-tUeuORxJ0Oe/z9bMBb5uPplYp6CoHVmBshxajAJACjs=";
+                };
               })
               nvim-treesitter.withAllGrammars
               fzf-lua
