@@ -3,7 +3,7 @@ local M = {}
 ---@class Terminal
 ---@field win integer
 ---@field buf integer
----@field cmd string|string[]|function(): string|string[]
+---@field cmd string|string[]|function(): string|string[]?
 ---@field on_exit function?
 ---@field on_stdout function?
 ---@field is_open boolean
@@ -185,17 +185,17 @@ end
 ---@type table<string,Terminal>
 local terminals = {}
 
----@param opts table
+---@param opts table?
 ---@return Terminal
 M.new = function(opts)
 	return Terminal.new(opts)
 end
 
----@param opts table
-M.open = function(opts)
-	opts = opts or {}
-	terminals[opts.name] = Terminal.new(opts)
-	terminals[opts.name]:open()
+---@param name string
+---@param opts table?
+M.open = function(name, opts)
+	terminals[name] = Terminal.new(opts)
+	terminals[name]:open()
 end
 
 ---@param name string
@@ -206,16 +206,14 @@ M.close = function(name)
 	end
 end
 
----@param opts table
-M.toggle = function(opts)
-	opts = opts or {}
-	opts.name = opts.name or "scratch"
-
-	local term = terminals[opts.name]
+---@param name string
+---@param opts table?
+M.toggle = function(name, opts)
+	local term = terminals[name]
 	if term then
 		term:toggle()
 	else
-		M.open(opts)
+		M.open(name, opts)
 	end
 end
 

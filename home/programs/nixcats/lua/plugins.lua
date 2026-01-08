@@ -122,12 +122,11 @@ if nixCats("general") then
 	vim.keymap.set({ "n", "x" }, "gW", "<cmd>FzfLua grep_cword<cr>", { desc = "grep word" })
 
 	vim.keymap.set({ "n", "t" }, "<c-/>", function()
-		terminal.toggle({ name = "shell" })
+		terminal.toggle("shell")
 	end, { desc = "Terminal" })
 
 	vim.keymap.set("n", "<leader>fe", function()
-		terminal.toggle({
-			name = "file_explorer",
+		terminal.toggle("file_explorer", {
 			cmd = function()
 				local buf_name = vim.api.nvim_buf_get_name(0)
 				return {
@@ -145,7 +144,7 @@ if nixCats("general") then
 	end, { desc = "File explorer" })
 
 	vim.keymap.set("n", "<leader>gg", function()
-		terminal.toggle({ name = "lazygit", cmd = { "lazygit" } })
+		terminal.toggle("lazygit", { cmd = "lazygit" })
 	end, { desc = "Lazygit" })
 
 	vim.keymap.set("n", "<leader>tf", function()
