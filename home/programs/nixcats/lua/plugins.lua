@@ -6,20 +6,16 @@ if nixCats("general") then
 	vim.api.nvim_set_hl(0, "PmenuShadow", { link = "FloatShadow" })
 	vim.api.nvim_set_hl(0, "PmenuShadowThrough", { link = "FloatShadowThrough" })
 
-	local treesitter = require("nvim-treesitter")
 	local fzf = require("fzf-lua")
 	local ai = require("mini.ai")
 	local diff = require("mini.diff")
 	local icons = require("mini.icons")
 	local surround = require("mini.surround")
-	local null_ls = require("null-ls")
 	local file_explorer = require("plugins.file_explorer")
 	local terminal = require("plugins.terminal")
 	local toggle = require("plugins.toggle")
 
-	treesitter.setup({
-		install_dir = require("nixCats").pawsible.allPlugins.start["nvim-treesitter"] .. "/runtime",
-	})
+	vim.opt.rtp:prepend(require("nixCats").pawsible.allPlugins.start["nvim-treesitter"] .. "/runtime")
 
 	fzf.register_ui_select()
 	fzf.setup({
@@ -88,28 +84,6 @@ if nixCats("general") then
 			highlight = "gsh",
 			replace = "gsr",
 			update_n_lines = "gsn",
-		},
-	})
-
-	null_ls.setup({
-		border = vim.o.winborder,
-		on_attach = function(client, buf)
-			vim.bo[buf].formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:1000})"
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("eyes.lsp.autoformat", { clear = false }),
-				buffer = buf,
-				callback = function()
-					if not vim.g.autoformat then
-						return
-					end
-					vim.lsp.buf.format({ bufnr = buf, id = client.id, timeout_ms = 1000 })
-				end,
-			})
-		end,
-		sources = {
-			null_ls.builtins.formatting.prettier,
-			null_ls.builtins.formatting.shfmt,
-			null_ls.builtins.formatting.stylua,
 		},
 	})
 

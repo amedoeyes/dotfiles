@@ -51,6 +51,7 @@ in
         {
           lspsAndRuntimeDeps = with pkgs; {
             general = [
+              efm-langserver
               tree-sitter
               chafa
               xdg-utils
@@ -142,7 +143,6 @@ in
                 rev = "master";
                 hash = "sha256-tUeuORxJ0Oe/z9bMBb5uPplYp6CoHVmBshxajAJACjs=";
               })
-              none-ls-nvim
               nvim-treesitter.withAllGrammars
               fzf-lua
               mini-ai

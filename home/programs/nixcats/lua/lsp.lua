@@ -4,6 +4,7 @@ vim.g.codelens = false
 vim.lsp.enable({
 	"bash-language-server",
 	"clangd",
+	"efm-langserver",
 	"gopls",
 	"haskell-language-server",
 	"lua-language-server",
