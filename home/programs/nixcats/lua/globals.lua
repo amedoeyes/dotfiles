@@ -10,3 +10,9 @@ vim.g.loaded_ruby_provider = 0
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+vim.g.autoformat = true
+vim.g.codelens = false
+
+vim.g.git_branch = nil
+

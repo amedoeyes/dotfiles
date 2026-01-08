@@ -9,14 +9,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("eyes.terminal", { clear = true }),
-	callback = function()
-		vim.opt_local.statuscolumn = ""
-		vim.cmd.startinsert()
-	end,
-})
-
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = vim.api.nvim_create_augroup("eyes.checktime", { clear = true }),
 	command = "checktime",
@@ -48,10 +40,12 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave", "VimEnter
 			local fd = vim.uv.fs_open(git_dir .. "/.git/HEAD", "r", 438)
 			if fd then
 				local stat = vim.uv.fs_fstat(fd)
-				local data = vim.uv.fs_read(fd, stat.size, 0)
-				vim.uv.fs_close(fd)
-				if data then
-					vim.g.git_branch = data:match("ref: refs/heads/(.+)\n")
+				if stat then
+					local data = vim.uv.fs_read(fd, stat.size, 0)
+					vim.uv.fs_close(fd)
+					if data then
+						vim.g.git_branch = data:match("ref: refs/heads/(.+)\n")
+					end
 				end
 			end
 		end

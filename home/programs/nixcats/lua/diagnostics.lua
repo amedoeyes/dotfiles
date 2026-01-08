@@ -7,8 +7,6 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.HINT] = " ",
 		},
 	},
-	float = {
-		header = "",
-	},
+	float = { header = "" },
 	severity_sort = true,
 })

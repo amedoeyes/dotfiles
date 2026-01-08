@@ -9,11 +9,10 @@ vim.keymap.set({ "x", "o" }, "N", "'nN'[v:searchforward]", { expr = true })
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
 vim.keymap.set("n", "gK", function()
-	local new_config = not vim.diagnostic.config().virtual_lines
-	vim.diagnostic.config({ virtual_lines = new_config })
-end, { desc = "Toggle diagnostic virtual_lines" })
+	vim.diagnostic.config({ virtual_lines = not vim.diagnostic.config().virtual_lines })
+end)
 
-vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>")
 
 vim.keymap.set("i", "<C-Space>", function()
 	if vim.fn.pumvisible() == 0 then
@@ -25,7 +24,7 @@ local terminal = require("terminal")
 
 vim.keymap.set({ "n", "t" }, "<c-/>", function()
 	terminal.toggle("shell")
-end, { desc = "Terminal" })
+end)
 
 vim.keymap.set("n", "<leader>fe", function()
 	terminal.toggle("file_explorer", {
@@ -43,15 +42,17 @@ vim.keymap.set("n", "<leader>fe", function()
 			}
 		end,
 	})
-end, { desc = "File explorer" })
+end)
 
 vim.keymap.set("n", "<leader>gg", function()
 	terminal.toggle("lazygit", { cmd = "lazygit" })
-end, { desc = "Lazygit" })
+end)
 
 local toggle = require("toggle")
 
-vim.keymap.set("n", "<leader>tf", function()
+vim.keymap.set(
+	"n",
+	"<leader>tf",
 	toggle.create({
 		name = "Auto-Format",
 		get = function()
@@ -60,10 +61,12 @@ vim.keymap.set("n", "<leader>tf", function()
 		set = function(state)
 			vim.g.autoformat = state
 		end,
-	})()
-end, { desc = "Toggle auto-format" })
+	})
+)
 
-vim.keymap.set("n", "<leader>tl", function()
+vim.keymap.set(
+	"n",
+	"<leader>tl",
 	toggle.create({
 		name = "Codelens",
 		get = function()
@@ -77,10 +80,12 @@ vim.keymap.set("n", "<leader>tl", function()
 				vim.lsp.codelens.clear()
 			end
 		end,
-	})()
-end, { desc = "Toggle codelens" })
+	})
+)
 
-vim.keymap.set("n", "<leader>td", function()
+vim.keymap.set(
+	"n",
+	"<leader>td",
 	toggle.create({
 		name = "Diagnostics",
 		get = function()
@@ -89,10 +94,12 @@ vim.keymap.set("n", "<leader>td", function()
 		set = function(state)
 			vim.diagnostic.enable(state)
 		end,
-	})()
-end, { desc = "Toggle diagnostics" })
+	})
+)
 
-vim.keymap.set("n", "<leader>ti", function()
+vim.keymap.set(
+	"n",
+	"<leader>ti",
 	toggle.create({
 		name = "Diagnostics",
 		get = function()
@@ -101,9 +108,7 @@ vim.keymap.set("n", "<leader>ti", function()
 		set = function(state)
 			vim.lsp.inlay_hint.enable(state)
 		end,
-	})()
-end, { desc = "Toggle inlay-hints" })
+	})
+)
 
-vim.keymap.set("n", "<leader>ts", function()
-	toggle.create_option("spell", { name = "Spell" })()
-end, { desc = "Toggle spell" })
+vim.keymap.set("n", "<leader>ts", toggle.create_option("spell", { name = "Spell" }))

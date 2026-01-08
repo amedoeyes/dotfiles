@@ -1,4 +1,4 @@
----@param parser str
+---@param parser string
 ---@return table
 local function prettier(parser)
 	return {

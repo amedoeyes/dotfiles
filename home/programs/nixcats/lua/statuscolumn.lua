@@ -141,16 +141,6 @@ local function git()
 	return res and icon(res) or nil
 end
 
--- local function fold()
--- 	local res = nil
---
--- 	if vim.fn.foldclosed(vim.v.lnum) >= 0 then
--- 		res = { text = vim.opt.fillchars:get().foldclose, type = "fold" }
--- 	end
---
--- 	return res and icon(res) or nil
--- end
-
 function StatusColumn()
 	return (mark() or diagnostic() or " ") .. " " .. number() .. " " .. (git() or " ")
 end

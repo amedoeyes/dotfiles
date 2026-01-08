@@ -1,6 +1,3 @@
-vim.g.autoformat = true
-vim.g.codelens = false
-
 vim.lsp.enable({
 	"bash-language-server",
 	"clangd",
