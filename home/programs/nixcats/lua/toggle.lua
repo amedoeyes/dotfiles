@@ -1,11 +1,11 @@
 local M = {}
 
 ---@param opts {
----	name: string?,
+--- name: string|nil,
 --- get: function,
 --- set: fun(state: boolean)
 ---}
----@return fun(state:boolean?)
+---@return fun(state:boolean|nil)
 M.create = function(opts)
 	return function(state)
 		state = state ~= nil and state or opts.get()
@@ -26,10 +26,10 @@ end
 ---@param opt string
 ---@param opts {
 --- name: string,
---- on: any?,
---- off: any?,
----}?
----@return fun(state:boolean?)
+--- on: any|nil,
+--- off: any|nil,
+---}|nil
+---@return fun(state:boolean|nil)
 M.create_option = function(opt, opts)
 	opts = opts or {}
 	local on = opts.on ~= nil and opts.on or true

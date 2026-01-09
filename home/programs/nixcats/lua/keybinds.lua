@@ -88,12 +88,8 @@ vim.keymap.set(
 	"<leader>td",
 	toggle.create({
 		name = "Diagnostics",
-		get = function()
-			return vim.diagnostic.is_enabled()
-		end,
-		set = function(state)
-			vim.diagnostic.enable(state)
-		end,
+		get = vim.diagnostic.is_enabled,
+		set = vim.diagnostic.enable,
 	})
 )
 
@@ -102,13 +98,50 @@ vim.keymap.set(
 	"<leader>ti",
 	toggle.create({
 		name = "Diagnostics",
-		get = function()
-			return vim.lsp.inlay_hint.is_enabled()
-		end,
-		set = function(state)
-			vim.lsp.inlay_hint.enable(state)
-		end,
+		get = vim.lsp.inlay_hint.is_enabled,
+		set = vim.lsp.inlay_hint.enable,
 	})
 )
 
 vim.keymap.set("n", "<leader>ts", toggle.create_option("spell", { name = "Spell" }))
+
+vim.keymap.set("n", "<leader>go", require("mini.diff").toggle_overlay)
+
+vim.keymap.set("n", "<leader>ff", require("mini.pick").builtin.files)
+vim.keymap.set("n", "<leader>fo", require("mini.extra").pickers.oldfiles)
+vim.keymap.set("n", "<leader>fs", require("mini.pick").builtin.grep_live)
+vim.keymap.set("n", "<leader>bf", require("mini.pick").builtin.buffers)
+vim.keymap.set("n", "<leader>ph", require("mini.pick").builtin.help)
+vim.keymap.set("n", "<leader>pr", require("mini.pick").builtin.resume)
+
+local function on_list(opts)
+	vim.fn.setqflist({}, " ", opts)
+
+	if #opts.items == 1 then
+		vim.cmd.cfirst()
+	else
+		require("mini.extra").pickers.list({ scope = "quickfix" }, { source = { name = opts.title } })
+	end
+
+	vim.fn.setqflist({})
+end
+
+vim.keymap.set("n", "grD", function()
+	vim.lsp.buf.declaration({ on_list = on_list })
+end)
+
+vim.keymap.set("n", "grd", function()
+	vim.lsp.buf.definition({ on_list = on_list })
+end)
+
+vim.keymap.set("n", "gri", function()
+	vim.lsp.buf.implementation({ on_list = on_list })
+end)
+
+vim.keymap.set("n", "grr", function()
+	vim.lsp.buf.references(nil, { on_list = on_list })
+end)
+
+vim.keymap.set("n", "grt", function()
+	vim.lsp.buf.type_definition({ on_list = on_list })
+end)

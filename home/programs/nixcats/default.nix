@@ -146,7 +146,7 @@ in
                   owner = "amedoeyes";
                   repo = "eyes.nvim";
                   rev = "master";
-                  hash = "sha256-tUeuORxJ0Oe/z9bMBb5uPplYp6CoHVmBshxajAJACjs=";
+                  hash = "sha256-RfwU+RhbOBKtGsuOcTlu2E1+ezy4E6isJqAqB8WA3bg=";
                 };
               })
               nvim-treesitter.withAllGrammars

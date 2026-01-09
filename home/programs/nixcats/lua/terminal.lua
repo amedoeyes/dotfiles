@@ -3,9 +3,9 @@ local M = {}
 ---@class Terminal
 ---@field win integer
 ---@field buf integer
----@field cmd string|string[]|function(): string|string[]?
----@field on_exit function?
----@field on_stdout function?
+---@field cmd string|string[]|(fun(): string|string[])|nil
+---@field on_exit fun()|nil
+---@field on_stdout fun()|nil
 ---@field is_open boolean
 local Terminal = {}
 Terminal.__index = Terminal
@@ -97,7 +97,7 @@ function Terminal:_delete_autocmds()
 	self._autocmds = nil
 end
 
----@param opts table?
+---@param opts table|nil
 ---@return Terminal
 function Terminal.new(opts)
 	local self = setmetatable({}, Terminal)
@@ -118,7 +118,7 @@ function Terminal:open()
 	end
 
 	if self.buf == nil then
-		local cmd = (type(self.cmd) == "string" or type(self.cmd) == "table") and self.cmd
+		local cmd = (type(self.cmd) == "string" or type(self.cmd) == "table") and self.cmd --[[@as (string|string[])]]
 			or type(self.cmd) == "function" and self.cmd()
 			or vim.env.SHELL
 
@@ -185,14 +185,14 @@ end
 ---@type table<string,Terminal>
 local terminals = {}
 
----@param opts table?
+---@param opts table|nil
 ---@return Terminal
 M.new = function(opts)
 	return Terminal.new(opts)
 end
 
 ---@param name string
----@param opts table?
+---@param opts table|nil
 M.open = function(name, opts)
 	terminals[name] = Terminal.new(opts)
 	terminals[name]:open()
@@ -207,7 +207,7 @@ M.close = function(name)
 end
 
 ---@param name string
----@param opts table?
+---@param opts table|nil
 M.toggle = function(name, opts)
 	local term = terminals[name]
 	if term then
