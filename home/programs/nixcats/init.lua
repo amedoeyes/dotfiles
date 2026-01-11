@@ -1,6 +1,7 @@
 require("plugins")
 
 require("autocmds")
+require("commands")
 require("diagnostics")
 require("globals")
 require("keybinds")
