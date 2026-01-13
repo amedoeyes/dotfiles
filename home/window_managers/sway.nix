@@ -33,9 +33,8 @@ in
             terminalCmd = "${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=fzfmenu";
             fzfOptions = [
               "$FZF_DEFAULT_OPTS"
-              "--height 100%"
-              "--list-border none"
               "--margin 1"
+              "--separator='─'"
             ];
           };
         in

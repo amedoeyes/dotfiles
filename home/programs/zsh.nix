@@ -49,7 +49,6 @@ in
           zstyle ':completion:*' cache-path $ZDOTDIR/zcompcache
 
           zstyle ':fzf-tab:*' use-fzf-default-opts yes
-          zstyle ':fzf-tab:*' fzf-flags --height -1
         '';
 
         keybinds = lib.mkOrder 1000 ''

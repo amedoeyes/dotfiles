@@ -12,20 +12,14 @@ in
     defaultCommand = "${lib.getExe pkgs.ripgrep} --files --hidden --follow";
 
     defaultOptions = [
-      "--height '-1'"
+      "--no-info"
+      "--no-scrollbar"
+      "--pointer ''"
       "--reverse"
-      "--list-border sharp"
-      "--preview-border sharp"
-      "--info=inline-right:''"
       "--prompt ' '"
       "--highlight-line"
+      "--preview-border left"
       "--bind ctrl-y:accept"
-    ];
-
-    fileWidgetOptions = [
-      "--preview '${lib.getExe' pkgs.coreutils "cat"} {}'"
-      "--preview-window hidden"
-      "--bind ctrl-/:toggle-preview"
     ];
 
     changeDirWidgetOptions = [
@@ -62,9 +56,6 @@ in
           "venv"
         ]
       }"
-      "--preview '${lib.getExe pkgs.tree} --noreport {}'"
-      "--preview-window hidden"
-      "--bind ctrl-/:toggle-preview"
     ];
 
     colors = {
