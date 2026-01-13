@@ -92,7 +92,6 @@
     pathsToLink = [
       "/share/applications"
       "/share/xdg-desktop-portal"
-      "/share/zsh"
     ];
   };
 
@@ -230,9 +229,7 @@
   programs = {
     zsh = {
       enable = true;
-      enableCompletion = false;
-      enableLsColors = false;
-      promptInit = "";
+      enableGlobalCompInit = false;
     };
   };
 

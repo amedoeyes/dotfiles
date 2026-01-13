@@ -32,13 +32,9 @@
   programs = {
     zsh = {
       enable = true;
-      enableCompletion = false;
-      enableLsColors = false;
-      promptInit = "";
+      enableGlobalCompInit = false;
     };
   };
 
   documentation.man.generateCaches = true;
-
-  system.stateVersion = "25.05";
 }

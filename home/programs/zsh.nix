@@ -12,6 +12,61 @@ in
     dotDir = "${config.xdg.configHome}/zsh";
     defaultKeymap = "viins";
 
+    syntaxHighlighting = {
+      enable = true;
+      styles = {
+        unknown-token = "none";
+        reserved-word = "fg=${config.theme.colors.c06.ansi}";
+        alias = "none";
+        suffix-alias = "none";
+        global-alias = "none";
+        builtin = "none";
+        function = "none";
+        command = "none";
+        precommand = "none";
+        commandseparator = "fg=${config.theme.colors.c07.ansi}";
+        hashed-command = "none";
+        autodirectory = "none";
+        path = "none";
+        path_pathseparator = "none";
+        path_prefix = "none";
+        path_prefix_pathseparator = "none";
+        globbing = "none";
+        history-expansion = "none";
+        command-substitution = "none";
+        command-substitution-unquoted = "none";
+        command-substitution-quoted = "none";
+        command-substitution-delimiter = "fg=${config.theme.colors.c06.ansi}";
+        command-substitution-delimiter-unquoted = "fg=${config.theme.colors.c06.ansi}";
+        command-substitution-delimiter-quoted = "fg=${config.theme.colors.c06.ansi}";
+        process-substitution = "none";
+        process-substitution-delimiter = "fg=${config.theme.colors.c06.ansi}";
+        arithmetic-expansion = "none";
+        single-hyphen-option = "none";
+        double-hyphen-option = "none";
+        back-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        back-quoted-argument-unclosed = "fg=${config.theme.colors.c07.ansi}";
+        back-quoted-argument-delimiter = "fg=${config.theme.colors.c07.ansi}";
+        single-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        single-quoted-argument-unclosed = "fg=${config.theme.colors.c07.ansi}";
+        double-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        double-quoted-argument-unclosed = "fg=${config.theme.colors.c07.ansi}";
+        dollar-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        dollar-quoted-argument-unclosed = "fg=${config.theme.colors.c07.ansi}";
+        rc-quote = "fg=${config.theme.colors.c07.ansi}";
+        dollar-double-quoted-argument = "none";
+        back-double-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        back-dollar-quoted-argument = "fg=${config.theme.colors.c07.ansi}";
+        assign = "none";
+        redirection = "fg=${config.theme.colors.c07.ansi}";
+        comment = "none";
+        named-fd = "none";
+        numeric-fd = "none";
+        arg0 = "none";
+        default = "none";
+      };
+    };
+
     autosuggestion = {
       enable = true;
       highlight = "fg=#${config.theme.colors.c04.hex}";
@@ -28,7 +83,7 @@ in
     };
 
     sessionVariables = {
-      PROMPT = "%(!.#.$) ";
+      PROMPT = "%F{#${config.theme.colors.c06.hex}}$%f ";
     };
 
     plugins = [
@@ -42,11 +97,12 @@ in
     initContent =
       let
         zstyle = lib.mkOrder 1000 ''
+          prompt restore
+
           zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
           zstyle ':completion:*' menu no
           zstyle ':completion::complete:*' gain-privileges 1
           zstyle ':completion:*' use-cache on
-          zstyle ':completion:*' cache-path $ZDOTDIR/zcompcache
 
           zstyle ':fzf-tab:*' use-fzf-default-opts yes
         '';
