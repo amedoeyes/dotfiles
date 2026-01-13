@@ -113,7 +113,7 @@ in
         font-family: ${config.theme.font.name};
         font-size: ${toString config.theme.font.size}pt;
         font-weight: bold;
-        color: ${config.theme.colors.hex10};
+        color: #${config.theme.colors.c10.hex};
       }
 
       .modules-left {
@@ -125,8 +125,8 @@ in
       }
 
       window#waybar {
-        background: ${config.theme.colors.hex00};
-        border: 1px solid ${config.theme.colors.hex04};
+        background: #${config.theme.colors.c00.hex};
+        border: 1px solid #${config.theme.colors.c04.hex};
       }
     '';
   };

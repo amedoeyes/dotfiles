@@ -58,7 +58,7 @@ in
 
           output = {
             "*" = {
-              background = "${config.theme.colors.hex00} solid_color";
+              background = "#${config.theme.colors.c00.hex} solid_color";
             };
             "eDP-1" = {
               resolution = "1600x900";
@@ -257,38 +257,38 @@ in
           };
 
           colors = {
-            background = config.theme.colors.hex00;
+            background = "#${config.theme.colors.c00.hex}";
 
             focused = {
-              background = config.theme.colors.hex00;
-              border = config.theme.colors.hex10;
-              childBorder = config.theme.colors.hex10;
-              indicator = config.theme.colors.hex10;
-              text = config.theme.colors.hex10;
+              background = "#${config.theme.colors.c00.hex}";
+              border = "#${config.theme.colors.c10.hex}";
+              childBorder = "#${config.theme.colors.c10.hex}";
+              indicator = "#${config.theme.colors.c10.hex}";
+              text = "#${config.theme.colors.c10.hex}";
             };
 
             focusedInactive = {
-              background = config.theme.colors.hex00;
-              border = config.theme.colors.hex04;
-              childBorder = config.theme.colors.hex04;
-              indicator = config.theme.colors.hex04;
-              text = config.theme.colors.hex06;
+              background = "#${config.theme.colors.c00.hex}";
+              border = "#${config.theme.colors.c04.hex}";
+              childBorder = "#${config.theme.colors.c04.hex}";
+              indicator = "#${config.theme.colors.c04.hex}";
+              text = "#${config.theme.colors.c06.hex}";
             };
 
             unfocused = {
-              background = config.theme.colors.hex00;
-              border = config.theme.colors.hex04;
-              childBorder = config.theme.colors.hex04;
-              indicator = config.theme.colors.hex04;
-              text = config.theme.colors.hex06;
+              background = "#${config.theme.colors.c00.hex}";
+              border = "#${config.theme.colors.c04.hex}";
+              childBorder = "#${config.theme.colors.c04.hex}";
+              indicator = "#${config.theme.colors.c04.hex}";
+              text = "#${config.theme.colors.c06.hex}";
             };
 
             urgent = {
-              background = config.theme.colors.hex00;
-              border = config.theme.colors.hex10;
-              childBorder = config.theme.colors.hex10;
-              indicator = config.theme.colors.hex10;
-              text = config.theme.colors.hex10;
+              background = "#${config.theme.colors.c00.hex}";
+              border = "#${config.theme.colors.c10.hex}";
+              childBorder = "#${config.theme.colors.c10.hex}";
+              indicator = "#${config.theme.colors.c10.hex}";
+              text = "#${config.theme.colors.c10.hex}";
             };
           };
         };

@@ -14,7 +14,7 @@ in
 
     autosuggestion = {
       enable = true;
-      highlight = "fg=${config.theme.colors.hex04}";
+      highlight = "fg=#${config.theme.colors.c04.hex}";
     };
 
     history = {

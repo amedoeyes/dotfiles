@@ -7,7 +7,7 @@ in
     let
       hex10rgb =
         let
-          normalizedHex = lib.removePrefix "#" config.theme.colors.hex10;
+          normalizedHex = lib.removePrefix "#" "#${config.theme.colors.c10.hex}";
           hexToDec =
             h:
             let
@@ -48,48 +48,48 @@ in
         font = "${config.theme.font.name} ${toString config.theme.font.size}";
 
         recolor = true;
-        recolor-lightcolor = config.theme.colors.hex00;
-        recolor-darkcolor = config.theme.colors.hex10;
+        recolor-lightcolor = "#${config.theme.colors.c00.hex}";
+        recolor-darkcolor = "#${config.theme.colors.c10.hex}";
 
-        default-fg = config.theme.colors.hex10;
-        default-bg = config.theme.colors.hex00;
+        default-fg = "#${config.theme.colors.c10.hex}";
+        default-bg = "#${config.theme.colors.c00.hex}";
 
-        notification-fg = config.theme.colors.hex10;
-        notification-bg = config.theme.colors.hex00;
+        notification-fg = "#${config.theme.colors.c10.hex}";
+        notification-bg = "#${config.theme.colors.c00.hex}";
 
-        notification-error-fg = config.theme.colors.hex10;
-        notification-error-bg = config.theme.colors.hex00;
+        notification-error-fg = "#${config.theme.colors.c10.hex}";
+        notification-error-bg = "#${config.theme.colors.c00.hex}";
 
-        notification-warning-fg = config.theme.colors.hex10;
-        notification-warning-bg = config.theme.colors.hex00;
+        notification-warning-fg = "#${config.theme.colors.c10.hex}";
+        notification-warning-bg = "#${config.theme.colors.c00.hex}";
 
-        completion-fg = config.theme.colors.hex10;
-        completion-bg = config.theme.colors.hex00;
+        completion-fg = "#${config.theme.colors.c10.hex}";
+        completion-bg = "#${config.theme.colors.c00.hex}";
 
-        completion-group-fg = config.theme.colors.hex10;
-        completion-group-bg = config.theme.colors.hex00;
+        completion-group-fg = "#${config.theme.colors.c10.hex}";
+        completion-group-bg = "#${config.theme.colors.c00.hex}";
 
-        completion-highlight-fg = config.theme.colors.hex10;
-        completion-highlight-bg = config.theme.colors.hex01;
+        completion-highlight-fg = "#${config.theme.colors.c10.hex}";
+        completion-highlight-bg = "#${config.theme.colors.c01.hex}";
 
-        index-fg = config.theme.colors.hex10;
-        index-bg = config.theme.colors.hex00;
+        index-fg = "#${config.theme.colors.c10.hex}";
+        index-bg = "#${config.theme.colors.c00.hex}";
 
-        index-active-fg = config.theme.colors.hex10;
-        index-active-bg = config.theme.colors.hex01;
+        index-active-fg = "#${config.theme.colors.c10.hex}";
+        index-active-bg = "#${config.theme.colors.c01.hex}";
 
-        inputbar-fg = config.theme.colors.hex10;
-        inputbar-bg = config.theme.colors.hex00;
+        inputbar-fg = "#${config.theme.colors.c10.hex}";
+        inputbar-bg = "#${config.theme.colors.c00.hex}";
 
-        statusbar-fg = config.theme.colors.hex10;
-        statusbar-bg = config.theme.colors.hex00;
+        statusbar-fg = "#${config.theme.colors.c10.hex}";
+        statusbar-bg = "#${config.theme.colors.c00.hex}";
 
         highlight-color = "rgba(${hex10rgb.r},${hex10rgb.g},${hex10rgb.b},0.1)";
         highlight-active-color = "rgba(${hex10rgb.r},${hex10rgb.g},${hex10rgb.b},0.3)";
 
         render-loading = true;
-        render-loading-fg = config.theme.colors.hex10;
-        render-loading-bg = config.theme.colors.hex00;
+        render-loading-fg = "#${config.theme.colors.c10.hex}";
+        render-loading-bg = "#${config.theme.colors.c00.hex}";
       };
     };
 }

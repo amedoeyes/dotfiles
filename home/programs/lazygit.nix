@@ -20,21 +20,21 @@ in
         showPanelJumps = false;
         showRandomTip = false;
         tabWidth = 2;
-        authorColors."*" = config.theme.colors.hex06;
+        authorColors."*" = "#${config.theme.colors.c06.hex}";
 
         theme = {
-          activeBorderColor = [ config.theme.colors.hex10 ];
-          cherryPickedCommitBgColor = [ config.theme.colors.hex10 ];
-          cherryPickedCommitFgColor = [ config.theme.colors.hex10 ];
-          defaultFgColor = [ config.theme.colors.hex10 ];
-          inactiveBorderColor = [ config.theme.colors.hex04 ];
-          inactiveViewSelectedLineBgColor = [ config.theme.colors.hex01 ];
-          markedBaseCommitBgColor = [ config.theme.colors.hex10 ];
-          markedBaseCommitFgColor = [ config.theme.colors.hex10 ];
-          optionsTextColor = [ config.theme.colors.hex10 ];
-          searchingActiveBorderColor = [ config.theme.colors.hex10 ];
-          selectedLineBgColor = [ config.theme.colors.hex01 ];
-          unstagedChangesColor = [ config.theme.colors.hex04 ];
+          activeBorderColor = [ "#${config.theme.colors.c10.hex}" ];
+          cherryPickedCommitBgColor = [ "#${config.theme.colors.c10.hex}" ];
+          cherryPickedCommitFgColor = [ "#${config.theme.colors.c10.hex}" ];
+          defaultFgColor = [ "#${config.theme.colors.c10.hex}" ];
+          inactiveBorderColor = [ "#${config.theme.colors.c04.hex}" ];
+          inactiveViewSelectedLineBgColor = [ "#${config.theme.colors.c01.hex}" ];
+          markedBaseCommitBgColor = [ "#${config.theme.colors.c10.hex}" ];
+          markedBaseCommitFgColor = [ "#${config.theme.colors.c10.hex}" ];
+          optionsTextColor = [ "#${config.theme.colors.c10.hex}" ];
+          searchingActiveBorderColor = [ "#${config.theme.colors.c10.hex}" ];
+          selectedLineBgColor = [ "#${config.theme.colors.c01.hex}" ];
+          unstagedChangesColor = [ "#${config.theme.colors.c04.hex}" ];
         };
       };
     };

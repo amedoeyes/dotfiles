@@ -68,23 +68,23 @@ in
     ];
 
     colors = {
-      "fg" = config.theme.colors.hex10;
-      "fg+" = "${config.theme.colors.hex10}:regular";
-      "bg" = config.theme.colors.hex00;
-      "bg+" = config.theme.colors.hex01;
-      "hl" = config.theme.colors.hex10;
-      "hl+" = config.theme.colors.hex10;
-      "gutter" = config.theme.colors.hex00;
-      "query" = "${config.theme.colors.hex10}:regular";
-      "disabled" = config.theme.colors.hex04;
-      "info" = config.theme.colors.hex04;
-      "border" = config.theme.colors.hex04;
-      "label" = config.theme.colors.hex10;
-      "prompt" = config.theme.colors.hex06;
-      "pointer" = config.theme.colors.hex10;
-      "marker" = config.theme.colors.hex10;
-      "spinner" = config.theme.colors.hex04;
-      "header" = config.theme.colors.hex10;
+      "fg" = "#${config.theme.colors.c10.hex}";
+      "fg+" = "#${config.theme.colors.c10.hex}:regular";
+      "bg" = "#${config.theme.colors.c00.hex}";
+      "bg+" = "#${config.theme.colors.c01.hex}";
+      "hl" = "#${config.theme.colors.c10.hex}";
+      "hl+" = "#${config.theme.colors.c10.hex}";
+      "gutter" = "#${config.theme.colors.c00.hex}";
+      "query" = "#${config.theme.colors.c10.hex}:regular";
+      "disabled" = "#${config.theme.colors.c04.hex}";
+      "info" = "#${config.theme.colors.c04.hex}";
+      "border" = "#${config.theme.colors.c04.hex}";
+      "label" = "#${config.theme.colors.c10.hex}";
+      "prompt" = "#${config.theme.colors.c06.hex}";
+      "pointer" = "#${config.theme.colors.c10.hex}";
+      "marker" = "#${config.theme.colors.c10.hex}";
+      "spinner" = "#${config.theme.colors.c04.hex}";
+      "header" = "#${config.theme.colors.c10.hex}";
     };
   };
 }

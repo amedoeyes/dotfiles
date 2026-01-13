@@ -16,66 +16,66 @@ in
 
     themes = {
       eyes = ''
-        theme[main_bg]="${config.theme.colors.hex00}"
-        theme[main_fg]="${config.theme.colors.hex10}"
+        theme[main_bg]="#${config.theme.colors.c00.hex}"
+        theme[main_fg]="#${config.theme.colors.c10.hex}"
 
-        theme[title]="${config.theme.colors.hex10}"
+        theme[title]="#${config.theme.colors.c10.hex}"
 
-        theme[hi_fg]="${config.theme.colors.hex06}"
+        theme[hi_fg]="#${config.theme.colors.c06.hex}"
 
-        theme[selected_bg]="${config.theme.colors.hex01}"
-        theme[selected_fg]="${config.theme.colors.hex10}"
+        theme[selected_bg]="#${config.theme.colors.c01.hex}"
+        theme[selected_fg]="#${config.theme.colors.c10.hex}"
 
-        theme[inactive_fg]="${config.theme.colors.hex04}"
+        theme[inactive_fg]="#${config.theme.colors.c04.hex}"
 
-        theme[graph_text]="${config.theme.colors.hex06}"
+        theme[graph_text]="#${config.theme.colors.c06.hex}"
 
-        theme[meter_bg]="${config.theme.colors.hex00}"
+        theme[meter_bg]="#${config.theme.colors.c00.hex}"
 
-        theme[proc_misc]="${config.theme.colors.hex10}"
+        theme[proc_misc]="#${config.theme.colors.c10.hex}"
 
-        theme[cpu_box]="${config.theme.colors.hex04}"
-        theme[mem_box]="${config.theme.colors.hex04}"
-        theme[net_box]="${config.theme.colors.hex04}"
-        theme[proc_box]="${config.theme.colors.hex04}"
+        theme[cpu_box]="#${config.theme.colors.c04.hex}"
+        theme[mem_box]="#${config.theme.colors.c04.hex}"
+        theme[net_box]="#${config.theme.colors.c04.hex}"
+        theme[proc_box]="#${config.theme.colors.c04.hex}"
 
-        theme[div_line]="${config.theme.colors.hex04}"
+        theme[div_line]="#${config.theme.colors.c04.hex}"
 
-        theme[temp_start]="${config.theme.colors.hex10}"
-        theme[temp_mid]="${config.theme.colors.hex10}"
-        theme[temp_end]="${config.theme.colors.hex10}"
+        theme[temp_start]="#${config.theme.colors.c10.hex}"
+        theme[temp_mid]="#${config.theme.colors.c10.hex}"
+        theme[temp_end]="#${config.theme.colors.c10.hex}"
 
-        theme[cpu_start]="${config.theme.colors.hex10}"
-        theme[cpu_mid]="${config.theme.colors.hex10}"
-        theme[cpu_end]="${config.theme.colors.hex10}"
+        theme[cpu_start]="#${config.theme.colors.c10.hex}"
+        theme[cpu_mid]="#${config.theme.colors.c10.hex}"
+        theme[cpu_end]="#${config.theme.colors.c10.hex}"
 
-        theme[free_start]="${config.theme.colors.hex10}"
-        theme[free_mid]="${config.theme.colors.hex10}"
-        theme[free_end]="${config.theme.colors.hex10}"
+        theme[free_start]="#${config.theme.colors.c10.hex}"
+        theme[free_mid]="#${config.theme.colors.c10.hex}"
+        theme[free_end]="#${config.theme.colors.c10.hex}"
 
-        theme[cached_start]="${config.theme.colors.hex10}"
-        theme[cached_mid]="${config.theme.colors.hex10}"
-        theme[cached_end]="${config.theme.colors.hex10}"
+        theme[cached_start]="#${config.theme.colors.c10.hex}"
+        theme[cached_mid]="#${config.theme.colors.c10.hex}"
+        theme[cached_end]="#${config.theme.colors.c10.hex}"
 
-        theme[available_start]="${config.theme.colors.hex10}"
-        theme[available_mid]="${config.theme.colors.hex10}"
-        theme[available_end]="${config.theme.colors.hex10}"
+        theme[available_start]="#${config.theme.colors.c10.hex}"
+        theme[available_mid]="#${config.theme.colors.c10.hex}"
+        theme[available_end]="#${config.theme.colors.c10.hex}"
 
-        theme[used_start]="${config.theme.colors.hex10}"
-        theme[used_mid]="${config.theme.colors.hex10}"
-        theme[used_end]="${config.theme.colors.hex10}"
+        theme[used_start]="#${config.theme.colors.c10.hex}"
+        theme[used_mid]="#${config.theme.colors.c10.hex}"
+        theme[used_end]="#${config.theme.colors.c10.hex}"
 
-        theme[download_start]="${config.theme.colors.hex10}"
-        theme[download_mid]="${config.theme.colors.hex10}"
-        theme[download_end]="${config.theme.colors.hex10}"
+        theme[download_start]="#${config.theme.colors.c10.hex}"
+        theme[download_mid]="#${config.theme.colors.c10.hex}"
+        theme[download_end]="#${config.theme.colors.c10.hex}"
 
-        theme[upload_start]="${config.theme.colors.hex10}"
-        theme[upload_mid]="${config.theme.colors.hex10}"
-        theme[upload_end]="${config.theme.colors.hex10}"
+        theme[upload_start]="#${config.theme.colors.c10.hex}"
+        theme[upload_mid]="#${config.theme.colors.c10.hex}"
+        theme[upload_end]="#${config.theme.colors.c10.hex}"
 
-        theme[process_start]="${config.theme.colors.hex10}"
-        theme[process_mid]="${config.theme.colors.hex10}"
-        theme[process_end]="${config.theme.colors.hex10}"
+        theme[process_start]="#${config.theme.colors.c10.hex}"
+        theme[process_mid]="#${config.theme.colors.c10.hex}"
+        theme[process_end]="#${config.theme.colors.c10.hex}"
       '';
     };
   };

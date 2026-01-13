@@ -29,14 +29,14 @@ in
 
       msg-color = false;
 
-      osd-back-color = config.theme.colors.hex00;
+      osd-back-color = "#${config.theme.colors.c00.hex}";
       osd-bar-h = 2;
       osd-bar-outline-size = 0.1;
       osd-border-size = 0.1;
-      osd-color = config.theme.colors.hex10;
+      osd-color = "#${config.theme.colors.c10.hex}";
       osd-font = config.theme.font.name;
       osd-font-size = 24;
-      osd-outline-color = config.theme.colors.hex00;
+      osd-outline-color = "#${config.theme.colors.c00.hex}";
       osd-outline-size = 0.1;
       osd-scale-by-window = false;
 
@@ -55,16 +55,16 @@ in
 
     scriptOpts = {
       osc = {
-        background_color = config.theme.colors.hex00;
-        buttons_color = config.theme.colors.hex10;
-        held_element_color = config.theme.colors.hex10;
-        small_buttonsL_color = config.theme.colors.hex10;
-        small_buttonsR_color = config.theme.colors.hex10;
-        time_pos_color = config.theme.colors.hex10;
-        time_pos_outline_color = config.theme.colors.hex00;
-        timecode_color = config.theme.colors.hex10;
-        title_color = config.theme.colors.hex10;
-        top_buttons_color = config.theme.colors.hex10;
+        background_color = "#${config.theme.colors.c00.hex}";
+        buttons_color = "#${config.theme.colors.c10.hex}";
+        held_element_color = "#${config.theme.colors.c10.hex}";
+        small_buttonsL_color = "#${config.theme.colors.c10.hex}";
+        small_buttonsR_color = "#${config.theme.colors.c10.hex}";
+        time_pos_color = "#${config.theme.colors.c10.hex}";
+        time_pos_outline_color = "#${config.theme.colors.c00.hex}";
+        timecode_color = "#${config.theme.colors.c10.hex}";
+        title_color = "#${config.theme.colors.c10.hex}";
+        top_buttons_color = "#${config.theme.colors.c10.hex}";
       };
 
       webtorrent = {

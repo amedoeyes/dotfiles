@@ -49,96 +49,96 @@ in
 
         colors = {
           primary = {
-            foreground = config.theme.colors.hex10;
-            background = config.theme.colors.hex00;
-            dim_foreground = config.theme.colors.hex10;
-            bright_foreground = config.theme.colors.hex10;
+            foreground = "#${config.theme.colors.c10.hex}";
+            background = "#${config.theme.colors.c00.hex}";
+            dim_foreground = "#${config.theme.colors.c10.hex}";
+            bright_foreground = "#${config.theme.colors.c10.hex}";
           };
 
           cursor = {
-            text = config.theme.colors.hex00;
-            cursor = config.theme.colors.hex10;
+            text = "#${config.theme.colors.c00.hex}";
+            cursor = "#${config.theme.colors.c10.hex}";
           };
 
           vi_mode_cursor = {
-            text = config.theme.colors.hex00;
-            cursor = config.theme.colors.hex10;
+            text = "#${config.theme.colors.c00.hex}";
+            cursor = "#${config.theme.colors.c10.hex}";
           };
 
           search = {
             matches = {
-              background = config.theme.colors.hex03;
-              foreground = config.theme.colors.hex10;
+              background = "#${config.theme.colors.c03.hex}";
+              foreground = "#${config.theme.colors.c10.hex}";
             };
             focused_match = {
-              background = config.theme.colors.hex03;
-              foreground = config.theme.colors.hex10;
+              background = "#${config.theme.colors.c03.hex}";
+              foreground = "#${config.theme.colors.c10.hex}";
             };
           };
 
           hints = {
             start = {
-              foreground = config.theme.colors.hex00;
-              background = config.theme.colors.hex10;
+              foreground = "#${config.theme.colors.c00.hex}";
+              background = "#${config.theme.colors.c10.hex}";
             };
             end = {
-              foreground = config.theme.colors.hex00;
-              background = config.theme.colors.hex10;
+              foreground = "#${config.theme.colors.c00.hex}";
+              background = "#${config.theme.colors.c10.hex}";
             };
           };
 
           line_indicator = {
-            foreground = config.theme.colors.hex10;
-            background = config.theme.colors.hex01;
+            foreground = "#${config.theme.colors.c10.hex}";
+            background = "#${config.theme.colors.c01.hex}";
           };
 
           footer_bar = {
-            foreground = config.theme.colors.hex10;
-            background = config.theme.colors.hex00;
+            foreground = "#${config.theme.colors.c10.hex}";
+            background = "#${config.theme.colors.c00.hex}";
           };
 
           selection = {
-            text = config.theme.colors.hex10;
-            background = config.theme.colors.hex02;
+            text = "#${config.theme.colors.c10.hex}";
+            background = "#${config.theme.colors.c02.hex}";
           };
 
           normal = {
-            black = config.theme.colors.hex00;
-            red = config.theme.colors.hex04;
-            green = config.theme.colors.hex06;
-            yellow = config.theme.colors.hex08;
-            blue = config.theme.colors.hex04;
-            magenta = config.theme.colors.hex06;
-            cyan = config.theme.colors.hex08;
-            white = config.theme.colors.hex10;
+            black = "#${config.theme.colors.c00.hex}";
+            red = "#${config.theme.colors.c04.hex}";
+            green = "#${config.theme.colors.c06.hex}";
+            yellow = "#${config.theme.colors.c08.hex}";
+            blue = "#${config.theme.colors.c04.hex}";
+            magenta = "#${config.theme.colors.c06.hex}";
+            cyan = "#${config.theme.colors.c08.hex}";
+            white = "#${config.theme.colors.c10.hex}";
           };
 
           bright = {
-            black = config.theme.colors.hex00;
-            red = config.theme.colors.hex04;
-            green = config.theme.colors.hex06;
-            yellow = config.theme.colors.hex08;
-            blue = config.theme.colors.hex04;
-            magenta = config.theme.colors.hex06;
-            cyan = config.theme.colors.hex08;
-            white = config.theme.colors.hex10;
+            black = "#${config.theme.colors.c00.hex}";
+            red = "#${config.theme.colors.c04.hex}";
+            green = "#${config.theme.colors.c06.hex}";
+            yellow = "#${config.theme.colors.c08.hex}";
+            blue = "#${config.theme.colors.c04.hex}";
+            magenta = "#${config.theme.colors.c06.hex}";
+            cyan = "#${config.theme.colors.c08.hex}";
+            white = "#${config.theme.colors.c10.hex}";
           };
 
           dim = {
-            black = config.theme.colors.hex00;
-            red = config.theme.colors.hex04;
-            green = config.theme.colors.hex06;
-            yellow = config.theme.colors.hex08;
-            blue = config.theme.colors.hex04;
-            magenta = config.theme.colors.hex06;
-            cyan = config.theme.colors.hex08;
-            white = config.theme.colors.hex10;
+            black = "#${config.theme.colors.c00.hex}";
+            red = "#${config.theme.colors.c04.hex}";
+            green = "#${config.theme.colors.c06.hex}";
+            yellow = "#${config.theme.colors.c08.hex}";
+            blue = "#${config.theme.colors.c04.hex}";
+            magenta = "#${config.theme.colors.c06.hex}";
+            cyan = "#${config.theme.colors.c08.hex}";
+            white = "#${config.theme.colors.c10.hex}";
           };
 
           indexed_colors = builtins.attrValues (
             builtins.mapAttrs (index: color: {
               index = lib.toInt index;
-              color = color;
+              color = "#" + color;
             }) config.theme.ansiColors
           );
         };

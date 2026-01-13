@@ -48,136 +48,136 @@ in
 
         auto_save.session = true;
 
-        hints.border = "1px solid ${config.theme.colors.hex04}";
+        hints.border = "1px solid #${config.theme.colors.c04.hex}";
         prompt.radius = 0;
 
         colors = {
-          completion.fg = config.theme.colors.hex10;
-          completion.even.bg = config.theme.colors.hex00;
-          completion.odd.bg = config.theme.colors.hex00;
-          completion.match.fg = config.theme.colors.hex10;
-          completion.scrollbar.bg = config.theme.colors.hex01;
-          completion.scrollbar.fg = config.theme.colors.hex03;
+          completion.fg = "#${config.theme.colors.c10.hex}";
+          completion.even.bg = "#${config.theme.colors.c00.hex}";
+          completion.odd.bg = "#${config.theme.colors.c00.hex}";
+          completion.match.fg = "#${config.theme.colors.c10.hex}";
+          completion.scrollbar.bg = "#${config.theme.colors.c01.hex}";
+          completion.scrollbar.fg = "#${config.theme.colors.c03.hex}";
 
-          completion.category.bg = config.theme.colors.hex00;
-          completion.category.border.bottom = config.theme.colors.hex04;
-          completion.category.border.top = config.theme.colors.hex04;
-          completion.category.fg = config.theme.colors.hex10;
+          completion.category.bg = "#${config.theme.colors.c00.hex}";
+          completion.category.border.bottom = "#${config.theme.colors.c04.hex}";
+          completion.category.border.top = "#${config.theme.colors.c04.hex}";
+          completion.category.fg = "#${config.theme.colors.c10.hex}";
 
-          completion.item.selected.bg = config.theme.colors.hex01;
-          completion.item.selected.border.bottom = config.theme.colors.hex00;
-          completion.item.selected.border.top = config.theme.colors.hex00;
-          completion.item.selected.fg = config.theme.colors.hex10;
-          completion.item.selected.match.fg = config.theme.colors.hex10;
+          completion.item.selected.bg = "#${config.theme.colors.c01.hex}";
+          completion.item.selected.border.bottom = "#${config.theme.colors.c00.hex}";
+          completion.item.selected.border.top = "#${config.theme.colors.c00.hex}";
+          completion.item.selected.fg = "#${config.theme.colors.c10.hex}";
+          completion.item.selected.match.fg = "#${config.theme.colors.c10.hex}";
 
-          downloads.bar.bg = config.theme.colors.hex00;
-          downloads.error.bg = config.theme.colors.hex00;
-          downloads.start.bg = config.theme.colors.hex00;
-          downloads.stop.bg = config.theme.colors.hex00;
+          downloads.bar.bg = "#${config.theme.colors.c00.hex}";
+          downloads.error.bg = "#${config.theme.colors.c00.hex}";
+          downloads.start.bg = "#${config.theme.colors.c00.hex}";
+          downloads.stop.bg = "#${config.theme.colors.c00.hex}";
 
-          downloads.error.fg = config.theme.colors.hex10;
-          downloads.start.fg = config.theme.colors.hex10;
-          downloads.stop.fg = config.theme.colors.hex10;
+          downloads.error.fg = "#${config.theme.colors.c10.hex}";
+          downloads.start.fg = "#${config.theme.colors.c10.hex}";
+          downloads.stop.fg = "#${config.theme.colors.c10.hex}";
           downloads.system.fg = "none";
           downloads.system.bg = "none";
 
-          hints.bg = config.theme.colors.hex00;
-          hints.fg = config.theme.colors.hex10;
-          hints.match.fg = config.theme.colors.hex04;
+          hints.bg = "#${config.theme.colors.c00.hex}";
+          hints.fg = "#${config.theme.colors.c10.hex}";
+          hints.match.fg = "#${config.theme.colors.c04.hex}";
 
-          keyhint.bg = config.theme.colors.hex00;
-          keyhint.fg = config.theme.colors.hex10;
-          keyhint.suffix.fg = config.theme.colors.hex10;
+          keyhint.bg = "#${config.theme.colors.c00.hex}";
+          keyhint.fg = "#${config.theme.colors.c10.hex}";
+          keyhint.suffix.fg = "#${config.theme.colors.c10.hex}";
 
-          messages.error.fg = config.theme.colors.hex10;
-          messages.error.bg = config.theme.colors.hex00;
-          messages.error.border = config.theme.colors.hex00;
+          messages.error.fg = "#${config.theme.colors.c10.hex}";
+          messages.error.bg = "#${config.theme.colors.c00.hex}";
+          messages.error.border = "#${config.theme.colors.c00.hex}";
 
-          messages.info.fg = config.theme.colors.hex10;
-          messages.info.bg = config.theme.colors.hex00;
-          messages.info.border = config.theme.colors.hex00;
+          messages.info.fg = "#${config.theme.colors.c10.hex}";
+          messages.info.bg = "#${config.theme.colors.c00.hex}";
+          messages.info.border = "#${config.theme.colors.c00.hex}";
 
-          messages.warning.fg = config.theme.colors.hex10;
-          messages.warning.bg = config.theme.colors.hex00;
-          messages.warning.border = config.theme.colors.hex00;
+          messages.warning.fg = "#${config.theme.colors.c10.hex}";
+          messages.warning.bg = "#${config.theme.colors.c00.hex}";
+          messages.warning.border = "#${config.theme.colors.c00.hex}";
 
-          prompts.fg = config.theme.colors.hex10;
-          prompts.bg = config.theme.colors.hex00;
-          prompts.border = "1px solid ${config.theme.colors.hex04}";
-          prompts.selected.fg = config.theme.colors.hex10;
-          prompts.selected.bg = config.theme.colors.hex01;
+          prompts.fg = "#${config.theme.colors.c10.hex}";
+          prompts.bg = "#${config.theme.colors.c00.hex}";
+          prompts.border = "1px solid #${config.theme.colors.c04.hex}";
+          prompts.selected.fg = "#${config.theme.colors.c10.hex}";
+          prompts.selected.bg = "#${config.theme.colors.c01.hex}";
 
-          statusbar.normal.fg = config.theme.colors.hex10;
-          statusbar.normal.bg = config.theme.colors.hex00;
+          statusbar.normal.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.normal.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.insert.fg = config.theme.colors.hex10;
-          statusbar.insert.bg = config.theme.colors.hex00;
+          statusbar.insert.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.insert.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.command.fg = config.theme.colors.hex10;
-          statusbar.command.bg = config.theme.colors.hex00;
+          statusbar.command.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.command.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.passthrough.fg = config.theme.colors.hex10;
-          statusbar.passthrough.bg = config.theme.colors.hex00;
+          statusbar.passthrough.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.passthrough.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.progress.bg = config.theme.colors.hex10;
+          statusbar.progress.bg = "#${config.theme.colors.c10.hex}";
 
-          statusbar.private.fg = config.theme.colors.hex10;
-          statusbar.private.bg = config.theme.colors.hex00;
+          statusbar.private.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.private.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.command.private.fg = config.theme.colors.hex10;
-          statusbar.command.private.bg = config.theme.colors.hex00;
+          statusbar.command.private.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.command.private.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.caret.fg = config.theme.colors.hex10;
-          statusbar.caret.bg = config.theme.colors.hex00;
-          statusbar.caret.selection.fg = config.theme.colors.hex10;
-          statusbar.caret.selection.bg = config.theme.colors.hex00;
+          statusbar.caret.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.caret.bg = "#${config.theme.colors.c00.hex}";
+          statusbar.caret.selection.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.caret.selection.bg = "#${config.theme.colors.c00.hex}";
 
-          statusbar.url.fg = config.theme.colors.hex10;
-          statusbar.url.error.fg = config.theme.colors.hex10;
-          statusbar.url.hover.fg = config.theme.colors.hex10;
-          statusbar.url.success.http.fg = config.theme.colors.hex10;
-          statusbar.url.success.https.fg = config.theme.colors.hex10;
-          statusbar.url.warn.fg = config.theme.colors.hex10;
+          statusbar.url.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.url.error.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.url.hover.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.url.success.http.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.url.success.https.fg = "#${config.theme.colors.c10.hex}";
+          statusbar.url.warn.fg = "#${config.theme.colors.c10.hex}";
 
-          tabs.bar.bg = config.theme.colors.hex00;
+          tabs.bar.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.even.fg = config.theme.colors.hex06;
-          tabs.even.bg = config.theme.colors.hex00;
+          tabs.even.fg = "#${config.theme.colors.c06.hex}";
+          tabs.even.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.odd.fg = config.theme.colors.hex06;
-          tabs.odd.bg = config.theme.colors.hex00;
+          tabs.odd.fg = "#${config.theme.colors.c06.hex}";
+          tabs.odd.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.selected.even.fg = config.theme.colors.hex10;
-          tabs.selected.even.bg = config.theme.colors.hex00;
+          tabs.selected.even.fg = "#${config.theme.colors.c10.hex}";
+          tabs.selected.even.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.selected.odd.fg = config.theme.colors.hex10;
-          tabs.selected.odd.bg = config.theme.colors.hex00;
+          tabs.selected.odd.fg = "#${config.theme.colors.c10.hex}";
+          tabs.selected.odd.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.pinned.even.fg = config.theme.colors.hex06;
-          tabs.pinned.even.bg = config.theme.colors.hex00;
+          tabs.pinned.even.fg = "#${config.theme.colors.c06.hex}";
+          tabs.pinned.even.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.pinned.odd.fg = config.theme.colors.hex06;
-          tabs.pinned.odd.bg = config.theme.colors.hex00;
+          tabs.pinned.odd.fg = "#${config.theme.colors.c06.hex}";
+          tabs.pinned.odd.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.pinned.selected.even.fg = config.theme.colors.hex10;
-          tabs.pinned.selected.even.bg = config.theme.colors.hex00;
+          tabs.pinned.selected.even.fg = "#${config.theme.colors.c10.hex}";
+          tabs.pinned.selected.even.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.pinned.selected.odd.fg = config.theme.colors.hex10;
-          tabs.pinned.selected.odd.bg = config.theme.colors.hex00;
+          tabs.pinned.selected.odd.fg = "#${config.theme.colors.c10.hex}";
+          tabs.pinned.selected.odd.bg = "#${config.theme.colors.c00.hex}";
 
-          tabs.indicator.start = config.theme.colors.hex06;
-          tabs.indicator.stop = config.theme.colors.hex10;
-          tabs.indicator.error = config.theme.colors.hex04;
+          tabs.indicator.start = "#${config.theme.colors.c06.hex}";
+          tabs.indicator.stop = "#${config.theme.colors.c10.hex}";
+          tabs.indicator.error = "#${config.theme.colors.c04.hex}";
           tabs.indicator.system = "none";
 
-          contextmenu.menu.fg = config.theme.colors.hex10;
-          contextmenu.menu.bg = config.theme.colors.hex00;
+          contextmenu.menu.fg = "#${config.theme.colors.c10.hex}";
+          contextmenu.menu.bg = "#${config.theme.colors.c00.hex}";
 
-          contextmenu.disabled.fg = config.theme.colors.hex04;
-          contextmenu.disabled.bg = config.theme.colors.hex00;
+          contextmenu.disabled.fg = "#${config.theme.colors.c04.hex}";
+          contextmenu.disabled.bg = "#${config.theme.colors.c00.hex}";
 
-          contextmenu.selected.fg = config.theme.colors.hex10;
-          contextmenu.selected.bg = config.theme.colors.hex00;
+          contextmenu.selected.fg = "#${config.theme.colors.c10.hex}";
+          contextmenu.selected.bg = "#${config.theme.colors.c00.hex}";
 
           webpage.preferred_color_scheme = config.theme.palette;
         };

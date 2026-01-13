@@ -6,11 +6,11 @@ in
   config.services.mako = lib.mkIf cfg.enable {
     settings = {
       font = "${config.theme.font.name} ${toString config.theme.font.size}";
-      background-color = config.theme.colors.hex00;
-      text-color = config.theme.colors.hex10;
+      background-color = "#${config.theme.colors.c00.hex}";
+      text-color = "#${config.theme.colors.c10.hex}";
       border-size = 1;
-      border-color = config.theme.colors.hex04;
-      progress-color = config.theme.colors.hex01;
+      border-color = "#${config.theme.colors.c04.hex}";
+      progress-color = "#${config.theme.colors.c01.hex}";
       padding = 10;
       height = 500;
 

@@ -17,8 +17,8 @@ in
       };
 
       color = {
-        background = "'${config.theme.colors.hex00}'";
-        foreground = "'${config.theme.colors.hex10}'";
+        background = "'#${config.theme.colors.c00.hex}'";
+        foreground = "'#${config.theme.colors.c10.hex}'";
       };
     };
   };

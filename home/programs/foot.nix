@@ -16,71 +16,67 @@ in
     };
 
     programs.foot = {
-      settings =
-        let
-          stripHash = lib.strings.removePrefix "#";
-        in
-        {
-          main = {
-            font = "monospace:size=10";
-            pad = "4x4 center";
-          };
-
-          scrollback = {
-            indicator-position = "none";
-          };
-
-          cursor = {
-            blink = "yes";
-            beam-thickness = 0.5;
-          };
-
-          mouse = {
-            hide-when-typing = "true";
-          };
-
-          colors = {
-            background = stripHash config.theme.colors.hex00;
-            foreground = stripHash config.theme.colors.hex10;
-            cursor = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex10}";
-
-            regular0 = stripHash config.theme.colors.hex00;
-            regular1 = stripHash config.theme.colors.hex04;
-            regular2 = stripHash config.theme.colors.hex06;
-            regular3 = stripHash config.theme.colors.hex08;
-            regular4 = stripHash config.theme.colors.hex04;
-            regular5 = stripHash config.theme.colors.hex06;
-            regular6 = stripHash config.theme.colors.hex08;
-            regular7 = stripHash config.theme.colors.hex10;
-
-            bright0 = stripHash config.theme.colors.hex00;
-            bright1 = stripHash config.theme.colors.hex04;
-            bright2 = stripHash config.theme.colors.hex06;
-            bright3 = stripHash config.theme.colors.hex08;
-            bright4 = stripHash config.theme.colors.hex04;
-            bright5 = stripHash config.theme.colors.hex06;
-            bright6 = stripHash config.theme.colors.hex08;
-            bright7 = stripHash config.theme.colors.hex10;
-
-            selection-foreground = stripHash config.theme.colors.hex10;
-            selection-background = stripHash config.theme.colors.hex02;
-
-            jump-labels = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex10}";
-
-            search-box-no-match = "${stripHash config.theme.colors.hex00} ${stripHash config.theme.colors.hex00}";
-            search-box-match = "${stripHash config.theme.colors.hex10} ${stripHash config.theme.colors.hex00}";
-          }
-          // builtins.mapAttrs (_: color: stripHash color) config.theme.ansiColors;
-
-          key-bindings = {
-            search-start = "Control+Shift+slash";
-          };
-
-          search-bindings = {
-            find-prev = "Control+N";
-            find-next = "Control+n";
-          };
+      settings = {
+        main = {
+          font = "monospace:size=10";
+          pad = "4x4 center";
         };
+
+        scrollback = {
+          indicator-position = "none";
+        };
+
+        cursor = {
+          blink = "yes";
+          beam-thickness = 0.5;
+        };
+
+        mouse = {
+          hide-when-typing = "true";
+        };
+
+        colors = {
+          background = config.theme.colors.c00.hex;
+          foreground = config.theme.colors.c10.hex;
+          cursor = "${config.theme.colors.c00.hex} ${config.theme.colors.c10.hex}";
+
+          regular0 = config.theme.colors.c00.hex;
+          regular1 = config.theme.colors.c04.hex;
+          regular2 = config.theme.colors.c06.hex;
+          regular3 = config.theme.colors.c08.hex;
+          regular4 = config.theme.colors.c04.hex;
+          regular5 = config.theme.colors.c06.hex;
+          regular6 = config.theme.colors.c08.hex;
+          regular7 = config.theme.colors.c10.hex;
+
+          bright0 = config.theme.colors.c00.hex;
+          bright1 = config.theme.colors.c04.hex;
+          bright2 = config.theme.colors.c06.hex;
+          bright3 = config.theme.colors.c08.hex;
+          bright4 = config.theme.colors.c04.hex;
+          bright5 = config.theme.colors.c06.hex;
+          bright6 = config.theme.colors.c08.hex;
+          bright7 = config.theme.colors.c10.hex;
+
+          selection-foreground = config.theme.colors.c10.hex;
+          selection-background = config.theme.colors.c02.hex;
+
+          jump-labels = "${config.theme.colors.c00.hex} ${config.theme.colors.c10.hex}";
+
+          search-box-no-match = "${config.theme.colors.c00.hex} ${config.theme.colors.c00.hex}";
+          search-box-match = "${config.theme.colors.c10.hex} ${config.theme.colors.c00.hex}";
+        }
+        // config.theme.ansiColors;
+
+        key-bindings = {
+          search-start = "Control+Shift+slash";
+        };
+
+        search-bindings = {
+          find-prev = "Control+N";
+          find-next = "Control+n";
+        };
+      };
     };
   };
 }

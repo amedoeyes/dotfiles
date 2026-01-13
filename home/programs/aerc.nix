@@ -12,23 +12,23 @@ in
     stylesets = {
       eyes = {
         global = {
-          "*.fg" = config.theme.colors.ansi10;
-          "*.bg" = config.theme.colors.ansi00;
+          "*.fg" = config.theme.colors.c10.ansi;
+          "*.bg" = config.theme.colors.c00.ansi;
           "*.normal" = "true";
-          "*.selected.bg" = config.theme.colors.ansi01;
+          "*.selected.bg" = config.theme.colors.c01.ansi;
           "statusline_*.bold" = "true";
 
-          "border.fg" = config.theme.colors.ansi04;
+          "border.fg" = config.theme.colors.c04.ansi;
 
           "title.bold" = "true";
           "header.bold" = "true";
 
-          "msglist_marked.bg" = config.theme.colors.ansi02;
-          "msglist_result.bg" = config.theme.colors.ansi03;
+          "msglist_marked.bg" = config.theme.colors.c02.ansi;
+          "msglist_result.bg" = config.theme.colors.c03.ansi;
 
-          "tab.fg" = config.theme.colors.ansi06;
-          "tab.selected.fg" = config.theme.colors.ansi10;
-          "tab.selected.bg" = config.theme.colors.ansi00;
+          "tab.fg" = config.theme.colors.c06.ansi;
+          "tab.selected.fg" = config.theme.colors.c10.ansi;
+          "tab.selected.bg" = config.theme.colors.c00.ansi;
           "tab.selected.bold" = "true";
         };
       };
