@@ -13,6 +13,7 @@ in
 
     defaultOptions = [
       "--no-info"
+      "--no-separator"
       "--no-scrollbar"
       "--pointer ''"
       "--reverse"
