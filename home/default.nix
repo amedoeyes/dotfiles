@@ -19,6 +19,7 @@
         ./services
         ./window_managers
         ./fonts.nix
+        ./shell.nix
         ./xdg.nix
         user.home
       ];
