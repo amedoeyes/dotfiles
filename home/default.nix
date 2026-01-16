@@ -18,6 +18,7 @@
         ./programs
         ./services
         ./window_managers
+        ./fonts.nix
         ./xdg.nix
         user.home
       ];

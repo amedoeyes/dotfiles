@@ -191,41 +191,6 @@
     };
   };
 
-  fonts = {
-    fontconfig = {
-      defaultFonts = {
-        sansSerif = [
-          "Noto Sans"
-          "Noto Sans Arabic"
-        ];
-
-        serif = [
-          "Noto Sans"
-          "Noto Sans Arabic"
-        ];
-
-        monospace = [
-          "JetBrains Mono Nerd Font"
-          "DejaVuSansM Nerd Font"
-        ];
-
-        emoji = [ "Noto Color Emoji" ];
-      };
-
-      hinting.style = "full";
-      subpixel.rgba = "rgb";
-    };
-
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      nerd-fonts.jetbrains-mono
-      nerd-fonts.dejavu-sans-mono
-      liberation_ttf
-    ];
-  };
-
   programs = {
     zsh = {
       enable = true;
