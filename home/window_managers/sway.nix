@@ -31,11 +31,6 @@ in
           scripts = import ./scripts pkgs;
           fzfmenu = pkgs.fzfmenu.override {
             terminalCmd = "${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=fzfmenu";
-            fzfOptions = [
-              "$FZF_DEFAULT_OPTS"
-              "--margin 1"
-              "--separator='─'"
-            ];
           };
         in
         {
