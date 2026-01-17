@@ -189,8 +189,8 @@ in
               nnoremap K <C-g>
               nnoremap s :sort<cr>
               nnoremap w :vsplit | view<cr>
-              nnoremap yd :!echo -n %d | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} %i && echo -n %d | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
-              nnoremap yf :!echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} %i && echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
+              nnoremap yd :!echo -n %d | ${lib.getExe' pkgs.wl-clipboard-rs "wl-copy"} %i && echo -n %d | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
+              nnoremap yf :!echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard-rs "wl-copy"} %i && echo -n %c:p | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -p %i<cr>
               nnoremap q :quit<cr>
             '';
 

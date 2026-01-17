@@ -12,7 +12,7 @@
     {
       home.packages = with pkgs; [
         nix-index
-        wl-clipboard
+        wl-clipboard-rs
         xdg-utils
       ];
 

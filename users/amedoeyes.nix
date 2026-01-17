@@ -82,11 +82,11 @@
       };
 
       home.packages = with pkgs; [
-        blobdrop
+        ripdrag
         nix-index
         screenrecord
         screenshot
-        wl-clipboard
+        wl-clipboard-rs
         xdg-utils
         mprisctl
       ];
