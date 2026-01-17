@@ -1,7 +1,7 @@
 ---@type vim.lsp.Config
 return {
 	cmd = { "bash-language-server", "start" },
-	filetypes = { "sh", "zsh" },
+	filetypes = { "bash", "sh" },
 	settings = {
 		bashIde = {
 			globPattern = vim.env.GLOB_PATTERN or "*@(.sh|.inc|.bash|.command)",
