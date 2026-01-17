@@ -97,7 +97,7 @@ vim.keymap.set(
 	"n",
 	"<leader>ti",
 	toggle.create({
-		name = "Diagnostics",
+		name = "Inlay Hints",
 		get = vim.lsp.inlay_hint.is_enabled,
 		set = vim.lsp.inlay_hint.enable,
 	})
