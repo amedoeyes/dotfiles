@@ -138,5 +138,3 @@ function Statusline()
 		.. with_padding(search)
 		.. with_padding(ruler)
 end
-
-vim.opt.statusline = "%!v:lua.Statusline()"

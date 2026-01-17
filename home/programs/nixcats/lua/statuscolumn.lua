@@ -43,11 +43,11 @@ local function signs()
 end
 
 local function icon(sign)
+	local text = vim.fn.strcharpart(sign.text or "", 0, 1)
 	if sign.texthl then
-		return string.format("%%#%s#%s%%*", sign.texthl, sign.text)
-	else
-		return sign.text
+		return string.format("%%#%s#%s%%*", sign.texthl, text)
 	end
+	return text
 end
 
 local function diagnostic()
@@ -149,5 +149,3 @@ end
 function StatusColumn()
 	return (mark() or diagnostic() or " ") .. " " .. number() .. " " .. (fold() or git() or " ")
 end
-
-vim.opt.statuscolumn = "%!v:lua.StatusColumn()"
