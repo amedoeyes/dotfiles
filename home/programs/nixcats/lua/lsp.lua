@@ -12,7 +12,7 @@ vim.lsp.enable({
 	"rust-analyzer",
 	"taplo",
 	"tinymist",
-	"typescript-language-server",
+	"tsgo",
 	"vscode-css-language-server",
 	"vscode-eslint-language-server",
 	"vscode-html-language-server",
