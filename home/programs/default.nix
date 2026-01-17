@@ -7,6 +7,7 @@
     ./btop.nix
     ./cava.nix
     ./cmus.nix
+    ./dircolors.nix
     ./direnv.nix
     ./foot.nix
     ./fzf.nix

@@ -97,6 +97,7 @@
         btop.enable = true;
         cava.enable = true;
         cmus.enable = true;
+        dircolors.enable = true;
         direnv.enable = true;
         foot = {
           enable = true;

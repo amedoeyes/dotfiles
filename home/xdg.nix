@@ -18,6 +18,7 @@
   };
 
   home = {
+    preferXdgDirectories = true;
     packages = [
       (pkgs.writeShellScriptBin "x-terminal-emulator" "exec $TERMINAL $@")
       (pkgs.writeShellScriptBin "xdg-terminal-exec" "exec $TERMINAL $@")
