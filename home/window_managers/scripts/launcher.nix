@@ -5,37 +5,41 @@
   dex,
 }:
 writeShellScriptBin "launcher" ''
-  DESKTOP_DIRS=()
-  IFS=':' read -ra DIRS <<< "$XDG_DATA_DIRS"
-  for dir in "''${DIRS[@]}"; do
-    DESKTOP_DIRS+=("$dir/applications")
+  desktop_dirs=()
+  IFS=':' read -ra dirs <<<"$XDG_DATA_DIRS"
+  for dir in "''${dirs[@]}"; do
+    if [[ -d "$dir" ]]; then
+      desktop_dirs+=("$dir/applications")
+    fi
   done
 
-  max_len=$(
-    find -L "''${DESKTOP_DIRS[@]}" -type f -name '*.desktop' \
-      -exec awk '
-        /^Name=/ {
-          name = substr($0, index($0, "=") + 1)
-          print(length(name))
-        }
-      ' '{}' \; |
-    sort -nr |
-    head -1
-  )
+  declare -A names execs
+  max_len=0
+  while read -r file; do
+    while IFS= read -r line; do
+      case "$line" in
+      Name=*)
+        name="''${line#Name=}"
+        names["$file"]="$name"
+        if ((''${#name} > max_len)); then
+          max_len=''${#name}
+        fi
+        ;;
+      Exec=*)
+        execs["$file"]="''${line#Exec=}"
+        ;;
+      esac
+    done <"$file"
+  done < <(find -L "''${desktop_dirs[@]}" -type f -name '*.desktop')
 
-  entry=$(
-    find -L "''${DESKTOP_DIRS[@]}" -type f -name '*.desktop' \
-      -exec awk -v max_len="$max_len" '
-        BEGIN { OFS = "\t" }
-        /^Name=/ && !name { name = substr($0, index($0, "=") + 1) }
-        /^Exec=/ && !exec { exec = substr($0, index($0, "=") + 1) } 
-        END { printf("%-*s\t%s\t%s\n", max_len, name, exec, FILENAME) }
-      ' '{}' \; |
-    sort -t$'\t' -k2,2 -u |
-    sort -t$'\t' -k1,1 |
-    ${lib.getExe fzfmenu} -d '\\t' --with-nth=1..2 |
-    cut -f3
-  )
+  entries=()
+  for file in "''${!names[@]}"; do
+    if [[ -n ''${execs["$file"]} ]]; then
+      entries+=("$(printf "%-*s\t%s\t%s\n" "$max_len" "''${names[$file]}" "''${execs[$file]}" "$file")")
+    fi
+  done
+
+  entry=$(printf "%s\n" "''${entries[@]}" | sort -t$'\t' -k1,1 -f -u | ${lib.getExe fzfmenu} -d '\\t' --with-nth=1..2 | cut -f3)
 
   [[ -n "$entry" ]] && ${lib.getExe dex} "$entry"
 ''
