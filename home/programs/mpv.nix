@@ -33,9 +33,9 @@ in
       osd-font = font.name;
       osd-outline-color = "#${colors.c00.hex}";
       osd-scale-by-window = false;
-      sub-back-color = colors.c00.hex;
-      sub-color = colors.c10.hex;
-      sub-outline-color = colors.c00.hex;
+      sub-back-color = "#${colors.c00.hex}";
+      sub-color = "#${colors.c10.hex}";
+      sub-outline-color = "#${colors.c00.hex}";
     };
     scriptOpts = {
       osc = with config.theme.colors; {
