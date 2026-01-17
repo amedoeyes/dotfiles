@@ -27,7 +27,7 @@
       home = {
         inherit username;
         homeDirectory = "/home/${username}";
-        stateVersion = "25.05";
+        stateVersion = lib.mkDefault "25.11";
       };
     }) users;
   };
