@@ -11,8 +11,8 @@ vim.opt.fillchars = {
 	diff = "╱",
 	eob = " ",
 	fold = " ",
+	foldclose = "",
 	foldopen = " ",
-	foldclose = " ",
 	foldsep = " ",
 	lastline = " ",
 }

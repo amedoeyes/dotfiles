@@ -43,15 +43,10 @@ local function signs()
 end
 
 local function icon(sign)
-	local text = vim.fn.strcharpart(sign.text or "", 0, 1)
 	if sign.texthl then
-		if vim.v.lnum == vim.fn.line(".") then
-			return string.format("%%#StatusColumnCurrentLine#%%#%s#%%X%s%%*", sign.texthl, text)
-		else
-			return string.format("%%#%s#%s%%*", sign.texthl, text)
-		end
+		return string.format("%%#%s#%s%%*", sign.texthl, sign.text)
 	else
-		return text
+		return sign.text
 	end
 end
 
@@ -141,8 +136,18 @@ local function git()
 	return res and icon(res) or nil
 end
 
-function StatusColumn()
-	return (mark() or diagnostic() or " ") .. " " .. number() .. " " .. (git() or " ")
+local function fold()
+	local res = nil
+
+	if vim.fn.foldclosed(vim.v.lnum) >= 0 then
+		res = { text = vim.opt.fillchars:get().foldclose }
+	end
+
+	return res and icon(res) or nil
 end
 
-vim.o.statuscolumn = "%!v:lua.StatusColumn()"
+function StatusColumn()
+	return (mark() or diagnostic() or " ") .. " " .. number() .. " " .. (fold() or git() or " ")
+end
+
+vim.opt.statuscolumn = "%!v:lua.StatusColumn()"
