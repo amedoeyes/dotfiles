@@ -29,6 +29,9 @@ writeShellScriptBin "launcher" ''
         execs["$file"]="''${line#Exec=}"
         ;;
       esac
+      if [[ -n "''${names["$file"]}" && -n "''${execs["$file"]}" ]]; then
+        break
+      fi
     done <"$file"
   done < <(find -L "''${desktop_dirs[@]}" -type f -name '*.desktop')
 
