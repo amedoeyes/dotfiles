@@ -1,12 +1,12 @@
 vim.api.nvim_create_user_command("Scratch", function(opts)
-	local ft = opts.args ~= "" and opts.args or "text"
-	local name = string.format("/tmp/scratch-%d.%s", os.time(), ft)
+	local arg = opts.args ~= "" and opts.args or "txt"
+	local name = string.format("/tmp/scratch-%d.%s", os.time(), arg)
 	vim.cmd.enew()
 	vim.cmd.file(name)
 	vim.bo.bufhidden = "wipe"
 	vim.bo.swapfile = false
 	vim.bo.buflisted = false
-	vim.bo.filetype = ft
+	vim.bo.filetype = vim.filetype.match({ filename = name }) or "text"
 end, { nargs = "?" })
 
 vim.api.nvim_create_user_command("Watch", function(opts)
