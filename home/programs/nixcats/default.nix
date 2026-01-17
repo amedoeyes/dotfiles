@@ -124,8 +124,8 @@ in
                 src = pkgs.fetchFromGitHub {
                   owner = "amedoeyes";
                   repo = "eyes.nvim";
-                  rev = "master";
-                  hash = "sha256-RfwU+RhbOBKtGsuOcTlu2E1+ezy4E6isJqAqB8WA3bg=";
+                  rev = "dev";
+                  hash = "sha256-HbOhg1PDaxM2PKhpVoRPq/0ENyrNO9paHcQg183UwWM=";
                 };
               })
               nvim-treesitter.withAllGrammars
