@@ -80,7 +80,7 @@ in
               nodePackages.vscode-langservers-extracted
             ];
             lua = [
-              lua-language-server
+              emmylua-ls
               stylua
             ];
             markdown = [ marksman ];
@@ -89,7 +89,7 @@ in
               nixfmt
             ];
             python = [
-              pyright
+              ty
               ruff
             ];
             rust = [

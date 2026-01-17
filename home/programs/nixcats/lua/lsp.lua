@@ -5,15 +5,15 @@ vim.lsp.enable({
 	"emmylua_ls",
 	"gopls",
 	"haskell-language-server",
-	"lua-language-server",
+	"lemminx",
 	"marksman",
 	"nixd",
-	"pyright",
 	"ruff",
 	"rust-analyzer",
 	"taplo",
 	"tinymist",
 	"tsgo",
+	"ty",
 	"vscode-css-language-server",
 	"vscode-eslint-language-server",
 	"vscode-html-language-server",
@@ -28,7 +28,7 @@ vim.lsp.config("*", {
 		---@param client vim.lsp.Client
 		---@param buf integer
 		function(client, buf)
-			if client.server_capabilities.completionProvider then
+			if client.server_capabilities and client.server_capabilities.completionProvider then
 				local kind_icons = {
 					"", -- Text
 					"", -- Method
