@@ -13,7 +13,6 @@ in
       type = lib.types.bool;
       default = false;
     };
-
     picker = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -21,13 +20,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.zsh.initContent = (
-      lib.mkOrder 900 ''
-        function vifm {
-        	cd "$(command ${lib.getExe pkgs.vifm} --choose-dir - $@)"
-        }
-      ''
-    );
+    programs.zsh.initContent = lib.mkOrder 900 ''
+      function vifm {
+        cd "$(command ${lib.getExe pkgs.vifm} --choose-dir - $@)"
+      }
+    '';
 
     xdg = {
       mimeApps.defaultApplications."inode/directory" = lib.mkIf cfg.default "vifm.desktop";
@@ -38,83 +35,80 @@ in
       };
 
       configFile = {
-        "xdg-desktop-portal-termfilechooser/config" = lib.mkIf cfg.picker {
-          text =
-            let
-              pickerDeps = pkgs.buildEnv {
-                name = "vifm-picker-dependencies";
-                paths = with pkgs; [
-                  vifm
-                  bashInteractive
-                  coreutils
-                  gnused
-                ];
-              };
-            in
-            ''
-              [filechooser]
-              env=PATH='${pickerDeps}/bin'
-              env=TERMCMD='${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=filepicker'
-              cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/vifm-wrapper.sh
-            '';
-        };
+        "xdg-desktop-portal-termfilechooser/config".text =
+          let
+            deps = pkgs.symlinkJoin {
+              name = "vifm-picker-dependencies";
+              paths = with pkgs; [
+                vifm
+                bashInteractive
+                coreutils
+                gnused
+              ];
+            };
+          in
+          lib.mkIf cfg.picker ''
+            [filechooser]
+            env=PATH='${deps}/bin'
+            env=TERMCMD='${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=filepicker'
+            cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/vifm-wrapper.sh
+          '';
 
-        "vifm/colors/eyes.vifm".text = ''
+        "vifm/colors/eyes.vifm".text = with config.theme.colors; ''
           highlight clear
-          highlight Win          ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight AuxWin       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight OtherWin     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Border       ctermfg=${config.theme.colors.c04.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c04.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight TabLine      ctermfg=${config.theme.colors.c06.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c06.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight TabLineSel   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=bold guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=bold
-          highlight TopLine      ctermfg=${config.theme.colors.c06.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c06.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight TopLineSel   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=bold guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=bold
-          highlight CmdLine      ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight ErrorMsg     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight StatusLine   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight JobLine      ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight WildBox      ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight WildMenu     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c01.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c01.hex} gui=none
-          highlight SuggestBox   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight CurrLine     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c01.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c01.hex} gui=none
-          highlight OtherLine    ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight OddLine      ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight LineNr       ctermfg=${config.theme.colors.c04.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c04.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Selected     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c02.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c02.hex} gui=none
-          highlight Directory    ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Link         ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight BrokenLink   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight HardLink     ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Socket       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Device       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Executable   ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight Fifo         ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight CmpMismatch  ctermfg=${config.theme.colors.c06.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c06.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight CmpUnmatched ctermfg=${config.theme.colors.c06.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c06.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight CmpBlank     ctermfg=${config.theme.colors.c04.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c04.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User1        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User2        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User3        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User4        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User5        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User6        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User7        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User8        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User9        ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User10       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User11       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User12       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User13       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User14       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User15       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User16       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User17       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User18       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User19       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
-          highlight User20       ctermfg=${config.theme.colors.c10.ansi} ctermbg=${config.theme.colors.c00.ansi} cterm=none guifg=#${config.theme.colors.c10.hex} guibg=#${config.theme.colors.c00.hex} gui=none
+          highlight Win          ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight AuxWin       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight OtherWin     ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight Border       ctermfg=${c04.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c04.hex} guibg=#${c00.hex} gui=none
+          highlight TabLine      ctermfg=${c06.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c06.hex} guibg=#${c00.hex} gui=none
+          highlight TabLineSel   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=bold guifg=#${c10.hex} guibg=#${c00.hex} gui=bold
+          highlight TopLine      ctermfg=${c06.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c06.hex} guibg=#${c00.hex} gui=none
+          highlight TopLineSel   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=bold guifg=#${c10.hex} guibg=#${c00.hex} gui=bold
+          highlight CmdLine      ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight ErrorMsg     ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight StatusLine   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight JobLine      ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight WildBox      ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight WildMenu     ctermfg=${c10.ansi} ctermbg=${c01.ansi} cterm=none guifg=#${c10.hex} guibg=#${c01.hex} gui=none
+          highlight SuggestBox   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight CurrLine     ctermfg=${c10.ansi} ctermbg=${c01.ansi} cterm=none guifg=#${c10.hex} guibg=#${c01.hex} gui=none
+          highlight OtherLine    ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight OddLine      ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight LineNr       ctermfg=${c04.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c04.hex} guibg=#${c00.hex} gui=none
+          highlight Selected     ctermfg=${c10.ansi} ctermbg=${c02.ansi} cterm=none guifg=#${c10.hex} guibg=#${c02.hex} gui=none
+          highlight Directory    ctermfg=${c09.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c09.hex} guibg=#${c00.hex} gui=none
+          highlight Link         ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight BrokenLink   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight HardLink     ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight Socket       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight Device       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight Executable   ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight Fifo         ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight CmpMismatch  ctermfg=${c06.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c06.hex} guibg=#${c00.hex} gui=none
+          highlight CmpUnmatched ctermfg=${c06.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c06.hex} guibg=#${c00.hex} gui=none
+          highlight CmpBlank     ctermfg=${c04.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c04.hex} guibg=#${c00.hex} gui=none
+          highlight User1        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User2        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User3        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User4        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User5        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User6        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User7        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User8        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User9        ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User10       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User11       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User12       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User13       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User14       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User15       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User16       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User17       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User18       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User19       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
+          highlight User20       ctermfg=${c10.ansi} ctermbg=${c00.ansi} cterm=none guifg=#${c10.hex} guibg=#${c00.hex} gui=none
         '';
       };
-
     };
 
     programs = {

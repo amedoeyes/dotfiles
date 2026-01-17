@@ -18,60 +18,51 @@ in
     programs.foot = {
       settings = {
         main = {
-          font = "monospace:size=10";
+          font = with config.theme.font; "${name}:size=${toString size}";
           pad = "4x4 center";
         };
-
         scrollback = {
           indicator-position = "none";
         };
-
         cursor = {
           blink = "yes";
           beam-thickness = 0.5;
         };
-
         mouse = {
           hide-when-typing = "true";
         };
-
-        colors = {
-          background = config.theme.colors.c00.hex;
-          foreground = config.theme.colors.c10.hex;
-          cursor = "${config.theme.colors.c00.hex} ${config.theme.colors.c10.hex}";
-
-          regular0 = config.theme.colors.c00.hex;
-          regular1 = config.theme.colors.c04.hex;
-          regular2 = config.theme.colors.c06.hex;
-          regular3 = config.theme.colors.c08.hex;
-          regular4 = config.theme.colors.c04.hex;
-          regular5 = config.theme.colors.c06.hex;
-          regular6 = config.theme.colors.c08.hex;
-          regular7 = config.theme.colors.c10.hex;
-
-          bright0 = config.theme.colors.c00.hex;
-          bright1 = config.theme.colors.c04.hex;
-          bright2 = config.theme.colors.c06.hex;
-          bright3 = config.theme.colors.c08.hex;
-          bright4 = config.theme.colors.c04.hex;
-          bright5 = config.theme.colors.c06.hex;
-          bright6 = config.theme.colors.c08.hex;
-          bright7 = config.theme.colors.c10.hex;
-
-          selection-foreground = config.theme.colors.c10.hex;
-          selection-background = config.theme.colors.c02.hex;
-
-          jump-labels = "${config.theme.colors.c00.hex} ${config.theme.colors.c10.hex}";
-
-          search-box-no-match = "${config.theme.colors.c00.hex} ${config.theme.colors.c00.hex}";
-          search-box-match = "${config.theme.colors.c10.hex} ${config.theme.colors.c00.hex}";
-        }
-        // config.theme.ansiColors;
-
+        colors =
+          with config.theme.colors;
+          {
+            background = c00.hex;
+            foreground = c10.hex;
+            cursor = "${c00.hex} ${c10.hex}";
+            regular0 = c00.hex;
+            regular1 = c04.hex;
+            regular2 = c06.hex;
+            regular3 = c08.hex;
+            regular4 = c04.hex;
+            regular5 = c06.hex;
+            regular6 = c08.hex;
+            regular7 = c10.hex;
+            bright0 = c00.hex;
+            bright1 = c04.hex;
+            bright2 = c06.hex;
+            bright3 = c08.hex;
+            bright4 = c04.hex;
+            bright5 = c06.hex;
+            bright6 = c08.hex;
+            bright7 = c10.hex;
+            selection-foreground = c10.hex;
+            selection-background = c02.hex;
+            jump-labels = "${c00.hex} ${c10.hex}";
+            search-box-no-match = "${c00.hex} ${c00.hex}";
+            search-box-match = "${c10.hex} ${c00.hex}";
+          }
+          // config.theme.ansiColors;
         key-bindings = {
           search-start = "Control+Shift+slash";
         };
-
         search-bindings = {
           find-prev = "Control+N";
           find-next = "Control+n";

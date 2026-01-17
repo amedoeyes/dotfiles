@@ -13,11 +13,11 @@
     extraSpecialArgs = { inherit inputs; };
     users = lib.mapAttrs (username: user: {
       imports = [
-        ./cursor.nix
         ./modules
         ./programs
         ./services
         ./window_managers
+        ./cursor.nix
         ./fonts.nix
         ./shell.nix
         ./xdg.nix

@@ -10,19 +10,17 @@ in
 {
   config.programs.fzf = lib.mkIf cfg.enable {
     defaultCommand = "${lib.getExe pkgs.ripgrep} --files --hidden --follow";
-
     defaultOptions = [
       "--no-info"
       "--no-separator"
-      "--no-scrollbar"
       "--pointer ''"
-      "--reverse"
       "--prompt ' '"
+      "--scrollbar '█'"
+      "--reverse"
       "--highlight-line"
       "--preview-border left"
       "--bind ctrl-y:accept"
     ];
-
     changeDirWidgetOptions = [
       "--walker dir,follow,hidden"
       "--walker-skip ${
@@ -43,13 +41,10 @@ in
           ".local/state/home-manager"
           ".local/state/nix"
           ".ruff_cache"
-          ".xmake"
           "Trash"
           "__pycache__"
           "build"
           "games"
-          "media/screenrecords"
-          "media/screenshots"
           "music"
           "node_modules"
           "old"
@@ -58,25 +53,24 @@ in
         ]
       }"
     ];
-
-    colors = {
-      "fg" = "#${config.theme.colors.c10.hex}";
-      "fg+" = "#${config.theme.colors.c10.hex}:regular";
-      "bg" = "#${config.theme.colors.c00.hex}";
-      "bg+" = "#${config.theme.colors.c01.hex}";
-      "hl" = "#${config.theme.colors.c10.hex}";
-      "hl+" = "#${config.theme.colors.c10.hex}";
-      "gutter" = "#${config.theme.colors.c00.hex}";
-      "query" = "#${config.theme.colors.c10.hex}:regular";
-      "disabled" = "#${config.theme.colors.c04.hex}";
-      "info" = "#${config.theme.colors.c04.hex}";
-      "border" = "#${config.theme.colors.c04.hex}";
-      "label" = "#${config.theme.colors.c10.hex}";
-      "prompt" = "#${config.theme.colors.c06.hex}";
-      "pointer" = "#${config.theme.colors.c10.hex}";
-      "marker" = "#${config.theme.colors.c10.hex}";
-      "spinner" = "#${config.theme.colors.c04.hex}";
-      "header" = "#${config.theme.colors.c10.hex}";
+    colors = with config.theme.colors; {
+      "fg" = "#${c10.hex}";
+      "fg+" = "#${c10.hex}:regular";
+      "bg" = "#${c00.hex}";
+      "bg+" = "#${c01.hex}";
+      "hl" = "#${c10.hex}";
+      "hl+" = "#${c10.hex}";
+      "gutter" = "#${c00.hex}";
+      "query" = "#${c10.hex}:regular";
+      "disabled" = "#${c04.hex}";
+      "info" = "#${c04.hex}";
+      "border" = "#${c04.hex}";
+      "label" = "#${c10.hex}";
+      "prompt" = "#${c06.hex}";
+      "pointer" = "#${c10.hex}";
+      "marker" = "#${c10.hex}";
+      "spinner" = "#${c04.hex}";
+      "header" = "#${c10.hex}";
     };
   };
 }

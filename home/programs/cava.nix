@@ -11,14 +11,12 @@ in
         bars = 0;
         sleep_timer = 10;
       };
-
       output = {
         waveform = 1;
       };
-
-      color = {
-        background = "'#${config.theme.colors.c00.hex}'";
-        foreground = "'#${config.theme.colors.c10.hex}'";
+      color = with config.theme.colors; {
+        background = "'#${c00.hex}'";
+        foreground = "'#${c10.hex}'";
       };
     };
   };

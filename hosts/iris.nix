@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
   boot = {
     initrd = {
@@ -11,20 +11,15 @@
         "rtsx_pci_sdmmc"
       ];
     };
-
     kernelModules = [ "kvm-intel" ];
-
     loader = {
       efi.canTouchEfiVariables = true;
-
       systemd-boot = {
         enable = true;
         configurationLimit = 5;
       };
     };
-
     kernelPackages = pkgs.linuxPackages_latest;
-
     tmp = {
       cleanOnBoot = true;
       useTmpfs = true;
@@ -37,7 +32,6 @@
       fsType = "ext4";
       options = [ "noatime" ];
     };
-
     "/boot" = {
       device = "/dev/disk/by-uuid/6724-5D23";
       fsType = "vfat";
@@ -72,13 +66,11 @@
   nix = {
     settings = {
       use-xdg-base-directories = true;
-
       experimental-features = [
         "nix-command"
         "flakes"
       ];
     };
-
     gc = {
       automatic = true;
       dates = "weekly";
@@ -86,37 +78,28 @@
     };
   };
 
-  environment = {
-    shellAliases = pkgs.lib.mkForce { };
-
-    pathsToLink = [
-      "/share/applications"
-      "/share/xdg-desktop-portal"
-    ];
-  };
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
 
   networking = {
     hostName = "iris";
     useNetworkd = true;
     firewall.enable = false;
-
     nameservers = [ "9.9.9.9" ];
-
     wireless = {
       enable = true;
       userControlled = true;
       secretsFile = "/etc/nixos/wifi-passwords";
-
       networks = {
         "eyes" = {
           pskRaw = "ext:eyes_psk";
         };
-
         "Iris" = {
           hidden = true;
           pskRaw = "ext:iris_psk";
         };
-
         "TRUFLA_STAFF" = {
           pskRaw = "ext:trufla_staff_psk";
         };
@@ -127,7 +110,6 @@
   systemd = {
     network = {
       enable = true;
-
       networks = {
         "20-wired" = {
           matchConfig.Name = "enp0s25";
@@ -135,7 +117,6 @@
           dhcpV4Config.RouteMetric = 100;
           ipv6AcceptRAConfig.RouteMetric = 100;
         };
-
         "25-wireless" = {
           matchConfig.Name = "wlp3s0";
           networkConfig = {
@@ -154,9 +135,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   services = {
-    getty = {
-      greetingLine = "\\e[0;37m<<< Welcome to ${config.system.nixos.distroName} ${config.system.nixos.label} (\\m) - \\l >>>\\e[0m";
-    };
+    getty.extraArgs = [ "--noissue" ];
     libinput.enable = true;
     openssh.enable = true;
     pipewire = {
@@ -179,10 +158,8 @@
 
   security = {
     polkit.enable = true;
-
     pam.services = {
       swaylock = { };
-
       login.gnupg = {
         enable = true;
         noAutostart = true;
@@ -198,5 +175,8 @@
     };
   };
 
-  documentation.man.generateCaches = true;
+  documentation = {
+    man.generateCaches = true;
+    dev.enable = true;
+  };
 }

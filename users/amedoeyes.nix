@@ -27,7 +27,6 @@
       accounts = {
         email = {
           maildirBasePath = "mail";
-
           accounts = {
             personal = {
               primary = true;
@@ -35,19 +34,16 @@
               realName = "Ahmed AbouEleyoun";
               passwordCommand = "${lib.getExe pkgs.pass} passwords/email/personal";
               flavor = "gmail.com";
-
               gpg = {
                 key = gpgKey;
                 signByDefault = true;
               };
-
               mbsync = {
                 enable = true;
                 create = "both";
                 remove = "both";
                 expunge = "both";
               };
-
               aerc = {
                 enable = true;
                 extraAccounts = {
@@ -57,25 +53,21 @@
                 };
               };
             };
-
             professional = {
               address = "ahmed.m.aboueleyoun@gmail.com";
               realName = "Ahmed AbouEleyoun";
               passwordCommand = "${lib.getExe pkgs.pass} passwords/email/professional";
               flavor = "gmail.com";
-
               gpg = {
                 key = gpgKey;
                 signByDefault = true;
               };
-
               mbsync = {
                 enable = true;
                 create = "both";
                 remove = "both";
                 expunge = "both";
               };
-
               aerc = {
                 enable = true;
                 extraAccounts = {
@@ -94,7 +86,6 @@
         nix-index
         screenrecord
         screenshot
-        select-geometry
         wl-clipboard
         xdg-utils
         mprisctl
@@ -161,6 +152,7 @@
           package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
           settings = {
             PASSWORD_STORE_KEY = gpgKey;
+            PASSWORD_STORE_DIR = "${config.xdg.dataHome}/password-store";
           };
         };
         qutebrowser.enable = true;

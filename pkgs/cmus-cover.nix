@@ -14,10 +14,10 @@ writeShellScriptBin "cmus-cover" ''
   }
 
   cleanup() {
-  	kill "$COPROC_PID" 2>/dev/null
-  	tput rmcup
-  	tput cnorm
-  	exit
+    kill "$COPROC_PID" 2>/dev/null
+    tput rmcup
+    tput cnorm
+    exit
   }
 
   need_redraw=1
@@ -26,21 +26,21 @@ writeShellScriptBin "cmus-cover" ''
   trap cleanup INT TERM EXIT
 
   coproc {
-  	exec dbus-monitor "type='signal',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged'"
+    exec dbus-monitor "type='signal',interface='org.freedesktop.DBus.Properties',member='PropertiesChanged'"
   }
 
   tput smcup
 
   while :; do
-  	if read -r -t 0.1 line <&"''${COPROC[0]}"; then
-  		if [[ $line == *Metadata* ]]; then
-  			need_redraw=1
-  		fi
-  	fi
+    if read -r -t 0.1 line <&"''${COPROC[0]}"; then
+      if [[ $line == *Metadata* ]]; then
+        need_redraw=1
+      fi
+    fi
 
-  	if ((need_redraw == 1)); then
-  		display_cover
-  		need_redraw=0
-  	fi
+    if ((need_redraw == 1)); then
+      display_cover
+      need_redraw=0
+    fi
   done
 ''

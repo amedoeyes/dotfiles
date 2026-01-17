@@ -67,7 +67,6 @@ in
     programs.zk = {
       settings = {
         notebook.dir = "$HOME/notes/";
-
         note = {
           language = "en";
           default-title = "Untitled";
@@ -78,7 +77,6 @@ in
           id-length = 4;
           id-case = "lower";
         };
-
         format.markdown = {
           link-format = "wiki";
           link-encode-path = false;
@@ -87,29 +85,24 @@ in
           colon-tags = false;
           multiword-tags = false;
         };
-
         lsp.diagnostics = {
           wiki-title = "none";
           dead-link = "error";
         };
-
         group = {
           idea.note = {
             filename = "{{slug title}}";
             template = "idea.md";
           };
-
           project.note = {
             filename = "{{slug title}}";
             template = "project.md";
           };
-
           study.note = {
             filename = "{{slug title}}";
             template = "study.md";
           };
         };
-
         tool = {
           fzf-bind-new = "";
         };

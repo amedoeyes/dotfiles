@@ -1,95 +1,48 @@
 { pkgs, config, ... }:
 {
   home = {
-    pointerCursor = {
+    pointerCursor = with config.theme; {
       enable = true;
       dotIcons.enable = false;
-      name = "eyes-${config.theme.palette}";
+      name = "eyes-${palette}";
       size = 16;
       package = pkgs.simp1e-cursors.overrideAttrs (oldAttrs: {
-        preBuild = ''
-          rm src/color_schemes/*.txt
-
-          cat > src/color_schemes/eyes-dark.txt <<EOF
-              name:eyes-dark
-
-              shadow:000000
-              shadow_opacity:0.0
-
-              cursor_border:${config.theme.darkColors.c10.hex}
-
-              default_cursor_bg:${config.theme.darkColors.c00.hex}
-              hand_bg:${config.theme.darkColors.c00.hex}
-
-              question_mark_fg:${config.theme.darkColors.c10.hex}
-              question_mark_bg:${config.theme.darkColors.c00.hex}
-
-              plus_fg:${config.theme.darkColors.c10.hex}
-              plus_bg:${config.theme.darkColors.c00.hex}
-
-              link_fg:${config.theme.darkColors.c10.hex}
-              link_bg:${config.theme.darkColors.c00.hex}
-
-              move_fg:${config.theme.darkColors.c10.hex}
-              move_bg:${config.theme.darkColors.c00.hex}
-
-              context_menu_fg:${config.theme.darkColors.c10.hex}
-              context_menu_bg:${config.theme.darkColors.c00.hex}
-
-              forbidden_fg:${config.theme.darkColors.c10.hex}
-              forbidden_bg:${config.theme.darkColors.c00.hex}
-
-              magnifier_fg:${config.theme.darkColors.c10.hex}
-              magnifier_bg:${config.theme.darkColors.c00.hex}
-
-              skull_eye:${config.theme.darkColors.c10.hex}
-              skull_bg:${config.theme.darkColors.c00.hex}
-
-              spinner_fg1:${config.theme.darkColors.c10.hex}
-              spinner_fg2:${config.theme.darkColors.c10.hex}
-              spinner_bg:${config.theme.darkColors.c00.hex}
-          EOF
-
-          cat > src/color_schemes/eyes-light.txt <<EOF
-              name:eyes-light
-
-              shadow:000000
-              shadow_opacity:0.0
-
-              cursor_border:${config.theme.lightColors.c10.hex}
-
-              default_cursor_bg:${config.theme.lightColors.c00.hex}
-              hand_bg:${config.theme.lightColors.c00.hex}
-
-              question_mark_fg:${config.theme.lightColors.c10.hex}
-              question_mark_bg:${config.theme.lightColors.c00.hex}
-
-              plus_fg:${config.theme.lightColors.c10.hex}
-              plus_bg:${config.theme.lightColors.c00.hex}
-
-              link_fg:${config.theme.lightColors.c10.hex}
-              link_bg:${config.theme.lightColors.c00.hex}
-
-              move_fg:${config.theme.lightColors.c10.hex}
-              move_bg:${config.theme.lightColors.c00.hex}
-
-              context_menu_fg:${config.theme.lightColors.c10.hex}
-              context_menu_bg:${config.theme.lightColors.c00.hex}
-
-              forbidden_fg:${config.theme.lightColors.c10.hex}
-              forbidden_bg:${config.theme.lightColors.c00.hex}
-
-              magnifier_fg:${config.theme.lightColors.c10.hex}
-              magnifier_bg:${config.theme.lightColors.c00.hex}
-
-              skull_eye:${config.theme.lightColors.c10.hex}
-              skull_bg:${config.theme.lightColors.c00.hex}
-
-              spinner_fg1:${config.theme.lightColors.c10.hex}
-              spinner_fg2:${config.theme.lightColors.c10.hex}
-              spinner_bg:${config.theme.lightColors.c00.hex}
-          EOF
-        '';
+        preBuild =
+          let
+            colorscheme =
+              with colors;
+              pkgs.writeText "simp1e-cursors-colorscheme.txt" ''
+                name:eyes-${palette}
+                shadow:000000
+                shadow_opacity:0.0
+                cursor_border:${c10.hex}
+                default_cursor_bg:${c00.hex}
+                hand_bg:${c00.hex}
+                question_mark_fg:${c10.hex}
+                question_mark_bg:${c00.hex}
+                plus_fg:${c10.hex}
+                plus_bg:${c00.hex}
+                link_fg:${c10.hex}
+                link_bg:${c00.hex}
+                move_fg:${c10.hex}
+                move_bg:${c00.hex}
+                context_menu_fg:${c10.hex}
+                context_menu_bg:${c00.hex}
+                forbidden_fg:${c10.hex}
+                forbidden_bg:${c00.hex}
+                magnifier_fg:${c10.hex}
+                magnifier_bg:${c00.hex}
+                skull_eye:${c10.hex}
+                skull_bg:${c00.hex}
+                spinner_fg1:${c10.hex}
+                spinner_fg2:${c10.hex}
+                spinner_bg:${c00.hex}
+              '';
+          in
+          ''
+            rm src/color_schemes/*.txt
+            cp ${colorscheme} src/color_schemes/colorscheme.txt
+          '';
       });
     };
   };

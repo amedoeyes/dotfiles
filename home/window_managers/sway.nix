@@ -16,7 +16,6 @@ in
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
       ];
-
       config.common = {
         default = "gtk";
         "org.freedesktop.impl.portal.Screenshot" = "wlr";
@@ -33,9 +32,9 @@ in
             terminalCmd = "${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=fzfmenu";
           };
         in
+        with config.theme;
         {
           modifier = "Mod4";
-
           input = {
             "type:keyboard" = {
               xkb_layout = "us,ara";
@@ -49,10 +48,9 @@ in
               pointer_accel = "0.5";
             };
           };
-
           output = {
             "*" = {
-              background = "#${config.theme.colors.c00.hex} solid_color";
+              background = "#${colors.c00.hex} solid_color";
             };
             "eDP-1" = {
               resolution = "1600x900";
@@ -63,7 +61,6 @@ in
               position = "1600 0";
             };
           };
-
           workspaceOutputAssign = [
             {
               workspace = "1";
@@ -106,18 +103,14 @@ in
               output = [ "DP-2" ];
             }
           ];
-
           focus = {
             mouseWarping = "container";
           };
-
           bars = [ ];
-
-          fonts = {
-            names = [ "monospace" ];
-            size = 10.0;
+          fonts = with font; {
+            names = [ name ];
+            size = size * 1.0;
           };
-
           window = {
             titlebar = false;
             border = 1;
@@ -130,7 +123,6 @@ in
                 criteria.app_id = "fzfmenu";
                 command = "focus";
               }
-
               {
                 criteria.app_id = "filepicker";
                 command = "floating enable";
@@ -141,22 +133,20 @@ in
               }
             ];
           };
-
           floating = {
             titlebar = false;
             border = 1;
           };
-
           gaps = {
             inner = 10;
           };
-
           keybindings = {
             "${modifier}+return" = "exec ${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}}";
             "${modifier}+space" = "exec ${lib.getExe (scripts.launcher.override { inherit fzfmenu; })}";
             "${modifier}+c" = "exec ${lib.getExe (scripts.clipboard.override { inherit fzfmenu; })}";
             "print" = "exec ${lib.getExe pkgs.screenshot}";
-            "shift+print" = "exec ${lib.getExe pkgs.screenshot} -g \"$(${lib.getExe pkgs.select-geometry})\"";
+            "shift+print" =
+              "exec ${lib.getExe pkgs.screenshot} -g \"$(${lib.getExe pkgs.slurp} -b '#${colors.c00.hex}A0' -c '#${colors.c10.hex}FF' -s '#${colors.c00.hex}00' -B '#${colors.c00.hex}A0' -w 1 -o)\"";
 
             "XF86AudioMute" = "exec ${lib.getExe scripts.control.audio} toggle-sink";
             "XF86AudioMicMute" = "exec ${lib.getExe scripts.control.audio} toggle-source";
@@ -215,7 +205,6 @@ in
             "${modifier}+m" = "mode MPRIS";
             "${modifier}+n" = "mode NOTIFICATION";
           };
-
           modes = {
             RESIZE = {
               "${modifier}+h" = "resize shrink width 10px";
@@ -225,7 +214,6 @@ in
 
               "${modifier}+escape" = "mode default";
             };
-
             MPRIS = {
               "${modifier}+n" = "exec ${lib.getExe scripts.control.mpris} notify-progress";
               "${modifier}+p" = "exec ${lib.getExe scripts.control.mpris} toggle";
@@ -240,7 +228,6 @@ in
 
               "${modifier}+escape" = "mode default";
             };
-
             NOTIFICATION = {
               "${modifier}+m" = "exec ${lib.getExe' pkgs.mako "makoctl"} menu ${lib.getExe fzfmenu}";
               "${modifier}+d" = "exec ${lib.getExe' pkgs.mako "makoctl"} dismiss -a";
@@ -249,40 +236,35 @@ in
               "${modifier}+escape" = "mode default";
             };
           };
-
-          colors = {
-            background = "#${config.theme.colors.c00.hex}";
-
+          colors = with colors; {
+            background = "#${c00.hex}";
             focused = {
-              background = "#${config.theme.colors.c00.hex}";
-              border = "#${config.theme.colors.c10.hex}";
-              childBorder = "#${config.theme.colors.c10.hex}";
-              indicator = "#${config.theme.colors.c10.hex}";
-              text = "#${config.theme.colors.c10.hex}";
+              background = "#${c00.hex}";
+              border = "#${c10.hex}";
+              childBorder = "#${c10.hex}";
+              indicator = "#${c10.hex}";
+              text = "#${c10.hex}";
             };
-
             focusedInactive = {
-              background = "#${config.theme.colors.c00.hex}";
-              border = "#${config.theme.colors.c04.hex}";
-              childBorder = "#${config.theme.colors.c04.hex}";
-              indicator = "#${config.theme.colors.c04.hex}";
-              text = "#${config.theme.colors.c06.hex}";
+              background = "#${c00.hex}";
+              border = "#${c04.hex}";
+              childBorder = "#${c04.hex}";
+              indicator = "#${c04.hex}";
+              text = "#${c06.hex}";
             };
-
             unfocused = {
-              background = "#${config.theme.colors.c00.hex}";
-              border = "#${config.theme.colors.c04.hex}";
-              childBorder = "#${config.theme.colors.c04.hex}";
-              indicator = "#${config.theme.colors.c04.hex}";
-              text = "#${config.theme.colors.c06.hex}";
+              background = "#${c00.hex}";
+              border = "#${c04.hex}";
+              childBorder = "#${c04.hex}";
+              indicator = "#${c04.hex}";
+              text = "#${c06.hex}";
             };
-
             urgent = {
-              background = "#${config.theme.colors.c00.hex}";
-              border = "#${config.theme.colors.c10.hex}";
-              childBorder = "#${config.theme.colors.c10.hex}";
-              indicator = "#${config.theme.colors.c10.hex}";
-              text = "#${config.theme.colors.c10.hex}";
+              background = "#${c00.hex}";
+              border = "#${c10.hex}";
+              childBorder = "#${c10.hex}";
+              indicator = "#${c10.hex}";
+              text = "#${c10.hex}";
             };
           };
         };

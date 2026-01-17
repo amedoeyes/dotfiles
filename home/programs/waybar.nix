@@ -5,7 +5,6 @@ in
 {
   programs.waybar = lib.mkIf cfg.enable {
     systemd.enable = true;
-
     settings = {
       mainBar = {
         layer = "top";
@@ -16,12 +15,10 @@ in
         margin-left = 10;
         margin-right = 10;
         spacing = 20;
-
         modules-left = [
           "sway/mode"
           "sway/workspaces"
         ];
-
         modules-right = [
           "network"
           "memory"
@@ -29,21 +26,17 @@ in
           "battery"
           "clock"
         ];
-
         memory = {
           format = "  {percentage}%";
           tooltip = false;
         };
-
         cpu = {
           format = "  {usage}%";
           tooltip = false;
         };
-
         "sway/mode" = {
           tooltip = false;
         };
-
         "sway/workspaces" = {
           format = "{icon}";
           format-icons = {
@@ -65,7 +58,6 @@ in
             "10" = [ ];
           };
         };
-
         network = {
           format = "{icon} {essid} ({signalStrength}%)";
           format-ethernet = "󰈀  Ethernet";
@@ -79,12 +71,10 @@ in
           ];
           tooltip = false;
         };
-
         clock = {
           format = "{:%H:%M}";
           tooltip = false;
         };
-
         battery = {
           format = "{icon} {capacity}%";
           format-charging = "{icon}󱐋 {capacity}%";
@@ -106,27 +96,23 @@ in
         };
       };
     };
-
-    style = ''
+    style = with config.theme; ''
       * {
         all: unset;
-        font-family: ${config.theme.font.name};
-        font-size: ${toString config.theme.font.size}pt;
+        font-family: ${font.name};
+        font-size: ${toString font.size}pt;
         font-weight: bold;
-        color: #${config.theme.colors.c10.hex};
+        color: #${colors.c10.hex};
       }
-
       .modules-left {
         margin-left: 10px;
       }
-
       .modules-right {
         margin-right: 10px;
       }
-
       window#waybar {
-        background: #${config.theme.colors.c00.hex};
-        border: 1px solid #${config.theme.colors.c04.hex};
+        background: #${colors.c00.hex};
+        border: 1px solid #${colors.c04.hex};
       }
     '';
   };

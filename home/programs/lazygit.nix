@@ -6,12 +6,10 @@ in
   config.programs.lazygit = lib.mkIf cfg.enable {
     settings = {
       notARepository = "quit";
-
       os = {
         editPreset = "nvim-remote";
       };
-
-      gui = {
+      gui = with config.theme.colors; {
         border = "single";
         nerdFontsVersion = "3";
         showBottomLine = false;
@@ -20,21 +18,20 @@ in
         showPanelJumps = false;
         showRandomTip = false;
         tabWidth = 2;
-        authorColors."*" = "#${config.theme.colors.c06.hex}";
-
+        authorColors."*" = "#${c06.hex}";
         theme = {
-          activeBorderColor = [ "#${config.theme.colors.c10.hex}" ];
-          cherryPickedCommitBgColor = [ "#${config.theme.colors.c10.hex}" ];
-          cherryPickedCommitFgColor = [ "#${config.theme.colors.c10.hex}" ];
-          defaultFgColor = [ "#${config.theme.colors.c10.hex}" ];
-          inactiveBorderColor = [ "#${config.theme.colors.c04.hex}" ];
-          inactiveViewSelectedLineBgColor = [ "#${config.theme.colors.c01.hex}" ];
-          markedBaseCommitBgColor = [ "#${config.theme.colors.c10.hex}" ];
-          markedBaseCommitFgColor = [ "#${config.theme.colors.c10.hex}" ];
-          optionsTextColor = [ "#${config.theme.colors.c10.hex}" ];
-          searchingActiveBorderColor = [ "#${config.theme.colors.c10.hex}" ];
-          selectedLineBgColor = [ "#${config.theme.colors.c01.hex}" ];
-          unstagedChangesColor = [ "#${config.theme.colors.c04.hex}" ];
+          activeBorderColor = [ "#${c10.hex}" ];
+          cherryPickedCommitBgColor = [ "#${c10.hex}" ];
+          cherryPickedCommitFgColor = [ "#${c10.hex}" ];
+          defaultFgColor = [ "#${c10.hex}" ];
+          inactiveBorderColor = [ "#${c04.hex}" ];
+          inactiveViewSelectedLineBgColor = [ "#${c01.hex}" ];
+          markedBaseCommitBgColor = [ "#${c10.hex}" ];
+          markedBaseCommitFgColor = [ "#${c10.hex}" ];
+          optionsTextColor = [ "#${c10.hex}" ];
+          searchingActiveBorderColor = [ "#${c10.hex}" ];
+          selectedLineBgColor = [ "#${c01.hex}" ];
+          unstagedChangesColor = [ "#${c04.hex}" ];
         };
       };
     };

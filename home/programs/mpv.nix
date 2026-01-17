@@ -20,58 +20,40 @@ in
       J = "cycle sub down";
       Q = "quit-watch-later";
     };
-
-    config = {
+    config = with config.theme; {
       cache = true;
       hr-seek = true;
-
       keep-open = true;
-
       msg-color = false;
-
-      osd-back-color = "#${config.theme.colors.c00.hex}";
-      osd-bar-h = 2;
-      osd-bar-outline-size = 0.1;
-      osd-border-size = 0.1;
-      osd-color = "#${config.theme.colors.c10.hex}";
-      osd-font = config.theme.font.name;
-      osd-font-size = 24;
-      osd-outline-color = "#${config.theme.colors.c00.hex}";
-      osd-outline-size = 0.1;
-      osd-scale-by-window = false;
-
-      term-osd-bar = true;
-      term-osd-bar-chars = "[━━ ]";
-
-      sub-back-color = config.theme.colors.hex00;
-      sub-color = config.theme.colors.hex10;
-      sub-outline-color = config.theme.colors.hex00;
-      sub-outline-size = 0.1;
-
       volume-max = 200;
-
       ytdl-format = "bestvideo[height<=?360][fps<=?30]+bestaudio/best";
+      osd-back-color = "#${colors.c00.hex}";
+      osd-bar-h = 2;
+      osd-color = "#${colors.c10.hex}";
+      osd-font = font.name;
+      osd-outline-color = "#${colors.c00.hex}";
+      osd-scale-by-window = false;
+      sub-back-color = colors.c00.hex;
+      sub-color = colors.c10.hex;
+      sub-outline-color = colors.c00.hex;
     };
-
     scriptOpts = {
-      osc = {
-        background_color = "#${config.theme.colors.c00.hex}";
-        buttons_color = "#${config.theme.colors.c10.hex}";
-        held_element_color = "#${config.theme.colors.c10.hex}";
-        small_buttonsL_color = "#${config.theme.colors.c10.hex}";
-        small_buttonsR_color = "#${config.theme.colors.c10.hex}";
-        time_pos_color = "#${config.theme.colors.c10.hex}";
-        time_pos_outline_color = "#${config.theme.colors.c00.hex}";
-        timecode_color = "#${config.theme.colors.c10.hex}";
-        title_color = "#${config.theme.colors.c10.hex}";
-        top_buttons_color = "#${config.theme.colors.c10.hex}";
+      osc = with config.theme.colors; {
+        background_color = "#${c00.hex}";
+        buttons_color = "#${c10.hex}";
+        held_element_color = "#${c10.hex}";
+        small_buttonsL_color = "#${c10.hex}";
+        small_buttonsR_color = "#${c10.hex}";
+        time_pos_color = "#${c10.hex}";
+        time_pos_outline_color = "#${c00.hex}";
+        timecode_color = "#${c10.hex}";
+        title_color = "#${c10.hex}";
+        top_buttons_color = "#${c10.hex}";
       };
-
       webtorrent = {
         path = "${config.xdg.cacheHome}/webtorrent/";
       };
     };
-
     scripts = [
       pkgs.mpvScripts.mpris
       pkgs.mpvScripts.webtorrent-mpv-hook

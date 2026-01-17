@@ -16,12 +16,10 @@ in
       type = lib.types.bool;
       default = false;
     };
-
     default = lib.mkOption {
       type = lib.types.bool;
       default = false;
     };
-
     unwrap = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -45,7 +43,6 @@ in
       enable = true;
       packageNames = [ "nvim" ];
       luaPath = ./.;
-
       categoryDefinitions.replace = (
         { pkgs, ... }:
         {
@@ -59,84 +56,66 @@ in
               ripgrep
               fd
             ];
-
             c = [ clang-tools ];
-
             css = [
               nodePackages.prettier
               nodePackages.vscode-langservers-extracted
             ];
-
             go = [
               gofumpt
               gopls
             ];
-
             haskell = [ haskellPackages.haskell-language-server ];
-
             html = [
               nodePackages.prettier
               nodePackages.vscode-langservers-extracted
             ];
-
             js = [
               nodePackages.eslint_d
               nodePackages.prettier
               typescript-go
             ];
-
             json = [
               nodePackages.prettier
               nodePackages.vscode-langservers-extracted
             ];
-
             lua = [
               lua-language-server
               stylua
             ];
-
             markdown = [ marksman ];
-
             nix = [
               nixd
-              nixfmt-rfc-style
+              nixfmt
             ];
-
             python = [
               pyright
               ruff
             ];
-
             rust = [
               clippy
               rust-analyzer
               rustfmt
             ];
-
             sh = [
               nodePackages.bash-language-server
               shellcheck
               shfmt
             ];
-
             toml = [
               taplo
             ];
-
             typst = [
               tinymist
               typstyle
             ];
-
             wgsl = [
               wgsl-analyzer
             ];
-
             xml = [
               lemminx
             ];
           };
-
           startupPlugins = with pkgs.vimPlugins; {
             general = [
               (pkgs.vimUtils.buildVimPlugin {
@@ -165,7 +144,6 @@ in
           };
         }
       );
-
       packageDefinitions.replace = {
         nvim =
           { ... }:
@@ -182,10 +160,8 @@ in
                 ruby.enable = false;
               };
             };
-
             categories = {
               general = true;
-
               c = true;
               css = true;
               go = true;

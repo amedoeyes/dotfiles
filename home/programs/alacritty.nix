@@ -24,15 +24,13 @@ in
           };
           dynamic_padding = true;
         };
-
-        font = {
+        font = with config.theme.font; {
           normal = {
-            family = "monospace";
+            family = name;
             style = "Regular";
           };
-          size = 10;
+          size = size;
         };
-
         cursor = {
           style = {
             blinking = "On";
@@ -42,99 +40,86 @@ in
             blinking = "On";
           };
         };
-
         mouse = {
           hide_when_typing = true;
         };
-
-        colors = {
+        colors = with config.theme.colors; {
           primary = {
-            foreground = "#${config.theme.colors.c10.hex}";
-            background = "#${config.theme.colors.c00.hex}";
-            dim_foreground = "#${config.theme.colors.c10.hex}";
-            bright_foreground = "#${config.theme.colors.c10.hex}";
+            foreground = "#${c10.hex}";
+            background = "#${c00.hex}";
+            dim_foreground = "#${c10.hex}";
+            bright_foreground = "#${c10.hex}";
           };
-
           cursor = {
-            text = "#${config.theme.colors.c00.hex}";
-            cursor = "#${config.theme.colors.c10.hex}";
+            text = "#${c00.hex}";
+            cursor = "#${c10.hex}";
           };
-
           vi_mode_cursor = {
-            text = "#${config.theme.colors.c00.hex}";
-            cursor = "#${config.theme.colors.c10.hex}";
+            text = "#${c00.hex}";
+            cursor = "#${c10.hex}";
           };
-
           search = {
             matches = {
-              background = "#${config.theme.colors.c03.hex}";
-              foreground = "#${config.theme.colors.c10.hex}";
+              background = "#${c03.hex}";
+              foreground = "#${c10.hex}";
             };
             focused_match = {
-              background = "#${config.theme.colors.c03.hex}";
-              foreground = "#${config.theme.colors.c10.hex}";
+              background = "#${c03.hex}";
+              foreground = "#${c10.hex}";
             };
           };
-
           hints = {
             start = {
-              foreground = "#${config.theme.colors.c00.hex}";
-              background = "#${config.theme.colors.c10.hex}";
+              foreground = "#${c00.hex}";
+              background = "#${c10.hex}";
             };
             end = {
-              foreground = "#${config.theme.colors.c00.hex}";
-              background = "#${config.theme.colors.c10.hex}";
+              foreground = "#${c00.hex}";
+              background = "#${c10.hex}";
             };
           };
-
           line_indicator = {
-            foreground = "#${config.theme.colors.c10.hex}";
-            background = "#${config.theme.colors.c01.hex}";
+            foreground = "#${c10.hex}";
+            background = "#${c01.hex}";
           };
-
           footer_bar = {
-            foreground = "#${config.theme.colors.c10.hex}";
-            background = "#${config.theme.colors.c00.hex}";
+            foreground = "#${c10.hex}";
+            background = "#${c00.hex}";
           };
-
           selection = {
-            text = "#${config.theme.colors.c10.hex}";
-            background = "#${config.theme.colors.c02.hex}";
+            text = "#${c10.hex}";
+            background = "#${c02.hex}";
           };
-
           normal = {
-            black = "#${config.theme.colors.c00.hex}";
-            red = "#${config.theme.colors.c04.hex}";
-            green = "#${config.theme.colors.c06.hex}";
-            yellow = "#${config.theme.colors.c08.hex}";
-            blue = "#${config.theme.colors.c04.hex}";
-            magenta = "#${config.theme.colors.c06.hex}";
-            cyan = "#${config.theme.colors.c08.hex}";
-            white = "#${config.theme.colors.c10.hex}";
+            black = "#${c00.hex}";
+            red = "#${c04.hex}";
+            green = "#${c06.hex}";
+            yellow = "#${c08.hex}";
+            blue = "#${c04.hex}";
+            magenta = "#${c06.hex}";
+            cyan = "#${c08.hex}";
+            white = "#${c10.hex}";
           };
-
           bright = {
-            black = "#${config.theme.colors.c00.hex}";
-            red = "#${config.theme.colors.c04.hex}";
-            green = "#${config.theme.colors.c06.hex}";
-            yellow = "#${config.theme.colors.c08.hex}";
-            blue = "#${config.theme.colors.c04.hex}";
-            magenta = "#${config.theme.colors.c06.hex}";
-            cyan = "#${config.theme.colors.c08.hex}";
-            white = "#${config.theme.colors.c10.hex}";
+            black = "#${c00.hex}";
+            red = "#${c04.hex}";
+            green = "#${c06.hex}";
+            yellow = "#${c08.hex}";
+            blue = "#${c04.hex}";
+            magenta = "#${c06.hex}";
+            cyan = "#${c08.hex}";
+            white = "#${c10.hex}";
           };
-
           dim = {
-            black = "#${config.theme.colors.c00.hex}";
-            red = "#${config.theme.colors.c04.hex}";
-            green = "#${config.theme.colors.c06.hex}";
-            yellow = "#${config.theme.colors.c08.hex}";
-            blue = "#${config.theme.colors.c04.hex}";
-            magenta = "#${config.theme.colors.c06.hex}";
-            cyan = "#${config.theme.colors.c08.hex}";
-            white = "#${config.theme.colors.c10.hex}";
+            black = "#${c00.hex}";
+            red = "#${c04.hex}";
+            green = "#${c06.hex}";
+            yellow = "#${c08.hex}";
+            blue = "#${c04.hex}";
+            magenta = "#${c06.hex}";
+            cyan = "#${c08.hex}";
+            white = "#${c10.hex}";
           };
-
           indexed_colors = builtins.attrValues (
             builtins.mapAttrs (index: color: {
               index = lib.toInt index;
@@ -142,7 +127,6 @@ in
             }) config.theme.ansiColors
           );
         };
-
         keyboard.bindings = [
           {
             key = "N";

@@ -1,6 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
 {
-
   wsl = {
     enable = true;
     defaultUser = "wsl";
@@ -11,22 +10,16 @@
   nix = {
     settings = {
       use-xdg-base-directories = true;
-
       experimental-features = [
         "nix-command"
         "flakes"
       ];
     };
-
     gc = {
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-  };
-
-  environment = {
-    shellAliases = pkgs.lib.mkForce { };
   };
 
   programs = {
@@ -36,5 +29,8 @@
     };
   };
 
-  documentation.man.generateCaches = true;
+  documentation = {
+    man.generateCaches = true;
+    dev.enable = true;
+  };
 }

@@ -11,7 +11,6 @@ in
   config.programs.zsh = lib.mkIf cfg.enable {
     dotDir = "${config.xdg.configHome}/zsh";
     defaultKeymap = "viins";
-
     syntaxHighlighting = with config.theme.colors; {
       enable = true;
       styles = {
@@ -66,12 +65,10 @@ in
         default = "fg=${c10.ansi}";
       };
     };
-
-    autosuggestion = {
+    autosuggestion = with config.theme.colors; {
       enable = true;
-      highlight = "fg=#${config.theme.colors.c04.hex}";
+      highlight = "fg=#${c04.hex}";
     };
-
     history = {
       path = "${config.xdg.stateHome}/zsh/history";
       size = 100000;
@@ -81,11 +78,9 @@ in
       findNoDups = true;
       saveNoDups = true;
     };
-
-    sessionVariables = {
-      PROMPT = "%F{#${config.theme.colors.c06.hex}}$%f ";
+    sessionVariables = with config.theme.colors; {
+      PROMPT = "%F{#${c06.hex}}$%f ";
     };
-
     plugins = [
       {
         name = "fzf-tab";
@@ -93,7 +88,6 @@ in
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
     ];
-
     initContent =
       let
         zstyle = lib.mkOrder 1000 ''
@@ -106,7 +100,6 @@ in
 
           zstyle ':fzf-tab:*' use-fzf-default-opts yes
         '';
-
         keybinds = lib.mkOrder 1000 ''
           KEYTIMEOUT=1
           function zle-keymap-select {
@@ -134,7 +127,6 @@ in
           bindkey '^Y' yank
           bindkey '^_' undo
         '';
-
         functions = lib.mkOrder 1000 ''
           function spell {
             export DICPATH="${pkgs.hunspellDicts.en_US}/share/hunspell"
