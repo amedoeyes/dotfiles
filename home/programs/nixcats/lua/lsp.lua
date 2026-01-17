@@ -22,7 +22,7 @@ vim.lsp.enable({
 })
 
 vim.lsp.config("*", {
-	root_markers = { ".git" },
+	root_markers = { ".git", ".direnv" },
 	on_attach =
 		---@param client vim.lsp.Client
 		---@param buf integer
