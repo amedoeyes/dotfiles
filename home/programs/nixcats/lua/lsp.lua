@@ -2,6 +2,7 @@ vim.lsp.enable({
 	"bash-language-server",
 	"clangd",
 	"efm-langserver",
+	"emmylua_ls",
 	"gopls",
 	"haskell-language-server",
 	"lua-language-server",

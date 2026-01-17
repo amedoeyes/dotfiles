@@ -33,15 +33,6 @@ local function shfmt()
 	}
 end
 
----@return table
-local function stylua()
-	return {
-		formatCommand = "stylua --color Never ${--range-start:charStart} ${--range-end:charEnd} --stdin-filepath '${INPUT}' -",
-		formatCanRange = true,
-		formatStdin = true,
-	}
-end
-
 ---@type vim.lsp.Config
 return {
 	cmd = { "efm-langserver" },
@@ -68,7 +59,6 @@ return {
 			javascript = { prettier("babel") },
 			json = { prettier("json") },
 			less = { prettier("less") },
-			lua = { stylua() },
 			markdown = { prettier("markdown") },
 			sass = { prettier("sass") },
 			scss = { prettier("scss") },
