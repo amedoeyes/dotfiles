@@ -39,6 +39,7 @@
           unwrap = true;
         };
         vifm.enable = true;
+        zk.enable = true;
         zsh.enable = true;
       };
     };
