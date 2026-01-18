@@ -52,7 +52,6 @@ in
               tree-sitter
               chafa
               xdg-utils
-              wl-clipboard-rs
               ripgrep
               fd
             ];
