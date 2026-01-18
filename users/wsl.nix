@@ -20,6 +20,7 @@
 
       programs = {
         btop.enable = true;
+        dircolors.enable = true;
         direnv.enable = true;
         fzf.enable = true;
         git = {
