@@ -24,8 +24,12 @@
         fzf.enable = true;
         git = {
           enable = true;
-          userEmail = "ahmed.aboeleyoun@trufla.com";
-          userName = "Ahmed AbouEleyoun";
+          settings = {
+            user = {
+              email = "ahmed.aboeleyoun@trufla.com";
+              name = "Ahmed AbouEleyoun";
+            };
+          };
         };
         lazygit.enable = true;
         nixCats = {
