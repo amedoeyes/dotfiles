@@ -38,7 +38,6 @@
           default = true;
           unwrap = true;
         };
-        ripgrep.enable = true;
         vifm.enable = true;
         zsh.enable = true;
       };

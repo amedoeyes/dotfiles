@@ -157,7 +157,6 @@
           };
         };
         qutebrowser.enable = true;
-        ripgrep.enable = true;
         swaylock.enable = true;
         vifm = {
           enable = true;
