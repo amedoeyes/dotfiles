@@ -74,7 +74,6 @@ in
           "--chooser-file={}"
         ];
       };
-
       yazi = {
         settings = {
           mgr = {
@@ -90,7 +89,6 @@ in
           };
         };
         theme = {
-
           app = {
             overall = {
               fg = "#A0A0A0";
@@ -182,7 +180,6 @@ in
             };
             progress_normal = { };
             progress_error = { };
-
           };
           indicator = {
             parent = {
