@@ -38,7 +38,7 @@
           default = true;
         };
         lazygit.enable = true;
-        vifm.enable = true;
+        yazi.enable = true;
         zk.enable = true;
       };
     };

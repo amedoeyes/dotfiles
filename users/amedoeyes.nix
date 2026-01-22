@@ -159,12 +159,12 @@
         };
         qutebrowser.enable = true;
         swaylock.enable = true;
-        vifm = {
+        waybar.enable = true;
+        yazi = {
           enable = true;
           default = true;
           picker = true;
         };
-        waybar.enable = true;
         zathura.enable = true;
         zk.enable = true;
       };
