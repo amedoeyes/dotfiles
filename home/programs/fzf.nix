@@ -19,7 +19,6 @@ in
       "--reverse"
       "--highlight-line"
       "--preview-border left"
-      "--bind ctrl-y:accept"
     ];
     changeDirWidgetOptions = [
       "--walker dir,follow,hidden"

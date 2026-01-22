@@ -2,7 +2,7 @@
   config =
     { pkgs, ... }:
     {
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
       isNormalUser = true;
       extraGroups = [ "wheel" ];
     };
@@ -99,6 +99,7 @@
         cmus.enable = true;
         dircolors.enable = true;
         direnv.enable = true;
+        fish.enable = true;
         foot = {
           enable = true;
           default = true;
@@ -118,6 +119,10 @@
           };
         };
         gpg.enable = true;
+        helix = {
+          enable = true;
+          default = true;
+        };
         imv.enable = true;
         lazygit = {
           enable = true;
@@ -142,11 +147,6 @@
             { url = "https://isocpp.org/blog/rss"; }
             { url = "https://www.cppstories.com/index.xml"; }
           ];
-        };
-        nixCats = {
-          enable = true;
-          default = true;
-          unwrap = true;
         };
         password-store = {
           enable = true;

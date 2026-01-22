@@ -6,9 +6,6 @@ in
   config.programs.lazygit = lib.mkIf cfg.enable {
     settings = {
       notARepository = "quit";
-      os = {
-        editPreset = "nvim-remote";
-      };
       gui = with config.theme.colors; {
         border = "single";
         nerdFontsVersion = "3";
@@ -19,6 +16,7 @@ in
         showRandomTip = false;
         tabWidth = 2;
         authorColors."*" = "#${c06.hex}";
+        branchColorPatterns."*" = "#${c06.hex}";
         theme = {
           activeBorderColor = [ "#${c10.hex}" ];
           cherryPickedCommitBgColor = [ "#${c10.hex}" ];

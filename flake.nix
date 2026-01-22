@@ -6,12 +6,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
     mprisctl = {
       url = "github:amedoeyes/mprisctl";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs =

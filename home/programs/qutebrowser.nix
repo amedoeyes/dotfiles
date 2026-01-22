@@ -46,6 +46,11 @@ in
           default_family = name;
           default_size = "${toString size}pt";
         };
+        editor.command = lib.mkIf cfg.default [
+          config.home.sessionVariables.TERMINAL
+          config.home.sessionVariables.EDITOR
+          "{}"
+        ];
         hints.border = "1px solid #${colors.c04.hex}";
         prompt.radius = 0;
         colors = with colors; {

@@ -32,12 +32,11 @@
             };
           };
         };
-        lazygit.enable = true;
-        nixCats = {
+        helix = {
           enable = true;
           default = true;
-          unwrap = true;
         };
+        lazygit.enable = true;
         vifm.enable = true;
         zk.enable = true;
         zsh.enable = true;

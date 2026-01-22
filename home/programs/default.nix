@@ -12,10 +12,10 @@
     ./foot.nix
     ./fzf.nix
     ./gpg.nix
+    ./helix.nix
     ./lazygit.nix
     ./mpv.nix
     ./newsboat.nix
-    ./nixcats
     ./qutebrowser.nix
     ./swaylock.nix
     ./vifm.nix

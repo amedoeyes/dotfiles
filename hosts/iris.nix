@@ -173,6 +173,7 @@
       enable = true;
       enableGlobalCompInit = false;
     };
+    fish.enable = true;
   };
 
   documentation = {
