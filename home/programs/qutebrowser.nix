@@ -46,7 +46,7 @@ in
           default_family = name;
           default_size = "${toString size}pt";
         };
-        editor.command = lib.mkIf cfg.default [
+        editor.command = [
           config.home.sessionVariables.TERMINAL
           config.home.sessionVariables.EDITOR
           "{}"
