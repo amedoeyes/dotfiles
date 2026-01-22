@@ -20,12 +20,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.zsh.initContent = lib.mkOrder 900 ''
-      function vifm {
-        cd "$(command ${lib.getExe pkgs.vifm} --choose-dir - $@)"
-      }
-    '';
-
     xdg = {
       mimeApps.defaultApplications."inode/directory" = lib.mkIf cfg.default "vifm.desktop";
 

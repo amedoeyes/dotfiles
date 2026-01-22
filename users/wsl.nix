@@ -2,7 +2,7 @@
   config =
     { pkgs, ... }:
     {
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
       isNormalUser = true;
       extraGroups = [ "wheel" ];
     };
@@ -22,6 +22,7 @@
         btop.enable = true;
         dircolors.enable = true;
         direnv.enable = true;
+        fish.enable = true;
         fzf.enable = true;
         git = {
           enable = true;
@@ -39,7 +40,6 @@
         lazygit.enable = true;
         vifm.enable = true;
         zk.enable = true;
-        zsh.enable = true;
       };
     };
 }

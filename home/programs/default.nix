@@ -9,6 +9,7 @@
     ./cmus.nix
     ./dircolors.nix
     ./direnv.nix
+    ./fish.nix
     ./foot.nix
     ./fzf.nix
     ./gpg.nix

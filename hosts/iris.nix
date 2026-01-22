@@ -169,10 +169,6 @@
   };
 
   programs = {
-    zsh = {
-      enable = true;
-      enableGlobalCompInit = false;
-    };
     fish.enable = true;
   };
 

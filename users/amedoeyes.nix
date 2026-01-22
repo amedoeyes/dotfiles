@@ -89,6 +89,7 @@
         wl-clipboard-rs
         xdg-utils
         mprisctl
+        spell
       ];
 
       programs = {
@@ -166,7 +167,6 @@
         waybar.enable = true;
         zathura.enable = true;
         zk.enable = true;
-        zsh.enable = true;
       };
 
       services = {
