@@ -25,7 +25,7 @@ in
       marksman
       nixd
       nixfmt
-      prettier
+      biome
       ruff
       rust-analyzer
       rustfmt
@@ -97,8 +97,11 @@ in
           name = "css";
           language-servers = [ "vscode-css-language-server" ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=css" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.css"
+            ];
           };
           auto-format = true;
         }
@@ -110,36 +113,65 @@ in
         {
           name = "html";
           formatter = {
-            command = "prettier";
-            args = [ "--parser=html" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.html"
+            ];
           };
           language-servers = [ "vscode-html-language-server" ];
           auto-format = true;
         }
         {
           name = "javascript";
-          language-servers = [ "tsgo" ];
+          language-servers = [
+            {
+              name = "tsgo";
+              except-features = [ "format" ];
+            }
+            "biome"
+          ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=babel" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.js"
+            ];
           };
           auto-format = true;
         }
         {
           name = "json";
-          language-servers = [ "vscode-json-language-server" ];
+          language-servers = [
+            {
+              name = "vscode-json-language-server";
+              except-features = [ "format" ];
+            }
+          ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=json" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.json"
+            ];
           };
           auto-format = true;
         }
         {
           name = "jsx";
-          language-servers = [ "tsgo" ];
+          language-servers = [
+            {
+              name = "tsgo";
+              except-features = [ "format" ];
+            }
+            "biome"
+          ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=babel" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.jsx"
+            ];
           };
           auto-format = true;
         }
@@ -149,10 +181,6 @@ in
             "marksman"
             "zk"
           ];
-          formatter = {
-            command = "prettier";
-            args = [ "--parser=markdown" ];
-          };
           auto-format = true;
         }
         {
@@ -180,19 +208,37 @@ in
         }
         {
           name = "tsx";
-          language-servers = [ "tsgo" ];
+          language-servers = [
+            {
+              name = "tsgo";
+              except-features = [ "format" ];
+            }
+            "biome"
+          ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=typescript" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.tsx"
+            ];
           };
           auto-format = true;
         }
         {
           name = "typescript";
-          language-servers = [ "tsgo" ];
+          language-servers = [
+            {
+              name = "tsgo";
+              except-features = [ "format" ];
+            }
+            "biome"
+          ];
           formatter = {
-            command = "prettier";
-            args = [ "--parser=typescript" ];
+            command = "biome";
+            args = [
+              "format"
+              "--stdin-file-path=_.ts"
+            ];
           };
           auto-format = true;
         }
@@ -203,6 +249,10 @@ in
         }
       ];
       language-server = {
+        biome = {
+          command = "biome";
+          args = [ "lsp-proxy" ];
+        };
         tsgo = {
           command = "tsgo";
           args = [
@@ -287,10 +337,7 @@ in
           modifiers = [ "bold" ];
         };
         "ui.statusline.separator" = "#${c04.hex}";
-        "ui.bufferline" = {
-          fg = "#${c06.hex}";
-          modifiers = [ "bold" ];
-        };
+        "ui.bufferline" = "#${c06.hex}";
         "ui.bufferline.active" = {
           fg = "#${c10.hex}";
           modifiers = [ "bold" ];
@@ -349,11 +396,31 @@ in
         "info" = "#${c10.hex}";
         "hint" = "#${c10.hex}";
         "diagnostic" = "#${c10.hex}";
-        "diagnostic.hint" = "#${c10.hex}";
-        "diagnostic.info" = "#${c10.hex}";
-        "diagnostic.warning" = "#${c10.hex}";
-        "diagnostic.error" = "#${c10.hex}";
-        "diagnostic.unnecessary" = "#${c10.hex}";
+        "diagnostic.hint" = {
+          underline = {
+            color = "#${c10.hex}";
+            style = "curl";
+          };
+        };
+        "diagnostic.info" = {
+          underline = {
+            color = "#${c10.hex}";
+            style = "curl";
+          };
+        };
+        "diagnostic.warning" = {
+          underline = {
+            color = "#${c10.hex}";
+            style = "curl";
+          };
+        };
+        "diagnostic.error" = {
+          underline = {
+            color = "#${c10.hex}";
+            style = "curl";
+          };
+        };
+        "diagnostic.unnecessary" = "#${c04.hex}";
         "diagnostic.deprecated" = {
           fg = "#${c04.hex}";
           modifiers = [ "crossed_out" ];
