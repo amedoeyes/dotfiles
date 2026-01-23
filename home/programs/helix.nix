@@ -276,19 +276,19 @@ in
         "ui.background.separator" = "#${c04.hex}";
         "ui.cursor" = {
           fg = "#${c00.hex}";
-          bg = "#${c10.hex}";
+          bg = "#${c08.hex}";
         };
         "ui.cursor.normal" = {
           fg = "#${c00.hex}";
-          bg = "#${c10.hex}";
+          bg = "#${c08.hex}";
         };
         "ui.cursor.insert" = {
           fg = "#${c00.hex}";
-          bg = "#${c10.hex}";
+          bg = "#${c08.hex}";
         };
         "ui.cursor.select" = {
           fg = "#${c00.hex}";
-          bg = "#${c10.hex}";
+          bg = "#${c08.hex}";
         };
         "ui.cursor.match" = {
           fg = "#${c10.hex}";
