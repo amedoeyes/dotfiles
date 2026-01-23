@@ -26,7 +26,7 @@
 
       accounts = {
         email = {
-          maildirBasePath = "mail";
+          maildirBasePath = ".mail";
           accounts = {
             personal = {
               primary = true;

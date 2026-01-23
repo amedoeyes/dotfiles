@@ -66,7 +66,7 @@ in
 
     programs.zk = {
       settings = {
-        notebook.dir = "$HOME/notes/";
+        notebook.dir = "${config.xdg.userDirs.documents}/notes/";
         note = {
           language = "en";
           default-title = "Untitled";

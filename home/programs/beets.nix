@@ -5,7 +5,7 @@ in
 {
   config.programs.beets = lib.mkIf cfg.enable {
     settings = {
-      directory = "~/music";
+      directory = lib.replaceString "$HOME" "~" config.xdg.userDirs.music;
       import = {
         move = true;
       };

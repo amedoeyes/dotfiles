@@ -9,7 +9,7 @@
       desktop = null;
       documents = "$HOME/documents";
       download = "$HOME/downloads";
-      music = "$HOME/music";
+      music = "$HOME/media/music";
       pictures = "$HOME/media";
       publicShare = null;
       templates = null;
