@@ -74,6 +74,7 @@ in
           "--chooser-file={}"
         ];
       };
+
       yazi = {
         settings = {
           mgr = {
@@ -87,6 +88,39 @@ in
           input = {
             cursor_blink = true;
           };
+          plugin = {
+            prepend_fetchers = [
+              {
+                id = "git";
+                url = "*";
+                run = "git";
+              }
+              {
+                id = "git";
+                url = "*/";
+                run = "git";
+              }
+            ];
+          };
+        };
+        initLua =
+          with config.theme.colors;
+          # lua
+           ''
+            th.git = th.git or {}
+            th.git.modified = ui.Style():fg("#${c10.hex}")
+            th.git.added = ui.Style():fg("#${c10.hex}")
+            th.git.untracked = ui.Style():fg("#${c10.hex}")
+            th.git.ignored = ui.Style():fg("#${c10.hex}")
+            th.git.deleted = ui.Style():fg("#${c10.hex}")
+            th.git.updated = ui.Style():fg("#${c10.hex}")
+
+            require("no-status"):setup()
+            require("git"):setup()
+          '';
+        plugins = with pkgs.yaziPlugins; {
+          no-status = no-status;
+          git = git;
         };
         theme = {
           app = {
