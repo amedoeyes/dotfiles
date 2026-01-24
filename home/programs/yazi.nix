@@ -343,12 +343,13 @@ in
               map (
                 icon:
                 (
-                  if icon ? name then
-                    { inherit (icon) name text; }
-                  else if icon ? "if" then
+                  if key == "conds" then
                     { inherit (icon) "if" text; }
                   else
-                    abort "unhandled"
+                    {
+                      inherit (icon) name;
+                      text = if key == "dirs" then "" else icon.text;
+                    }
                 )
                 // {
                   fg = "#${c10.hex}";
