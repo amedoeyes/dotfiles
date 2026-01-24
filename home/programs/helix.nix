@@ -35,7 +35,6 @@ in
       tinymist
       ty
       typescript-go
-      typstyle
       vscode-langservers-extracted
     ];
     settings = {
@@ -252,6 +251,12 @@ in
         biome = {
           command = "biome";
           args = [ "lsp-proxy" ];
+        };
+        tinymist = {
+          command = "tinymist";
+          config = {
+            formatterMode = "typstyle";
+          };
         };
         tsgo = {
           command = "tsgo";
