@@ -19,11 +19,36 @@
         {
           name = "iris";
           users = [ "amedoeyes" ];
+          monitors = [
+            {
+              name = "eDP-1";
+              resolution = {
+                width = 1600;
+                height = 900;
+              };
+              position = {
+                x = 0;
+                y = 0;
+              };
+            }
+            {
+              name = "DP-2";
+              resolution = {
+                width = 1366;
+                height = 768;
+              };
+              position = {
+                x = 1600;
+                y = 0;
+              };
+            }
+          ];
           modules = [ ];
         }
         {
           name = "wsl";
           users = [ "wsl" ];
+          monitors = [ ];
           modules = [ inputs.nixos-wsl.nixosModules.default ];
         }
       ];
@@ -36,7 +61,7 @@
           ${host.name} = nixpkgs.lib.nixosSystem {
             specialArgs = {
               inherit inputs;
-              inherit (host) name;
+              inherit (host) name monitors;
               users = nixpkgs.lib.foldl' (
                 acc: user: acc // { ${user} = import ./users/${user}.nix; }
               ) { } host.users;

@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  monitors,
   ...
 }:
 let
@@ -50,57 +51,17 @@ in
             "*" = {
               background = "#${colors.c00.hex} solid_color";
             };
-            "eDP-1" = {
-              resolution = "1600x900";
-              position = "0 0";
-            };
-            "DP-2" = {
-              resolution = "1366x768";
-              position = "1600 0";
-            };
-          };
-          workspaceOutputAssign = [
-            {
-              workspace = "1";
-              output = [ "eDP-1" ];
+          }
+          // lib.foldl' (
+            acc: mon:
+            acc
+            // {
+              "${mon.name}" = {
+                resolution = "${toString mon.resolution.width}x${toString mon.resolution.height}";
+                position = "${toString mon.position.x} ${toString mon.position.y}";
+              };
             }
-            {
-              workspace = "2";
-              output = [ "eDP-1" ];
-            }
-            {
-              workspace = "3";
-              output = [ "eDP-1" ];
-            }
-            {
-              workspace = "4";
-              output = [ "eDP-1" ];
-            }
-            {
-              workspace = "5";
-              output = [ "eDP-1" ];
-            }
-            {
-              workspace = "6";
-              output = [ "DP-2" ];
-            }
-            {
-              workspace = "7";
-              output = [ "DP-2" ];
-            }
-            {
-              workspace = "8";
-              output = [ "DP-2" ];
-            }
-            {
-              workspace = "9";
-              output = [ "DP-2" ];
-            }
-            {
-              workspace = "10";
-              output = [ "DP-2" ];
-            }
-          ];
+          ) { } monitors;
           focus = {
             mouseWarping = "container";
           };

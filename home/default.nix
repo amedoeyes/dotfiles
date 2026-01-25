@@ -2,6 +2,7 @@
   inputs,
   lib,
   users,
+  monitors,
   ...
 }:
 {
@@ -10,7 +11,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs monitors; };
     users = lib.mapAttrs (username: user: {
       imports = [
         ./modules
