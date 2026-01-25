@@ -14,6 +14,7 @@
         nix-index
         wl-clipboard
         xdg-utils
+        spell
       ];
 
       xdg.portal.enable = lib.mkForce false;
