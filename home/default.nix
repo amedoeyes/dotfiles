@@ -1,8 +1,7 @@
 {
+  host,
   inputs,
   lib,
-  users,
-  monitors,
   ...
 }:
 {
@@ -11,8 +10,11 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs monitors; };
-    users = lib.mapAttrs (username: user: {
+    extraSpecialArgs = {
+      inherit (host.profile) monitors;
+      inherit inputs;
+    };
+    users = builtins.mapAttrs (username: user: {
       imports = [
         ./modules
         ./programs
@@ -30,6 +32,6 @@
         homeDirectory = "/home/${username}";
         stateVersion = lib.mkDefault "25.11";
       };
-    }) users;
+    }) host.profile.users;
   };
 }

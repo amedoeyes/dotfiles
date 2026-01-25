@@ -1,5 +1,5 @@
 {
-  config =
+  user =
     { pkgs, ... }:
     {
       shell = pkgs.fish;

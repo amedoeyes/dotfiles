@@ -1,18 +1,17 @@
 {
-  name,
-  users,
+  host,
+  inputs,
   pkgs,
   lib,
-  config,
-  inputs,
+
   ...
 }:
 {
-  imports = [ ./${name}.nix ];
+  imports = [ host.system ];
 
   nixpkgs.overlays = [
     (
-      final: prev:
+      _: prev:
       import ../pkgs {
         inherit inputs;
         pkgs = prev;
@@ -20,14 +19,7 @@
     )
   ];
 
-  users.users = lib.mapAttrs (
-    username: user:
-    user.config {
-      inherit pkgs;
-      inherit lib;
-      inherit config;
-    }
-  ) users;
+  users.users = builtins.mapAttrs (_: user: user.user { inherit pkgs; }) host.profile.users;
 
   system.stateVersion = lib.mkDefault "25.11";
 }
