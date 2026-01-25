@@ -43,6 +43,7 @@ in
         line-number = "relative";
         cursorline = true;
         auto-completion = false;
+        true-color = true;
         preview-completion-insert = false;
         trim-trailing-whitespace = true;
         popup-border = "all";
