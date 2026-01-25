@@ -28,9 +28,7 @@ in
         let
           modifier = cfg.config.modifier;
           scripts = import ./scripts pkgs;
-          fzfmenu = pkgs.fzfmenu.override {
-            terminalCmd = "${lib.getExe pkgs.${config.home.sessionVariables.TERMINAL}} --app-id=fzfmenu";
-          };
+          fzfmenu = pkgs.fzfmenu.override { terminalOptions = [ "--app-id=fzfmenu" ]; };
         in
         with config.theme;
         {
