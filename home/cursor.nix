@@ -6,7 +6,7 @@
       dotIcons.enable = false;
       name = "eyes-${palette}";
       size = 16;
-      package = pkgs.simp1e-cursors.overrideAttrs (oldAttrs: {
+      package = pkgs.simp1e-cursors.overrideAttrs (_: {
         preBuild =
           let
             colorscheme =

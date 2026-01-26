@@ -120,12 +120,10 @@ in
             cyan = "#${c08.hex}";
             white = "#${c10.hex}";
           };
-          indexed_colors = builtins.attrValues (
-            builtins.mapAttrs (index: color: {
-              index = lib.toInt index;
-              color = "#" + color;
-            }) config.theme.ansiColors
-          );
+          indexed_colors = lib.mapAttrsToList (index: color: {
+            index = lib.toInt index;
+            color = "#" + color;
+          }) config.theme.ansiColors;
         };
         keyboard.bindings = [
           {
