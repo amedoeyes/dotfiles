@@ -18,9 +18,9 @@
             {
               home.packages = with pkgs; [
                 nix-index
+                spell
                 wl-clipboard
                 xdg-utils
-                spell
               ];
 
               xdg.portal.enable = lib.mkForce false;
@@ -45,6 +45,7 @@
                   default = true;
                 };
                 lazygit.enable = true;
+                ripgrep.enable = true;
                 yazi.enable = true;
                 zk.enable = true;
               };

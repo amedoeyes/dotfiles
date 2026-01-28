@@ -82,14 +82,14 @@
       };
 
       home.packages = with pkgs; [
-        ripdrag
+        mprisctl
         nix-index
+        ripdrag
         screenrecord
         screenshot
+        spell
         wl-clipboard-rs
         xdg-utils
-        mprisctl
-        spell
       ];
 
       programs = {
@@ -158,6 +158,7 @@
           };
         };
         qutebrowser.enable = true;
+        ripgrep.enable = true;
         swaylock.enable = true;
         waybar.enable = true;
         yazi = {
