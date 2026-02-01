@@ -158,6 +158,20 @@ in
           auto-format = true;
         }
         {
+          name = "jsonata";
+          scope = "source.jsonata";
+          injection-regex = "jsonata";
+          file-types = [ "jsonata" ];
+          indent = {
+            tab-width = 2;
+            unit = "  ";
+          };
+          block-comment-tokens = {
+            start = "/*";
+            end = "*/";
+          };
+        }
+        {
           name = "jsx";
           language-servers = [
             {
