@@ -449,7 +449,6 @@ in
           fg = "#${c10.hex}";
           bg = "#${c02.hex}";
         };
-        rainbow = [ "#A0A0A0" ];
         "type" = "#${c07.hex}";
         "constructor" = "#${c07.hex}";
         "constant" = "#${c08.hex}";
