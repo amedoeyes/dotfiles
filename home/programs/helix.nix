@@ -19,13 +19,14 @@ in
     defaultEditor = cfg.default;
     extraPackages = with pkgs; [
       bash-language-server
+      biome
       clang-tools
       clippy
+      efm-langserver
       haskell-language-server
       marksman
       nixd
       nixfmt
-      biome
       ruff
       rust-analyzer
       rustfmt
@@ -33,6 +34,7 @@ in
       shfmt
       taplo
       tinymist
+      topiary
       ty
       typescript-go
       vscode-langservers-extracted
@@ -162,6 +164,7 @@ in
           scope = "source.jsonata";
           injection-regex = "jsonata";
           file-types = [ "jsonata" ];
+          auto-format = true;
           indent = {
             tab-width = 2;
             unit = "  ";
@@ -170,6 +173,15 @@ in
             start = "/*";
             end = "*/";
           };
+          language-servers = [
+            {
+              name = "efm";
+              only-features = [
+                "diagnostics"
+                "format"
+              ];
+            }
+          ];
         }
         {
           name = "jsx";
@@ -266,6 +278,24 @@ in
         biome = {
           command = "biome";
           args = [ "lsp-proxy" ];
+        };
+        efm = {
+          command = "efm-langserver";
+          config = {
+            documentFormatting = true;
+            documentRangeFormatting = true;
+            languages = {
+              jsonata = [
+                {
+                  lintCommand = "jsonata-lint";
+                  lintStdin = true;
+                  lintFormats = [ "%l:%c: %m" ];
+                  formatCommand = "topiary fmt -l jsonata";
+                  formatStdin = true;
+                }
+              ];
+            };
+          };
         };
         tinymist = {
           command = "tinymist";
