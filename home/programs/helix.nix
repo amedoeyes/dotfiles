@@ -30,11 +30,13 @@ in
       ruff
       rust-analyzer
       rustfmt
+      schemat
       shellcheck
       shfmt
       taplo
       tinymist
       topiary
+      ts_query_ls
       ty
       typescript-go
       vscode-langservers-extracted
@@ -230,6 +232,18 @@ in
         {
           name = "toml";
           language-servers = [ "taplo" ];
+          auto-format = true;
+        }
+        {
+          name = "scheme";
+          formatter = {
+            command = "schemat";
+          };
+          auto-format = true;
+        }
+        {
+          name = "tsq";
+          language-servers = [ "ts_query_ls" ];
           auto-format = true;
         }
         {
