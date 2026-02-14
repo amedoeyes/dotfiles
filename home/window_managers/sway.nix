@@ -118,7 +118,9 @@ in
 
             "${modifier}+f" = "fullscreen";
             "${modifier}+shift+space" = "floating toggle";
-            "${modifier}+minus" = "scratchpad show";
+
+            "${modifier}+shift+y" = "move scratchpad";
+            "${modifier}+y" = "scratchpad show";
 
             "${modifier}+t" = "layout tabbed";
             "${modifier}+e" = "layout toggle split";
@@ -136,7 +138,6 @@ in
             "${modifier}+shift+j" = "move down";
             "${modifier}+shift+k" = "move up";
             "${modifier}+shift+l" = "move right";
-            "${modifier}+shift+minus" = "move scratchpad";
 
             "${modifier}+1" = "workspace number 1";
             "${modifier}+2" = "workspace number 2";
