@@ -59,7 +59,10 @@ in
             "read-only-indicator"
             "file-modification-indicator"
           ];
-          right = [ "position" ];
+          right = [
+            "selections"
+            "position"
+          ];
         };
         lsp = {
           auto-signature-help = false;
