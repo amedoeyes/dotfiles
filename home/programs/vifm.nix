@@ -226,8 +226,8 @@ in
             ''
             + (
               builtins.fetchurl {
-                url = "https://raw.githubusercontent.com/sxyazi/yazi/refs/heads/main/yazi-config/preset/theme-dark.toml";
-                sha256 = "114a8bizihrx2wyzfph4c4mpkghj6skgdc1db1d5268pnrhblvnn";
+                url = "https://raw.githubusercontent.com/sxyazi/yazi/7f339381f1518690751b10c2d7484baf31045e5e/yazi-config/preset/theme-light.toml";
+                sha256 = "0js7hmkyacgj9jg35293r734i73nk28dz0hcjcjiyj19cck63g24";
               }
               |> builtins.readFile
               |> fromTOML
