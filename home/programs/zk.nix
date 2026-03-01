@@ -12,7 +12,6 @@ in
         tags: []
         ---
       '';
-
       "zk/templates/idea.md".text = ''
         ---
         title: {{title}}
@@ -28,7 +27,6 @@ in
 
         ## Resources
       '';
-
       "zk/templates/project.md".text = ''
         ---
         title: {{title}}
@@ -46,7 +44,6 @@ in
 
         ## Resources
       '';
-
       "zk/templates/study.md".text = ''
         ---
         title: {{title}}
@@ -61,6 +58,16 @@ in
         ## Related Notes
 
         ## Resources
+      '';
+      "zk/templates/dream.md".text = ''
+        ---
+        title: {{title}}
+        date: {{now}}
+        tags: [dream]
+        ---
+
+        # {{title}}
+
       '';
     };
 
@@ -101,6 +108,10 @@ in
           study.note = {
             filename = "{{slug title}}";
             template = "study.md";
+          };
+          dream.note = {
+            filename = "{{slug title}}";
+            template = "dream.md";
           };
         };
         tool = {
