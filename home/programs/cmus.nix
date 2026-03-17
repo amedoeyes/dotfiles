@@ -19,23 +19,23 @@ in
       set color_win_bg=${c00.ansi}
       set color_win_attr=default
       set color_win_dir=${c09.ansi}
-      set color_win_title_bg=${c00.ansi}
       set color_win_title_fg=${c10.ansi}
+      set color_win_title_bg=${c00.ansi}
       set color_win_title_attr=bold
-      set color_win_cur=${c10.ansi}
-      set color_win_cur_attr=blink
+      set color_win_cur=${c06.ansi}
+      set color_win_cur_attr=default
       set color_cur_sel_attr=default
-      set color_win_cur_sel_fg=${c10.ansi}
+      set color_win_cur_sel_fg=${c06.ansi}
       set color_win_cur_sel_bg=${c01.ansi}
-      set color_win_cur_sel_attr=blink
+      set color_win_cur_sel_attr=default
+      set color_win_inactive_cur_sel_fg=${c06.ansi}
       set color_win_inactive_cur_sel_bg=${c00.ansi}
-      set color_win_inactive_cur_sel_fg=${c10.ansi}
-      set color_win_inactive_cur_sel_attr=blink
+      set color_win_inactive_cur_sel_attr=default
       set color_win_sel_fg=${c10.ansi}
       set color_win_sel_bg=${c01.ansi}
       set color_win_sel_attr=default
-      set color_win_inactive_sel_bg=${c00.ansi}
       set color_win_inactive_sel_fg=${c10.ansi}
+      set color_win_inactive_sel_bg=${c00.ansi}
       set color_win_inactive_sel_attr=default
       set color_trackwin_album_fg=${c10.ansi}
       set color_trackwin_album_bg=${c00.ansi}
@@ -63,12 +63,12 @@ in
         set auto_hide_playlists_panel=true
         set continue=true
         set follow=true
-        set format_current= %a - %l%! - %02n %t%= %y 
+        set format_current= %a - %l%! - %02n %t%= %y
         set format_heading_album=%a - %l%= %y %{duration}
         set format_playlist= %-21%a %02n %t%= %y %d %{?X!=0?%3X ?    }
         set format_playlist_va= %-21%A %02n %t (%a)%= %y %d %{?X!=0?%3X ?    }
-        set format_trackwin= %02n %t%= %d 
-        set format_trackwin_va= %02n %t (%a)%= %d 
+        set format_trackwin= %02n %t%= %d
+        set format_trackwin_va= %02n %t (%a)%= %d
         set pause_on_output_change=true
         set repeat=true
         set status_display_program=cmusfm
