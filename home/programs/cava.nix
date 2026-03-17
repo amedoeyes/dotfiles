@@ -6,13 +6,11 @@ in
   config.programs.cava = lib.mkIf cfg.enable {
     settings = {
       general = {
-        bar_spacing = 0;
-        bar_width = 0;
+        bar_width = 1;
         bars = 0;
-        sleep_timer = 10;
       };
-      output = {
-        waveform = 1;
+      smoothing = {
+        noise_reduction = 0;
       };
       color = with config.theme.colors; {
         background = "'#${c00.hex}'";
