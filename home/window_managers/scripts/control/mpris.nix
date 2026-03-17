@@ -81,7 +81,7 @@ writeShellScriptBin "mpris" ''
     artist=$(${lib.getExe mprisctl} metadata xesam:albumArtist)
     album=$(${lib.getExe mprisctl} metadata xesam:album)
     title=$(${lib.getExe mprisctl} metadata xesam:title)
-    status=$([ "$(${lib.getExe mprisctl} player-properties PlaybackStatus)" == "Playing" ] && printf "󰏤" || printf "󰐊")
+    status=$([ "$(${lib.getExe mprisctl} player-properties PlaybackStatus)" == "Playing" ] && printf "" || printf "")
     art_path=$(get_art_path)
     duration=$(${lib.getExe mprisctl} metadata mpris:length)
     position=$(${lib.getExe mprisctl} player-properties Position)
@@ -92,7 +92,7 @@ writeShellScriptBin "mpris" ''
   }
 
   function notify_volume {
-    local artist album title art_path volume  
+    local artist album title art_path volume
 
     artist=$(${lib.getExe mprisctl} metadata xesam:albumArtist)
     album=$(${lib.getExe mprisctl} metadata xesam:album)
