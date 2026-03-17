@@ -18,6 +18,7 @@
     ./mpv.nix
     ./newsboat.nix
     ./qutebrowser.nix
+    ./rmpc.nix
     ./swaylock.nix
     ./vifm.nix
     ./waybar.nix
