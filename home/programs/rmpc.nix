@@ -343,7 +343,17 @@ in
                                         panes: [
                                             (size: "1", pane: Pane(Empty())),
                                             (size: "75%", pane: Pane(Queue)),
-                                            (size: "25%", borders: "LEFT", pane: Pane(Lyrics)),
+                                            (
+                                                size: "25%",
+                                                borders: "LEFT",
+                                                pane: Split(
+                                                    direction: Horizontal,
+                                                    panes: [
+                                                        (size: "1", pane: Pane(Empty())),
+                                                        (size: "100%", pane: Pane(Lyrics)),
+                                                    ]
+                                                ),
+                                            ),
                                             (size: "1", pane: Pane(Empty())),
                                         ]
                                     ),
