@@ -7,13 +7,13 @@
     userDirs = {
       enable = true;
       desktop = null;
-      documents = "$HOME/documents";
-      download = "$HOME/downloads";
-      music = "$HOME/media/music";
-      pictures = "$HOME/media";
+      documents = "~/documents";
+      download = "~/downloads";
+      music = "~/media/music";
+      pictures = "~/media";
       publicShare = null;
       templates = null;
-      videos = "$HOME/media";
+      videos = "~/media";
     };
   };
 

@@ -5,7 +5,7 @@ in
 {
   config.programs.beets = lib.mkIf cfg.enable {
     settings = {
-      directory = lib.replaceString "$HOME" "~" config.xdg.userDirs.music;
+      directory = config.xdg.userDirs.music;
       import = {
         move = true;
       };
@@ -13,13 +13,13 @@ in
         color = false;
       };
       plugins = [
-        "musicbrainz"
         "badfiles"
         "edit"
         "embedart"
         "fetchart"
         "fromfilename"
         "info"
+        "musicbrainz"
         "scrub"
         "zero"
       ];
