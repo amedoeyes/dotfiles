@@ -96,7 +96,6 @@
         aerc.enable = true;
         beets.enable = true;
         btop.enable = true;
-        cava.enable = true;
         cmus.enable = true;
         dircolors.enable = true;
         direnv.enable = true;
@@ -159,6 +158,7 @@
         };
         qutebrowser.enable = true;
         ripgrep.enable = true;
+        rmpc.enable = true;
         swaylock.enable = true;
         waybar.enable = true;
         yazi = {
@@ -185,6 +185,14 @@
         };
         mako.enable = true;
         swayidle.enable = true;
+        mpdscribble = {
+          endpoints = {
+            "last.fm" = {
+              username = "amedoeyes";
+              passwordFile = "${config.xdg.dataHome}/secrets/lastfm_password";
+            };
+          };
+        };
       };
 
       wayland.windowManager.sway.enable = true;
