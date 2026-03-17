@@ -31,7 +31,7 @@ in
         mouse = {
           hide-when-typing = "true";
         };
-        colors =
+        colors-dark =
           with config.theme.colors;
           {
             background = c00.hex;
