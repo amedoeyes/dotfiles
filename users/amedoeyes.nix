@@ -96,7 +96,6 @@
         aerc.enable = true;
         beets.enable = true;
         btop.enable = true;
-        cmus.enable = true;
         dircolors.enable = true;
         direnv.enable = true;
         fish.enable = true;
