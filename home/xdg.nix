@@ -30,4 +30,8 @@
       LESSHISTFILE = "${config.xdg.stateHome}/less/history";
     };
   };
+
+  accounts = {
+    email.maildirBasePath = "${config.xdg.dataHome}/mail";
+  };
 }
