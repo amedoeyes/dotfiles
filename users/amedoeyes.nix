@@ -81,6 +81,7 @@
       };
 
       home.packages = with pkgs; [
+        file
         mprisctl
         nix-index
         ripdrag
