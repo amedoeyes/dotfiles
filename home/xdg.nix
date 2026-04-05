@@ -6,6 +6,7 @@
     mimeApps.enable = true;
     userDirs = {
       enable = true;
+      setSessionVariables = true;
       desktop = null;
       documents = "${config.home.homeDirectory}/documents";
       download = "${config.home.homeDirectory}/downloads";
