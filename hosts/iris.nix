@@ -136,6 +136,10 @@
               hidden = true;
               pskRaw = "ext:iris_psk";
             };
+            "Fairy_Tale" = {
+              hidden = true;
+              pskRaw = "ext:Fairy_Tale_psk";
+            };
             "TRUFLA_STAFF" = {
               pskRaw = "ext:trufla_staff_psk";
             };
