@@ -37,7 +37,7 @@ in
           input = {
             "type:keyboard" = {
               xkb_layout = "us,ara";
-              xkb_options = "grp:alts_toggle,caps:escape";
+              xkb_options = "grp:shifts_toggle,caps:escape";
             };
             "type:touchpad" = {
               events = "disabled";
