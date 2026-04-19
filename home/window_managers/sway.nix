@@ -107,13 +107,6 @@ in
             "shift+print" =
               "exec ${lib.getExe pkgs.screenshot} -g \"$(${lib.getExe pkgs.slurp} -b '#${colors.c00.hex}A0' -c '#${colors.c10.hex}FF' -s '#${colors.c00.hex}00' -B '#${colors.c00.hex}A0' -w 1 -o)\"";
 
-            "XF86AudioMute" = "exec ${lib.getExe scripts.control.audio} toggle-sink";
-            "XF86AudioMicMute" = "exec ${lib.getExe scripts.control.audio} toggle-source";
-            "XF86AudioLowerVolume" = "exec ${lib.getExe scripts.control.audio} decrement-sink";
-            "XF86AudioRaiseVolume" = "exec ${lib.getExe scripts.control.audio} increment-sink";
-            "XF86MonBrightnessDown" = "exec ${lib.getExe scripts.control.brightness} decrement";
-            "XF86MonBrightnessUp" = "exec ${lib.getExe scripts.control.brightness} increment";
-
             "${modifier}+q" = "kill";
 
             "${modifier}+f" = "fullscreen";
@@ -164,6 +157,22 @@ in
             "${modifier}+r" = "mode RESIZE";
             "${modifier}+m" = "mode MPRIS";
             "${modifier}+n" = "mode NOTIFICATION";
+
+            "XF86AudioMute" = "exec ${lib.getExe scripts.control.audio} toggle-sink";
+            "XF86AudioMicMute" = "exec ${lib.getExe scripts.control.audio} toggle-source";
+            "XF86AudioLowerVolume" = "exec ${lib.getExe scripts.control.audio} decrement-sink";
+            "XF86AudioRaiseVolume" = "exec ${lib.getExe scripts.control.audio} increment-sink";
+
+            "XF86MonBrightnessDown" = "exec ${lib.getExe scripts.control.brightness} decrement";
+            "XF86MonBrightnessUp" = "exec ${lib.getExe scripts.control.brightness} increment";
+
+            "XF86AudioPlay" = "exec ${lib.getExe scripts.control.mpris} play-pause";
+            "XF86AudioPause" = "exec ${lib.getExe scripts.control.mpris} pause";
+            "XF86AudioStop" = "exec ${lib.getExe scripts.control.mpris} stop";
+            "XF86AudioNext" = "exec ${lib.getExe scripts.control.mpris} next";
+            "XF86AudioPrev" = "exec ${lib.getExe scripts.control.mpris} previous";
+            "XF86AudioForward" = "exec ${lib.getExe scripts.control.mpris} seek-forward";
+            "XF86AudioRewind" = "exec ${lib.getExe scripts.control.mpris} seek-backward";
           };
           modes = {
             RESIZE = {
@@ -176,7 +185,7 @@ in
             };
             MPRIS = {
               "${modifier}+n" = "exec ${lib.getExe scripts.control.mpris} notify-progress";
-              "${modifier}+p" = "exec ${lib.getExe scripts.control.mpris} toggle";
+              "${modifier}+p" = "exec ${lib.getExe scripts.control.mpris} play-pause";
               "${modifier}+l" = "exec ${lib.getExe scripts.control.mpris} next-track";
               "${modifier}+h" = "exec ${lib.getExe scripts.control.mpris} previous-track";
               "${modifier}+shift+l" = "exec ${lib.getExe scripts.control.mpris} seek-forward";

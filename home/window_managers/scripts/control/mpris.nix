@@ -123,16 +123,29 @@ writeShellScriptBin "mpris" ''
     notify_progress
   }
 
-  function toggle {
+  function pause {
+    ${lib.getExe mprisctl} play
+  }
+
+  function pause {
+    ${lib.getExe mprisctl} pause
+  }
+
+  function play-pause {
     ${lib.getExe mprisctl} play-pause
   }
 
-  function next_track {
+
+  function stop {
+    ${lib.getExe mprisctl} stop
+  }
+
+  function next {
     ${lib.getExe mprisctl} next
     notify
   }
 
-  function previous_track {
+  function previous {
     ${lib.getExe mprisctl} previous
     notify
   }
@@ -152,9 +165,12 @@ writeShellScriptBin "mpris" ''
   decrement-volume) decrement_volume ;;
   seek-backward) seek_backward ;;
   seek-forward) seek_forward ;;
-  toggle) toggle ;;
-  next-track) next_track ;;
-  previous-track) previous_track ;;
+  play) play ;;
+  pause) pause ;;
+  play-pause) play-pause ;;
+  stop) stop ;;
+  next) next ;;
+  previous) previous ;;
   next-player) next_player ;;
   previous-player) previous_player ;;
   notify) notify ;;
