@@ -186,8 +186,8 @@ in
             MPRIS = {
               "${modifier}+n" = "exec ${lib.getExe scripts.control.mpris} notify-progress";
               "${modifier}+p" = "exec ${lib.getExe scripts.control.mpris} play-pause";
-              "${modifier}+l" = "exec ${lib.getExe scripts.control.mpris} next-track";
-              "${modifier}+h" = "exec ${lib.getExe scripts.control.mpris} previous-track";
+              "${modifier}+l" = "exec ${lib.getExe scripts.control.mpris} next";
+              "${modifier}+h" = "exec ${lib.getExe scripts.control.mpris} previous";
               "${modifier}+shift+l" = "exec ${lib.getExe scripts.control.mpris} seek-forward";
               "${modifier}+shift+h" = "exec ${lib.getExe scripts.control.mpris} seek-backward";
               "${modifier}+k" = "exec ${lib.getExe scripts.control.mpris} increment-volume";
