@@ -143,8 +143,8 @@
           enable = true;
           urls = [
             { url = "https://lwn.net/headlines/newrss"; }
-            { url = "https://isocpp.org/blog/rss"; }
-            { url = "https://www.cppstories.com/index.xml"; }
+            { url = "https://lobste.rs/rss"; }
+            { url = "https://nixos.org/blog/announcements-rss.xml"; }
           ];
         };
         password-store = {
