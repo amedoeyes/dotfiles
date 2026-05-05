@@ -123,16 +123,19 @@ writeShellScriptBin "mpris" ''
     notify_progress
   }
 
-  function pause {
+  function play {
     ${lib.getExe mprisctl} play
+    notify_progress
   }
 
   function pause {
     ${lib.getExe mprisctl} pause
+    notify_progress
   }
 
   function play-pause {
     ${lib.getExe mprisctl} play-pause
+    notify_progress
   }
 
 
