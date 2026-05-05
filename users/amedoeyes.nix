@@ -81,6 +81,7 @@
       };
 
       home.packages = with pkgs; [
+        bc
         file
         mprisctl
         nix-index

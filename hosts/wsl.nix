@@ -17,6 +17,8 @@
             { pkgs, lib, ... }:
             {
               home.packages = with pkgs; [
+                bc
+                file
                 nix-index
                 spell
                 wl-clipboard
