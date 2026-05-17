@@ -88,7 +88,7 @@
       };
 
       documentation = {
-        man.generateCaches = true;
+        man.cache.enable = true;
         dev.enable = true;
       };
     };
