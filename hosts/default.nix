@@ -21,5 +21,5 @@
 
   users.users = builtins.mapAttrs (_: user: user.user { inherit pkgs; }) host.profile.users;
 
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "26.05";
 }

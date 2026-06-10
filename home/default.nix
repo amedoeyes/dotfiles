@@ -30,7 +30,7 @@
       home = {
         inherit username;
         homeDirectory = "/home/${username}";
-        stateVersion = lib.mkDefault "25.11";
+        stateVersion = lib.mkDefault "26.05";
       };
     }) host.profile.users;
   };
