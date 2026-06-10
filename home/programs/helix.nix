@@ -18,6 +18,8 @@ in
   config.programs.helix = lib.mkIf cfg.enable {
     defaultEditor = cfg.default;
     extraPackages = with pkgs; [
+      asm-lsp
+      asmfmt
       bash-language-server
       biome
       clang-tools
@@ -82,6 +84,14 @@ in
     };
     languages = {
       language = [
+        {
+          name = "nasm";
+          language-servers = [ "asm-lsp" ];
+          formatter = {
+            command = "asmfmt";
+          };
+          auto-format = true;
+        }
         {
           name = "bash";
           language-servers = [ "bash-language-server" ];
