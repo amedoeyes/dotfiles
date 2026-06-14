@@ -297,9 +297,19 @@ in
         }
       ];
       language-server = {
+        asm-lsp = {
+          command = "asm-lsp";
+        };
+        bash-language-server = {
+          command = "bash-language-server";
+          args = [ "start" ];
+        };
         biome = {
           command = "biome";
           args = [ "lsp-proxy" ];
+        };
+        clangd = {
+          command = "clangd";
         };
         efm = {
           command = "efm-langserver";
@@ -319,11 +329,52 @@ in
             };
           };
         };
+        haskell-language-server = {
+          command = "haskell-language-server-wrapper";
+          args = [ "--lsp" ];
+        };
+        marksman = {
+          command = "marksman";
+          args = [ "server" ];
+        };
+        nixd = {
+          command = "nixd";
+        };
+        ruff = {
+          command = "ruff";
+          args = [ "server" ];
+        };
+        rust-analyzer = {
+          command = "rust-analyzer";
+          config = {
+            inlayHints = {
+              bindingModeHints.enable = false;
+              closingBraceHints.minLines = 10;
+              closureReturnTypeHints.enable = "with_block";
+              discriminantHints.enable = "fieldless";
+              lifetimeElisionHints.enable = "skip_trivial";
+              typeHints.hideClosureInitialization = false;
+            };
+            files = {
+              watcher = "server";
+            };
+          };
+        };
+        taplo = {
+          command = "taplo";
+          args = [
+            "lsp"
+            "stdio"
+          ];
+        };
         tinymist = {
           command = "tinymist";
           config = {
             formatterMode = "typstyle";
           };
+        };
+        ts_query_ls = {
+          command = "ts_query_ls";
         };
         tsgo = {
           command = "tsgo";
@@ -331,6 +382,41 @@ in
             "--lsp"
             "--stdio"
           ];
+        };
+        ty = {
+          command = "ty";
+          args = [ "server" ];
+        };
+        vscode-css-language-server = {
+          command = "vscode-css-language-server";
+          args = [ "--stdio" ];
+          config = {
+            provideFormatter = true;
+            css = {
+              validate = {
+                enable = true;
+              };
+            };
+          };
+        };
+        vscode-html-language-server = {
+          command = "vscode-html-language-server";
+          args = [ "--stdio" ];
+          config = {
+            provideFormatter = true;
+          };
+        };
+        vscode-json-language-server = {
+          command = "vscode-json-language-server";
+          args = [ "--stdio" ];
+          config = {
+            provideFormatter = true;
+            json = {
+              validate = {
+                enable = true;
+              };
+            };
+          };
         };
         zk = {
           command = "zk";
